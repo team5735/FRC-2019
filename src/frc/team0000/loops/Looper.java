@@ -1,15 +1,19 @@
 package frc.team0000.loops;
 
+import frc.team0000.Constants;
+import frc.lib.util.CrashTrackingRunnable;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team0000.Constants;
-import frc.lib.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Looper {
+/**
+ * This code runs all of the robot's loops. Loop objects are stored in a List object. They are started when the robot
+ * powers up and stopped after the match.
+ */
+public class Looper implements ILooper {
     public final double kPeriod = Constants.kLooperDt;
 
     private boolean running_;
@@ -20,7 +24,7 @@ public class Looper {
     private double timestamp_ = 0;
     private double dt_ = 0;
 
-    private final CrashTrackingRunnable runnable = new CrashTrackingRunnable() {
+    private final CrashTrackingRunnable runnable_ = new CrashTrackingRunnable() {
         @Override
         public void runCrashTracked() {
             synchronized (taskRunningLock_) {
@@ -39,11 +43,12 @@ public class Looper {
     };
 
     public Looper() {
-        notifier_ = new Notifier(runnable);
+        notifier_ = new Notifier(runnable_);
         running_ = false;
         loops_ = new ArrayList<>();
     }
 
+    @Override
     public synchronized void register(Loop loop) {
         synchronized (taskRunningLock_) {
             loops_.add(loop);
@@ -81,6 +86,5 @@ public class Looper {
 
     public void outputToSmartDashboard() {
         SmartDashboard.putNumber("looper_dt", dt_);
-
     }
 }

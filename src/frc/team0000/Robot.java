@@ -28,7 +28,7 @@ import java.util.Arrays;
 public class Robot extends TimedRobot {
 
     private Drive drive = Drive.getInstance();
-    private SuperStructure superstructure = SuperStructure.getInstance();
+    private Superstructure superstructure = Superstructure.getInstance();
     private RobotState robotState = RobotState.getInstance();
 
     private final SubsystemManager subsystemManager = new SubsystemManager(
@@ -145,14 +145,14 @@ public class Robot extends TimedRobot {
         
     }
 
-        public void allPeriodic() {
+    public void allPeriodic() {
 //            robotState.outputToSmartDashboard();
-            subsystemManager.outputToSmartDashboard();
-            subsystemManager.writeToLog();
+        subsystemManager.outputToSmartDashboard();
+        subsystemManager.writeToLog();
 //            .outputToSmartDashboard();
 //            SmartDashboard.putBoolean("camera_connected", mVisionServer.isConnected());
 
 //            ConnectionMonitor.getInstance().setLastPacketTime(Timer.getFPGATimestamp());
-        }
+    }
 
 }
