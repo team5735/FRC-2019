@@ -74,44 +74,44 @@ public class Constants {
 
     /* CONTROL LOOP GAINS */
     // Drive
-    public static final int kLeftDriveMasterId = 5;
-    public static final int kLeftDriveSlaveAId = 6;
-    public static final int kLeftDriveSlaveBId = 7;
-    public static final int kRightDriveMasterId = 12;
+//    public static final int kLeftDriveMasterId = 5;
+//    public static final int kLeftDriveSlaveAId = 6;
+//    public static final int kLeftDriveSlaveBId = 7;
+//    public static final int kRightDriveMasterId = 12;
 
     /* I/O */
     // (Note that if multiple talons are dedicated to a mechanism, any sensors
     // are attached to the master)
-    public static final int kRightDriveSlaveAId = 13;
-    public static final int kRightDriveSlaveBId = 14;
+//    public static final int kRightDriveSlaveAId = 13;
+//    public static final int kRightDriveSlaveBId = 14;
     // Followers
-    public static final int kFollowerLeftAChannelId = 2;
-    public static final int kFollowerLeftBChannelId = 3;
-    public static final int kFollowerRightAChannelId = 0;
-    public static final int kFollowerRightBChannelId = 1;
-    public static final int kFollowerRearAChannelId = 4;
-    public static final int kFollowerRearBChannelId = 5;
-    // Intake
-    public static final int kIntakeLeftMasterId = 9;
-    public static final int kIntakeRightMasterId = 10;
-    public static final int kCanifierId = 0;
-    // Elevator
-    public static final int kElevatorMasterId = 11;
-    public static final int kElevatorRightSlaveId = 8;
-    public static final int kElevatorLeftSlaveAId = 1;
-    public static final int kElevatorLeftSlaveBId = 2;
-    // Wrist
-    public static final int KWristMasterId = 15;
-    // Solenoids
-    public static final int kShifterSolenoidId = 12; // PCM 0, Solenoid 4
-    public static final int kIntakeCloseSolenoid = 10;
-    public static final int kIntakeClampSolenoid = 9;
-    public static final int kForkliftDeploySolenoid = 7;  // CURRENTLY 6 ON PRACTICE!!!
-    public static final int kFollowerWheelSolenoid = 11;
-    public static final int kElevatorShifterSolenoidId = 8;
-    public static final int kUnlockHookSolenoid = 4;
-    public static final int kJazzHandsSolenoid = 5;
-    public static final int kKickstandSolenoid = 3;
+//    public static final int kFollowerLeftAChannelId = 2;
+//    public static final int kFollowerLeftBChannelId = 3;
+//    public static final int kFollowerRightAChannelId = 0;
+//    public static final int kFollowerRightBChannelId = 1;
+//    public static final int kFollowerRearAChannelId = 4;
+//    public static final int kFollowerRearBChannelId = 5;
+//     Intake
+//    public static final int kIntakeLeftMasterId = 9;
+//    public static final int kIntakeRightMasterId = 10;
+//    public static final int kCanifierId = 0;
+//     Elevator
+//    public static final int kElevatorMasterId = 11;
+//    public static final int kElevatorRightSlaveId = 8;
+//    public static final int kElevatorLeftSlaveAId = 1;
+//    public static final int kElevatorLeftSlaveBId = 2;
+//     Wrist
+//    public static final int KWristMasterId = 15;
+//     Solenoids
+//    public static final int kShifterSolenoidId = 12; // PCM 0, Solenoid 4
+//    public static final int kIntakeCloseSolenoid = 10;
+//    public static final int kIntakeClampSolenoid = 9;
+//    public static final int kForkliftDeploySolenoid = 7;  // CURRENTLY 6 ON PRACTICE!!!
+//    public static final int kFollowerWheelSolenoid = 11;
+//    public static final int kElevatorShifterSolenoidId = 8;
+//    public static final int kUnlockHookSolenoid = 4;
+//    public static final int kJazzHandsSolenoid = 5;
+//    public static final int kKickstandSolenoid = 3;
     // Control Board
     public static final boolean kUseGamepadForDriving = false;
     public static final boolean kUseGamepadForButtons = true;
@@ -129,12 +129,10 @@ public class Constants {
     public static final double kJazzHandsEpsilon = 2.5;
     public static final double kKickstandToggleRumbleTime = 0.5;
     public static final double kKickstandDelay = 1.0;
-    public static double kLooperDt = 0.005;
     public static double kDriveLowGearVelocityKp = 1.0;
     public static double kDriveLowGearVelocityKi = 0.002;
     public static double kDriveLowGearVelocityKd = 100.0;
     public static double kDriveLowGearVelocityKf = .45;
-    public static int kDriveLowGearVelocityIZone = 0;
 
     /**
      * Make an {@link Solenoid} instance for the single-number ID of the solenoid

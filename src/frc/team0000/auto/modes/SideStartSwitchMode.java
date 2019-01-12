@@ -30,7 +30,7 @@ public class SideStartSwitchMode extends AutoModeBase {
     @Override
     protected void routine() throws AutoModeEndedException {
         System.out.println("Running Simple switch");
-        runAction(new SetIntaking(false, false));
+//        runAction(new SetIntaking(false, false));
 
         runAction(new ParallelAction(
                 Arrays.asList(
@@ -39,6 +39,6 @@ public class SideStartSwitchMode extends AutoModeBase {
                 )
         ));
 
-        runAction(new ShootCube(AutoConstants.kMediumShootPower));
+//        runAction(new ShootCube(AutoConstants.kMediumShootPower));
     }
 }

@@ -42,8 +42,8 @@ public class AutoSuperstructurePosition implements Action {
         } else {
             mHeight = cheesyVisionHeight;
         }
-        superStructure.setDesiredHeight(mHeight);
-        superStructure.setDesiredAngle(mAngle);
+//        superStructure.setDesiredHeight(mHeight);
+//        superStructure.setDesiredAngle(mAngle);
         mStartTime = Timer.getFPGATimestamp();
     }
 
@@ -55,7 +55,7 @@ public class AutoSuperstructurePosition implements Action {
         } else {
             mHeight = cheesyVisionHeight;
         }
-        superStructure.setDesiredHeight(mHeight);
+//        superStructure.setDesiredHeight(mHeight);
     }
 
     @Override

@@ -25,8 +25,8 @@ public class SetSuperstructurePosition implements Action {
 
     @Override
     public void start() {
-        mSuperstructure.setDesiredHeight(mHeight);
-        mSuperstructure.setDesiredAngle(mAngle);
+//        mSuperstructure.setDesiredHeight(mHeight);
+//        mSuperstructure.setDesiredAngle(mAngle);
         mStartTime = Timer.getFPGATimestamp();
     }
 

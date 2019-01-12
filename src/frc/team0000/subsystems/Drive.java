@@ -4,10 +4,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.drivers.TalonSRXFactory;
 import frc.lib.geometry.Pose2d;
 import frc.lib.geometry.Pose2dWithCurvature;
 import frc.lib.geometry.Rotation2d;
+import frc.lib.trajectory.TrajectoryIterator;
 import frc.lib.trajectory.timing.TimedState;
 import frc.team0000.Constants;
 import frc.team0000.RobotState;
@@ -24,7 +26,6 @@ import frc.team0000.planners.DriveMotionPlanner;
 
 
 public class Drive extends Subsystem{
-
     private static Drive instance = new Drive();
     private static final double DRIVE_ENCODER_PPR = 4096.;
 
@@ -32,7 +33,7 @@ public class Drive extends Subsystem{
     private PeriodicIO periodicIO;
     private Rotation2d gyroOffset = Rotation2d.identity();
     private DriveMotionPlanner motionPlanner;
-    private PigeonIMU pigeon;
+//    private PigeonIMU pigeon;
     private boolean overrideTrajectory = false;
 
     public static Drive getInstance() {
@@ -72,7 +73,7 @@ public class Drive extends Subsystem{
 //        mIsBrakeMode = true;
 //        setBrakeMode(false);
 
-//        mMotionPlanner = new DriveMotionPlanner();
+        motionPlanner = new DriveMotionPlanner();
     }
 
     public enum DriveControlState {
@@ -134,17 +135,18 @@ public class Drive extends Subsystem{
     }
 
     public synchronized void setOpenLoop(DriveSignal signal) {
-//        if (driveControlState != DriveControlState.OPEN_LOOP) {
-//            leftMaster.set(ControlMode.PercentOutput,  periodicIO.left_demand, 0.0));
-//            rightMaster.set(ControlMode.PercentOutput, periodicIO.left_demand,  0.0));
-//            driveControlState = DriveControlState.OPEN_LOOP;
-//        }
-        // Right side is reversed, but reverseOutput doesn't invert PercentVBus.
-        // So set negative on the right master.
-//        leftMaster.set(signal.getLeft());
-//        rightMaster.set(-signal.getRight());
-        leftMaster.set(ControlMode.PercentOutput, 0.5 * signal.getLeft());
-        rightMaster.set(ControlMode.PercentOutput, -0.5 * signal.getRight());
+        if (driveControlState != DriveControlState.OPEN_LOOP) {
+
+            System.out.println("Switching to open loop");
+            System.out.println(signal);
+            driveControlState = DriveControlState.OPEN_LOOP;
+            leftMaster.configNeutralDeadband(0.04, 0);
+            rightMaster.configNeutralDeadband(0.04, 0);
+        }
+        periodicIO.left_demand = signal.getLeft();
+        periodicIO.right_demand = signal.getRight();
+        periodicIO.left_feedforward = 0.0;
+        periodicIO.right_feedforward = 0.0;
     }
 
     public synchronized void reloadGains() {
@@ -152,13 +154,15 @@ public class Drive extends Subsystem{
         leftMaster.config_kI(0, Constants.LEFT_VEL_KI, Constants.kLongCANTimeoutMs);
         leftMaster.config_kD(0, Constants.LEFT_VEL_KD, Constants.kLongCANTimeoutMs);
         leftMaster.config_kF(0, Constants.LEFT_VEL_KF, Constants.kLongCANTimeoutMs);
-        leftMaster.config_IntegralZone(0, Constants.kDriveLowGearVelocityIZone, Constants.kLongCANTimeoutMs);
+//        leftMaster.config_IntegralZone(0, Constants.kDriveLowGearVelocityIZone, Constants.kLongCANTimeoutMs);
+        rightMaster.config_IntegralZone(0, 0, Constants.kLongCANTimeoutMs);
 
         rightMaster.config_kP(0, Constants.RIGHT_VEL_KP, Constants.kLongCANTimeoutMs);
         rightMaster.config_kI(0, Constants.RIGHT_VEL_KI, Constants.kLongCANTimeoutMs);
         rightMaster.config_kD(0, Constants.RIGHT_VEL_KD, Constants.kLongCANTimeoutMs);
         rightMaster.config_kF(0, Constants.RIGHT_VEL_KF, Constants.kLongCANTimeoutMs);
-        rightMaster.config_IntegralZone(0, Constants.kDriveLowGearVelocityIZone, Constants.kLongCANTimeoutMs);
+//        rightMaster.config_IntegralZone(0, Constants.kDriveLowGearVelocityIZone, Constants.kLongCANTimeoutMs);
+        rightMaster.config_IntegralZone(0, 0, Constants.kLongCANTimeoutMs);
     }
 
     public synchronized void setVelocity(DriveSignal signal, DriveSignal feedforward) {
@@ -193,7 +197,7 @@ public class Drive extends Subsystem{
 
             DriveMotionPlanner.Output output = motionPlanner.update(now, RobotState.getInstance().getFieldToVehicle(now));
 
-            // DriveSignal signal = new DriveSignal(demand.left_feedforward_voltage / 12.0, demand.right_feedforward_voltage / 12.0);
+//             DriveSignal signal = new DriveSignal(demand.left_feedforward_voltage / 12.0, demand.right_feedforward_voltage / 12.0);
 
             periodicIO.error = motionPlanner.error();
             periodicIO.path_setpoint = motionPlanner.setpoint();
@@ -217,11 +221,15 @@ public class Drive extends Subsystem{
     public synchronized void stop() {
         setOpenLoop(DriveSignal.NEUTRAL);
     }
+
+    public synchronized Rotation2d getHeading() {
+        return periodicIO.gyro_heading;
+    }
     
     public synchronized void setHeading(Rotation2d heading) {
         System.out.println("SET HEADING: " + heading.getDegrees());
 
-        gyroOffset = heading.rotateBy(Rotation2d.fromDegrees(pigeon.getFusedHeading()).inverse());
+//        gyroOffset = heading.rotateBy(Rotation2d.fromDegrees(pigeon.getFusedHeading()).inverse());
         System.out.println("Gyro offset: " + gyroOffset.getDegrees());
 
         periodicIO.gyro_heading = heading;
@@ -229,16 +237,16 @@ public class Drive extends Subsystem{
 
     @Override
     public void outputTelemetry() {
-//        SmartDashboard.putNumber("Right Drive Distance", periodicIO.right_distance);
-//        SmartDashboard.putNumber("Right Drive Ticks", periodicIO.right_position_ticks);
-//        SmartDashboard.putNumber("Left Drive Ticks", periodicIO.left_position_ticks);
-//        SmartDashboard.putNumber("Left Drive Distance", periodicIO.left_distance);
-//        SmartDashboard.putNumber("Right Linear Velocity", getRightLinearVelocity());
-//        SmartDashboard.putNumber("Left Linear Velocity", getLeftLinearVelocity());
+        SmartDashboard.putNumber("Right Drive Distance", periodicIO.right_distance);
+        SmartDashboard.putNumber("Right Drive Ticks", periodicIO.right_position_ticks);
+        SmartDashboard.putNumber("Left Drive Ticks", periodicIO.left_position_ticks);
+        SmartDashboard.putNumber("Left Drive Distance", periodicIO.left_distance);
+        SmartDashboard.putNumber("Right Linear Velocity", getRightLinearVelocity());
+        SmartDashboard.putNumber("Left Linear Velocity", getLeftLinearVelocity());
 //
-//        SmartDashboard.putNumber("x err", periodicIO.error.getTranslation().x());
-//        SmartDashboard.putNumber("y err", periodicIO.error.getTranslation().y());
-//        SmartDashboard.putNumber("theta err", periodicIO.error.getRotation().getDegrees());
+        SmartDashboard.putNumber("x err", periodicIO.error.getTranslation().x());
+        SmartDashboard.putNumber("y err", periodicIO.error.getTranslation().y());
+        SmartDashboard.putNumber("theta err", periodicIO.error.getRotation().getDegrees());
 //        if (getHeading() != null) {
 //            SmartDashboard.putNumber("Gyro Heading", getHeading().getDegrees());
 //        }
@@ -360,6 +368,22 @@ public class Drive extends Subsystem{
 //                });
 //        return leftSide && rightSide;
         return true;
+    }
+
+    public synchronized void setTrajectory(TrajectoryIterator<TimedState<Pose2dWithCurvature>> trajectory) {
+        if (motionPlanner != null) {
+            overrideTrajectory = false;
+            motionPlanner.reset();
+            motionPlanner.setTrajectory(trajectory);
+            driveControlState = DriveControlState.PATH_FOLLOWING;
+        }
+    }
+
+    public boolean isDoneWithTrajectory() {
+        if (motionPlanner == null || driveControlState != DriveControlState.PATH_FOLLOWING) {
+            return false;
+        }
+        return motionPlanner.isDone() || overrideTrajectory;
     }
 
     public static class PeriodicIO {

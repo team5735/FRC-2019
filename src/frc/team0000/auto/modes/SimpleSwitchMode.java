@@ -62,8 +62,8 @@ public class SimpleSwitchMode extends AutoModeBase {
                         new SetSuperstructurePosition(SuperstructureConstants.kSwitchHeightBackwards, SuperstructureConstants.kStowedPositionAngle, true),
                         new SeriesAction(
                                 Arrays.asList(
-                                        new WaitAction(mStartCubeWaitTime),
-                                        new ShootCube(AutoConstants.kMediumShootPower)
+                                        new WaitAction(mStartCubeWaitTime)
+//                                        new ShootCube(AutoConstants.kMediumShootPower)
                                 )
                         )
                 )
@@ -73,8 +73,8 @@ public class SimpleSwitchMode extends AutoModeBase {
         runAction(new ParallelAction(
                 Arrays.asList(
                         mSwitchToPyramidCube,
-                        new SetSuperstructurePosition(SuperstructureConstants.kIntakePositionHeight, SuperstructureConstants.kIntakePositionAngle, true),
-                        new SetIntaking(false, false)
+                        new SetSuperstructurePosition(SuperstructureConstants.kIntakePositionHeight, SuperstructureConstants.kIntakePositionAngle, true)
+//                        new SetIntaking(false, false)
                 )
         ));
         runAction(new WaitAction(AutoConstants.kWaitForCubeTime));
@@ -85,14 +85,14 @@ public class SimpleSwitchMode extends AutoModeBase {
                         mPyramidCubeToSwitch,
                         new SeriesAction(
                                 Arrays.asList(
-                                        new SetIntaking(false, true),
+//                                        new SetIntaking(false, true),
                                         new SetSuperstructurePosition(SuperstructureConstants.kSwitchHeightBackwards, SuperstructureConstants.kStowedPositionAngle, true)
                                 )
                         ),
                         new SeriesAction(
                                 Arrays.asList(
-                                        new WaitAction(mPyramidCubeWaitTime),
-                                        new ShootCube(AutoConstants.kMediumShootPower)
+                                        new WaitAction(mPyramidCubeWaitTime)
+//                                        new ShootCube(AutoConstants.kMediumShootPower)
                                 )
                         )
                 )
@@ -106,15 +106,15 @@ public class SimpleSwitchMode extends AutoModeBase {
                                 Arrays.asList(
                                         new WaitUntilInsideRegion(new Translation2d(-1000.0, -50.0), new Translation2d
                                                 (1000.0, 50.0), mStartedLeft),
-                                        new SetSuperstructurePosition(SuperstructureConstants.kIntakeSecondLevelHeight, SuperstructureConstants.kIntakePositionAngle, true),
-                                        new SetIntaking(false, false),
-                                        new OpenCloseJawAction(true)
+                                        new SetSuperstructurePosition(SuperstructureConstants.kIntakeSecondLevelHeight, SuperstructureConstants.kIntakePositionAngle, true)
+//                                        new SetIntaking(false, false),
+//                                        new OpenCloseJawAction(true)
                                 )
                         ),
                         new SeriesAction(
                                 Arrays.asList(
-                                        new WaitAction(mPyramidCubeClampTime),
-                                        new OpenCloseJawAction(false)
+                                        new WaitAction(mPyramidCubeClampTime)
+//                                        new OpenCloseJawAction(false)
                                 )
                         )
                 )
@@ -127,14 +127,14 @@ public class SimpleSwitchMode extends AutoModeBase {
                         mPyramidCube1ToSwitch,
                         new SeriesAction(
                                 Arrays.asList(
-                                        new SetIntaking(false, true),
+//                                        new SetIntaking(false, true),
                                         new SetSuperstructurePosition(SuperstructureConstants.kSwitchHeightBackwards, SuperstructureConstants.kStowedPositionAngle, true)
                                 )
                         ),
                         new SeriesAction(
                                 Arrays.asList(
-                                        new WaitAction(mPyramidCube1WaitTime),
-                                        new ShootCube(AutoConstants.kMediumShootPower)
+                                        new WaitAction(mPyramidCube1WaitTime)
+//                                        new ShootCube(AutoConstants.kMediumShootPower)
                                 )
                         )
                 )

@@ -1,6 +1,6 @@
 package frc.team0000.states;
 
-import com.team254.lib.util.Util;
+import frc.lib.util.Util;
 
 public class SuperstructureState {
     public double height = SuperstructureConstants.kElevatorMinHeight;

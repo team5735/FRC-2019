@@ -1,5 +1,6 @@
 package frc.team0000.controlboard;
 
+import edu.wpi.first.wpilibj.XboxController;
 import frc.team0000.Constants;
 import edu.wpi.first.wpilibj.Joystick;
 
