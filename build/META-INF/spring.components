@@ -1,5 +1,0 @@
-#
-#Mon Jan 07 20:58:26 EST 2019
-frc.path.controller.ViewController=org.springframework.stereotype.Component
-frc.path.controller.APIController=org.springframework.stereotype.Component
-frc.path.config.AppConfig=org.springframework.stereotype.Component
