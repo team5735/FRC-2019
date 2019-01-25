@@ -21,10 +21,13 @@ public class ElevatorGoToFirstSpaceshipCommand extends Command {
   @Override
   protected void initialize() {
     Robot.elevator.setTargetPosition(elevatorFirstSpaceshipPosition);
+    System.out.println("mobing to spaceshpi");
   }
 
   @Override
   protected void execute() {
+    System.out.println("Sensor: " + Robot.elevator.getSensorPosition());
+    System.out.println("Target: " + Robot.elevator.getTargetPosition() * 4096);
     Robot.elevator.moveToPosition();
   }
 
@@ -35,6 +38,7 @@ public class ElevatorGoToFirstSpaceshipCommand extends Command {
 
   @Override
   protected void end() {
+    System.out.println("stopping moving to speaceship");
   }
 
   @Override

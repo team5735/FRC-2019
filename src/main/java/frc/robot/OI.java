@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.elevator.ElevatorGoToFirstSpaceshipCommand;
+import frc.robot.commands.elevator.ElevatorResetEncoderCommand;
 
 
 /**
@@ -46,12 +47,15 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
-  Joystick leftJoy;
+  public XboxController leftJoy;
   Button button1;
+  Button button2;
 
   public OI() {
-    leftJoy = new Joystick(0);
+    leftJoy = new XboxController(0);
     button1 = new JoystickButton(leftJoy, 1);
+    button2 = new JoystickButton(leftJoy, 2);
     button1.whenPressed(new ElevatorGoToFirstSpaceshipCommand());
+    button2.whenPressed(new ElevatorResetEncoderCommand());
   }
 }

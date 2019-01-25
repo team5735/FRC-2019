@@ -5,20 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorJoystickCommand extends Command {
-
-  private static final int encoderIncrement = 100;
-
-  public ElevatorJoystickCommand() {
+public class BasicSolenoidToggleCompressorCommand extends Command {
+  public BasicSolenoidToggleCompressorCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.elevator);
+    requires(Robot.basicSolenoid);
   }
 
   // Called just before this Command runs the first time
@@ -29,21 +25,13 @@ public class ElevatorJoystickCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // Robot.elevator.setTargetPosition(0);
-    Robot.elevator.setTargetPosition(1.0 * Robot.oi.leftJoy.getY(Hand.kLeft));
-    // Robot.elevator.percentOutput(Robot.oi.leftJoy.getY(Hand.kLeft));
-    // Robot.elevator.setTargetPosition(targetPosition);
-    System.out.println(Robot.oi.leftJoy.getY(Hand.kLeft));
-    System.out.println("Sensor: " + Robot.elevator.getSensorPosition());
-    System.out.println("Target: " + Robot.elevator.getTargetPosition() * 4096);
-    // System.out.println(Robot.elevator.nativeunitspersecond());
-    Robot.elevator.moveToPosition();
+    Robot.basicSolenoid.toggleCompressing();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
