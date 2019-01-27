@@ -25,7 +25,8 @@ public class BasicSolenoidToggleSolenoidCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.basicSolenoid.togglePosiion();
+    System.out.println("toggle solenoid");
+    Robot.basicSolenoid.togglePosition();
   }
 
   // Make this return true when this Command no longer needs to run execute()

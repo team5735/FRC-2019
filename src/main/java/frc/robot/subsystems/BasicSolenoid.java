@@ -22,8 +22,8 @@ public class BasicSolenoid extends Subsystem {
   private Compressor compressor;
 
   public BasicSolenoid() {
-    doubleSolenoid = new DoubleSolenoid(12, 1, 0); // PCM, forward id, reverse id
-    compressor = new Compressor(12);
+    doubleSolenoid = new DoubleSolenoid(0, 1, 0); // PCM, forward id, reverse id
+    compressor = new Compressor(0);
     compressor.setClosedLoopControl(false);
   }
 
@@ -41,7 +41,7 @@ public class BasicSolenoid extends Subsystem {
     doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void togglePosiion() {
+  public void togglePosition() {
     if (doubleSolenoid.get() == DoubleSolenoid.Value.kForward) {
       close();
     } else {

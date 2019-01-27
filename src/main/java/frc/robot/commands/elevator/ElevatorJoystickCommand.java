@@ -33,9 +33,9 @@ public class ElevatorJoystickCommand extends Command {
     Robot.elevator.setTargetPosition(1.0 * Robot.oi.leftJoy.getY(Hand.kLeft));
     // Robot.elevator.percentOutput(Robot.oi.leftJoy.getY(Hand.kLeft));
     // Robot.elevator.setTargetPosition(targetPosition);
-    System.out.println(Robot.oi.leftJoy.getY(Hand.kLeft));
-    System.out.println("Sensor: " + Robot.elevator.getSensorPosition());
-    System.out.println("Target: " + Robot.elevator.getTargetPosition() * 4096);
+    // System.out.println(Robot.oi.leftJoy.getY(Hand.kLeft));
+    // System.out.println("Sensor: " + Robot.elevator.getSensorPosition());
+    // System.out.println("Target: " + Robot.elevator.getTargetPosition() * 4096);
     // System.out.println(Robot.elevator.nativeunitspersecond());
     Robot.elevator.moveToPosition();
   }

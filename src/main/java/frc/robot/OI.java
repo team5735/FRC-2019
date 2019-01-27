@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.BasicSolenoidToggleCompressorCommand;
+import frc.robot.commands.BasicSolenoidToggleSolenoidCommand;
 import frc.robot.commands.elevator.ElevatorGoToFirstSpaceshipCommand;
 import frc.robot.commands.elevator.ElevatorResetEncoderCommand;
 
@@ -50,12 +52,18 @@ public class OI {
   public XboxController leftJoy;
   Button button1;
   Button button2;
+  Button button3;
+  Button button4;
 
   public OI() {
     leftJoy = new XboxController(0);
     button1 = new JoystickButton(leftJoy, 1);
     button2 = new JoystickButton(leftJoy, 2);
+    button3 = new JoystickButton(leftJoy, 3);
+    button4 = new JoystickButton(leftJoy, 4);
     button1.whenPressed(new ElevatorGoToFirstSpaceshipCommand());
     button2.whenPressed(new ElevatorResetEncoderCommand());
+    button3.whenPressed(new BasicSolenoidToggleSolenoidCommand());
+    button4.whenPressed(new BasicSolenoidToggleCompressorCommand());
   }
 }

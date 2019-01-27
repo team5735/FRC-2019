@@ -647,6 +647,13 @@ public class Drive extends Subsystem {
     return mCurrentTrajectory != null && mCurrentTrajectory.isDone();
   }
 
+  public boolean isDoneWithTrajectory() {
+    if (driveControlState != DriveControlState.PATH_FOLLOWING) {
+        return false;
+    }
+    return this.isDone() || overrideTrajectory;
+}
+
   public Pose2d error() {
     return mError;
   }
