@@ -10,35 +10,34 @@ package frc.robot.commands.elevator;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorGoToFirstSpaceshipCommand extends Command {
+public class ElevatorGoToFirstSpaceship extends Command {
 
-  private int elevatorFirstSpaceshipPosition = Robot.elevator.getElevatorFirstSpaceshipPosition();
+  private double elevatorFirstSpaceshipPosition = Robot.elevator.getElevatorFirstSpaceshipPosition();
 
-  public ElevatorGoToFirstSpaceshipCommand() {
+  public ElevatorGoToFirstSpaceship() {
     requires(Robot.elevator);
   }
 
   @Override
   protected void initialize() {
     Robot.elevator.setTargetPosition(elevatorFirstSpaceshipPosition);
-    System.out.println("mobing to spaceshpi");
+    System.out.println("moving to first spaceship position");
   }
 
   @Override
   protected void execute() {
-    System.out.println("Sensor: " + Robot.elevator.getSensorPosition());
-    System.out.println("Target: " + Robot.elevator.getTargetPosition() * 4096);
-    Robot.elevator.moveToPosition();
+    // System.out.println("Sensor: " + Robot.elevator.getSensorPosition());
+    // System.out.println("Target: " + Robot.elevator.getTargetPosition() * 4096);
+    // Robot.elevator.moveToPosition();
   }
 
   @Override
   protected boolean isFinished() {
-    return Robot.elevator.isInPosition(elevatorFirstSpaceshipPosition);
+    return true;
   }
 
   @Override
   protected void end() {
-    System.out.println("stopping moving to speaceship");
   }
 
   @Override

@@ -10,11 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class BasicSolenoidToggleCompressorCommand extends Command {
-  public BasicSolenoidToggleCompressorCommand() {
+public class BasicSolenoidToggleCompressor extends Command {
+  public BasicSolenoidToggleCompressor() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.basicSolenoid);
+    // requires(Robot.basicSolenoid);
   }
 
   // Called just before this Command runs the first time
@@ -26,7 +26,7 @@ public class BasicSolenoidToggleCompressorCommand extends Command {
   @Override
   protected void execute() {
     System.out.println("toggle compressor");
-    Robot.basicSolenoid.toggleCompressing();
+    // Robot.basicSolenoid.toggleCompressing();
   }
 
   // Make this return true when this Command no longer needs to run execute()

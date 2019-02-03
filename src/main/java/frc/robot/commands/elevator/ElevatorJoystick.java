@@ -7,11 +7,15 @@
 
 package frc.robot.commands.elevator;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorResetEncoderCommand extends Command {
-  public ElevatorResetEncoderCommand() {
+public class ElevatorJoystick extends Command {
+
+  // private static final int encoderIncrement = 100;
+
+  public ElevatorJoystick() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.elevator);
@@ -20,18 +24,26 @@ public class ElevatorResetEncoderCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.resetSensorPosition();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    // Robot.elevator.setTargetPosition(0);
+    Robot.elevator.setTargetPosition(10 * (Robot.oi.subsystemXboxController.getY(Hand.kLeft) + 1));
+    // Robot.elevator.percentOutput(Robot.oi.leftJoy.getY(Hand.kLeft));
+    // Robot.elevator.setTargetPosition(targetPosition);
+    // System.out.println(Robot.oi.leftJoy.getY(Hand.kLeft));
+    // System.out.println("Sensor: " + Robot.elevator.getSensorPosition());
+    // System.out.println("Target: " + Robot.elevator.getTargetPosition() * 4096);
+    // System.out.println(Robot.elevator.nativeunitspersecond());
+    Robot.elevator.moveToPosition();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true

@@ -7,14 +7,14 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.BasicSolenoidToggleCompressorCommand;
-import frc.robot.commands.BasicSolenoidToggleSolenoidCommand;
-import frc.robot.commands.elevator.ElevatorGoToFirstSpaceshipCommand;
-import frc.robot.commands.elevator.ElevatorResetEncoderCommand;
+import frc.robot.Constants;
+import frc.robot.commands.BasicSolenoidToggleCompressor;
+import frc.robot.commands.BasicSolenoidToggleSolenoid;
+import frc.robot.commands.elevator.ElevatorGoToFirstSpaceship;
+import frc.robot.commands.elevator.ElevatorResetEncoder;
 
 
 /**
@@ -49,21 +49,37 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
-  public XboxController leftJoy;
-  Button button1;
-  Button button2;
-  Button button3;
-  Button button4;
+
+  public XboxController drivetrainXboxController;
+  Button drivetrainXboxA, drivetrainXboxB, drivetrainXboxC, drivetrainXboxD;
+
+  public XboxController subsystemXboxController;
+  Button subsystemXboxA, subsystemXboxB, subsystemXboxC, subsystemXboxD;
 
   public OI() {
-    leftJoy = new XboxController(0);
-    button1 = new JoystickButton(leftJoy, 1);
-    button2 = new JoystickButton(leftJoy, 2);
-    button3 = new JoystickButton(leftJoy, 3);
-    button4 = new JoystickButton(leftJoy, 4);
-    button1.whenPressed(new ElevatorGoToFirstSpaceshipCommand());
-    button2.whenPressed(new ElevatorResetEncoderCommand());
-    button3.whenPressed(new BasicSolenoidToggleSolenoidCommand());
-    button4.whenPressed(new BasicSolenoidToggleCompressorCommand());
+    drivetrainXboxController = new XboxController(Constants.DRIVETRAIN_XBOX_CONTROLLER_ID);
+    subsystemXboxController = new XboxController(Constants.SUBSYSTEM_XBOX_CONTROLLER_ID);
+
+    drivetrainXboxA = new JoystickButton(drivetrainXboxController, Constants.XBOX_A_BUTTON_ID);
+    drivetrainXboxB = new JoystickButton(drivetrainXboxController, Constants.XBOX_B_BUTTON_ID);
+    drivetrainXboxC = new JoystickButton(drivetrainXboxController, Constants.XBOX_C_BUTTON_ID);
+    drivetrainXboxD = new JoystickButton(drivetrainXboxController, Constants.XBOX_D_BUTTON_ID);
+    
+    /* 
+    drivetrainXboxA.whenPressed();
+    drivetrainXboxB.whenPressed();
+    drivetrainXboxC.whenPressed();
+    drivetrainXboxD.whenPressed();
+    */
+
+    subsystemXboxA = new JoystickButton(subsystemXboxController, Constants.XBOX_A_BUTTON_ID);
+    subsystemXboxB = new JoystickButton(subsystemXboxController, Constants.XBOX_B_BUTTON_ID);
+    subsystemXboxC = new JoystickButton(subsystemXboxController, Constants.XBOX_C_BUTTON_ID);
+    subsystemXboxD = new JoystickButton(subsystemXboxController, Constants.XBOX_D_BUTTON_ID);
+
+    // subsystemXboxA.whenPressed(new ElevatorGoToFirstSpaceship());
+    subsystemXboxB.whenPressed(new ElevatorResetEncoder());
+    // subsystemXboxC.whenPressed(new BasicSolenoidToggleSolenoid());
+    // subsystemXboxD.whenPressed(new BasicSolenoidToggleCompressor());
   }
 }

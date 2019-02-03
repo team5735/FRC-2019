@@ -5,34 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drivetrain;
+package frc.robot.commands.elevator;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class DrivetrainJoystickCommand extends Command {
-  public DrivetrainJoystickCommand() {
+public class ElevatorGoToSecondSpaceship extends Command {
+
+  private double elevatorSecondSpaceshipPosition = Robot.elevator.getElevatorSecondSpaceshipPosition();
+
+  public ElevatorGoToSecondSpaceship() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.drive);
+    requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.elevator.setTargetPosition(elevatorSecondSpaceshipPosition);
+    System.out.println("moving to second spaceship position");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.drive.cheesyDrive(Robot.oi.leftJoy.getY(Hand.kLeft), (Robot.oi.leftJoy.getX(Hand.kRight)));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

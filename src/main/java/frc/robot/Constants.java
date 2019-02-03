@@ -12,6 +12,17 @@ package frc.robot;
  */
 public class Constants {
 
+     /*
+          |  --FRONT--  | 
+          | |         | | 
+       L    |  |   |  |    R
+       E  | |  |___|  | |  I
+       F  | |    |    | |  G
+       T    |   LIFT  |    H
+          | |         | |  T
+          |   --REAR--  |
+    */
+
     // Wheel stuff for pose
     public static final double kDriveWheelTrackWidthInches = 25.54;
     public static final double kDriveWheelDiameterInches = 3.92820959548 * 0.99; // TODO TUNE
@@ -51,5 +62,20 @@ public class Constants {
     public static final double elevatorD = 0;
     public static final double elevatorF = 1023 / 2500;
 
-    public static final int ELEVATOR_MOTOR_ID = 4;
+    public static final int ELEVATOR_MOTOR_ID = 2;
+
+    //Xbox controller ids and button map ids and stuff and other stuff
+    public static final int DRIVETRAIN_XBOX_CONTROLLER_ID = 0;
+    public static final int SUBSYSTEM_XBOX_CONTROLLER_ID = 1;
+
+    public static final int XBOX_A_BUTTON_ID = 1;
+    public static final int XBOX_B_BUTTON_ID = 2;
+    public static final int XBOX_C_BUTTON_ID = 3;
+    public static final int XBOX_D_BUTTON_ID = 4;
+
+    public static final int XBOX_LEFT_BUMPER_ID = 5;
+    public static final int XBOX_RIGHT_BUMPER_ID = 6;
+
+    public static final int XBOX_BACK_BUTTON_ID = 7;
+    public static final int XBOX_START_BUTTON_ID = 8;
 }

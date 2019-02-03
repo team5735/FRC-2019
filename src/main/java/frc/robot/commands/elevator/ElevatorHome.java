@@ -5,16 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class BasicSolenoidToggleSolenoidCommand extends Command {
-  public BasicSolenoidToggleSolenoidCommand() {
+public class ElevatorHome extends Command {
+  public ElevatorHome() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.basicSolenoid);
+    requires(Robot.elevator);
+    // setTimeout(seconds);
   }
 
   // Called just before this Command runs the first time
@@ -25,19 +26,23 @@ public class BasicSolenoidToggleSolenoidCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("toggle solenoid");
-    Robot.basicSolenoid.togglePosition();
+    Robot.elevator.home();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    if (Robot.elevator.isLowerLimitPressed()) {
+      return true;
+    }
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.elevator.resetSensorPosition();
+    Robot.elevator.setHomed(true);
   }
 
   // Called when another command which requires one or more of the same

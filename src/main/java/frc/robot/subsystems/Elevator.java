@@ -13,7 +13,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
-import frc.robot.commands.elevator.ElevatorJoystickCommand;
+import frc.robot.commands.elevator.ElevatorJoystick;
+import frc.robot.commands.elevator.ElevatorMotionMagic;
 
 public class Elevator extends Subsystem {
 
@@ -22,15 +23,15 @@ public class Elevator extends Subsystem {
   private TalonSRX elevatorMotor;
   private double homingSpeed = -3;
   private int elevatorThreshold = 2; // Encoder Ticks
-  private boolean isHoldingPosition = false;
 
-  private static final double GEAR_RATIO = 4.0 / 3.0; // Gear ratio between motor and Elevator
-  private static final int SPROCKET_TOOTH_COUNT = 22;
-  private static final double LENGTH_OF_LINK = 0.25;
+  // private static final double GEAR_RATIO = 4.0 / 3.0; // Gear ratio between motor and Elevator
+  // private static final int SPROCKET_TOOTH_COUNT = 22;
+  // private static final double LENGTH_OF_LINK = 0.25;
 
   private static final int ENCODER_TICKS_PER_REVOLUTION = 4096; // TODO CHECK this?
 
-  private int elevatorFirstSpaceshipPosition = 10; //
+  private double elevatorFirstSpaceshipPosition = 10; //elevator inches
+  private double elevatorSecondSpaceshipPosition = 20;
 
   // private ElevatorState state;
 
@@ -62,15 +63,21 @@ public class Elevator extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new ElevatorJoystickCommand());
+    setDefaultCommand(new ElevatorJoystick()); 
+    // setDefaultCommand(new ElevatorMotionMagic()); 
+    // ElevatorMotionMagic holds the elevator at the position
   }
 
   public void resetSensorPosition() {
     elevatorMotor.setSelectedSensorPosition(0, 0, 30);
   }
 
-  public int getElevatorFirstSpaceshipPosition() {
+  public double getElevatorFirstSpaceshipPosition() {
     return elevatorFirstSpaceshipPosition;
+  }
+  
+  public double getElevatorSecondSpaceshipPosition() {
+    return elevatorSecondSpaceshipPosition;
   }
 
   // inches
@@ -84,7 +91,8 @@ public class Elevator extends Subsystem {
 
   public void moveToPosition() {
     // elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition));
-    elevatorMotor.set(ControlMode.MotionMagic, targetPosition * 4096);
+    System.out.println(getSensorPosition());
+    // elevatorMotor.set(ControlMode.MotionMagic, targetPosition * 4096);
   }
 
   public void percentOutput(double percent) {
@@ -103,12 +111,15 @@ public class Elevator extends Subsystem {
     return elevatorMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
+  //for testing one elevator inch is exactly one rotation.
   public double elevatorInchesToEncoderTicks(double elevatorInches) {
-    return (elevatorInches / (GEAR_RATIO * SPROCKET_TOOTH_COUNT * LENGTH_OF_LINK)) * ENCODER_TICKS_PER_REVOLUTION / 2;
+    // return (elevatorInches / (GEAR_RATIO * SPROCKET_TOOTH_COUNT * LENGTH_OF_LINK)) * ENCODER_TICKS_PER_REVOLUTION / 2;
+    return elevatorInches * 4096;
   }
 
   public int encoderTicksToElevatorInches(double encoderTicks) {
-    return (int)((encoderTicks / ENCODER_TICKS_PER_REVOLUTION) * GEAR_RATIO * SPROCKET_TOOTH_COUNT * LENGTH_OF_LINK * 2);
+    // return (int)((encoderTicks / ENCODER_TICKS_PER_REVOLUTION) * GEAR_RATIO * SPROCKET_TOOTH_COUNT * LENGTH_OF_LINK * 2);
+    return (int)(encoderTicks / 4096.0);
   }
 
   public double getTargetPositionInEncoderTicks() {
@@ -127,20 +138,14 @@ public class Elevator extends Subsystem {
     return isHomed;
   }
 
-  public void setIsHoldingPosition(boolean isHoldingPosition) {
-    this.isHoldingPosition = isHoldingPosition;
-  }
-
-  public boolean isHoldingPosition() {
-    return isHoldingPosition;
-  }
-
   public void setSensorValue(int sensorPos) {
     elevatorMotor.setSelectedSensorPosition(sensorPos);
   }
 
   public int getSensorPosition() {
-    return elevatorMotor.getSelectedSensorPosition();
+    elevatorMotor.set(ControlMode.PercentOutput, 0.5);
+    return elevatorMotor.getSensorCollection().getQuadraturePosition();
+    // return elevatorMotor.getSelectedSensorPosition();
   }
 
   public double getTargetPosition() {

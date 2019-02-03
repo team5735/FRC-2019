@@ -10,8 +10,8 @@ package frc.robot.commands.elevator;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorMotionMagicCommand extends Command {
-  public ElevatorMotionMagicCommand() {
+public class ElevatorMotionMagic extends Command {
+  public ElevatorMotionMagic() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.elevator);

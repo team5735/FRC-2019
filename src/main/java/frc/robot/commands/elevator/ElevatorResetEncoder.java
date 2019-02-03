@@ -10,20 +10,17 @@ package frc.robot.commands.elevator;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorHoldPositionToggleCommand extends Command {
-  public ElevatorHoldPositionToggleCommand() {
+public class ElevatorResetEncoder extends Command {
+  public ElevatorResetEncoder() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
     requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    if (!Robot.elevator.isHoldingPosition()) {
-      Robot.elevator.setTargetPosition(Robot.elevator.getSensorPosition());
-			Robot.elevator.setIsHoldingPosition(true);
-		} else {
-			Robot.elevator.setIsHoldingPosition(false);
-		}
+    Robot.elevator.resetSensorPosition();
   }
 
   // Called repeatedly when this Command is scheduled to run
