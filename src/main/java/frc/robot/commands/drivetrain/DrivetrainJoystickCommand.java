@@ -7,7 +7,6 @@
 
 package frc.robot.commands.drivetrain;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
@@ -15,7 +14,7 @@ public class DrivetrainJoystickCommand extends Command {
   public DrivetrainJoystickCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.drive);
+    requires(Robot.drivetrain);
   }
 
   // Called just before this Command runs the first time
@@ -26,7 +25,8 @@ public class DrivetrainJoystickCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.drive.cheesyDrive(Robot.oi.leftJoy.getY(Hand.kLeft), (Robot.oi.leftJoy.getX(Hand.kRight)));
+    Robot.drivetrain.updateVelocityPercent(Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed());
+    // Robot.drivetrain.updateArcadePercent(Robot.oi.drivetrainController.rightStick.getYCubed(), Robot.oi.drivetrainController.leftStick.getXCubed(), false);
   }
 
   // Make this return true when this Command no longer needs to run execute()

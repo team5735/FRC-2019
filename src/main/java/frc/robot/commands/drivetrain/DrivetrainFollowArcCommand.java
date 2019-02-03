@@ -27,7 +27,7 @@ public class DrivetrainFollowArcCommand extends Command {
   public DrivetrainFollowArcCommand(Trajectory<TimedState<Pose2dWithCurvature>> trajectory, boolean resetPose) {
     this.trajectory = new TrajectoryIterator<>(new TimedView<>(trajectory));
     this.resetPose = resetPose;
-    requires(Robot.drive);
+    // requires(Robot.drive);
   }
 
   // Called just before this Command runs the first time
@@ -37,7 +37,7 @@ public class DrivetrainFollowArcCommand extends Command {
     if (resetPose) {
       Robot.robotState.reset(Timer.getFPGATimestamp(), trajectory.getState().state().getPose());
     }
-    Robot.drive.setTrajectory(trajectory);
+    // Robot.drive.setTrajectory(trajectory);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -48,10 +48,10 @@ public class DrivetrainFollowArcCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (Robot.drive.isDoneWithTrajectory()) {
-      System.out.println("Trajectory finished");
-      return true;
-    }
+    // if (Robot.drive.isDoneWithTrajectory()) {
+    //   System.out.println("Trajectory finished");
+    //   return true;
+    // }
     return false;
   }
 

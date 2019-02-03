@@ -12,9 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.BasicSolenoid;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 
 /**
@@ -25,10 +23,10 @@ import frc.robot.subsystems.Elevator;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static Drive drive = new Drive();
+  public static Drivetrain drivetrain = new Drivetrain();
   public static Elevator elevator = new Elevator();
   public static RobotState robotState = new RobotState();
-  public static BasicSolenoid basicSolenoid = new BasicSolenoid();
+  // public static BasicSolenoid basicSolenoid = new BasicSolenoid();
   public static OI oi;
 
   Command m_autonomousCommand;
@@ -41,7 +39,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     oi = new OI();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    // m_chooser.setDefaultOption("Default Auto", new DiagnosticCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
   }

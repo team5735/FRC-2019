@@ -5,43 +5,45 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.solenoid;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorGoToFirstSpaceshipCommand extends Command {
-
-  private int elevatorFirstSpaceshipPosition = Robot.elevator.getElevatorFirstSpaceshipPosition();
-
-  public ElevatorGoToFirstSpaceshipCommand() {
-    requires(Robot.elevator);
+public class BasicSolenoidToggleCompressorCommand extends Command {
+  public BasicSolenoidToggleCompressorCommand() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    // requires(Robot.basicSolenoid);
   }
 
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.setTargetPosition(elevatorFirstSpaceshipPosition);
-    System.out.println("mobing to spaceshpi");
   }
 
+  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("Sensor: " + Robot.elevator.getSensorPosition());
-    System.out.println("Target: " + Robot.elevator.getTargetPosition() * 4096);
-    Robot.elevator.moveToPosition();
+    System.out.println("toggle compressor");
+    // Robot.basicSolenoid.toggleCompressing();
   }
 
+  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.elevator.isInPosition(elevatorFirstSpaceshipPosition);
+    return true;
   }
 
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    System.out.println("stopping moving to speaceship");
   }
 
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
   }
 }
+ 

@@ -7,13 +7,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.BasicSolenoidToggleCompressorCommand;
-import frc.robot.commands.BasicSolenoidToggleSolenoidCommand;
-import frc.robot.commands.elevator.ElevatorGoToFirstSpaceshipCommand;
+import frc.lib.controllers.BobXboxController;
+import frc.robot.commands.drivetrain.DrivetrainJoystickCommand;
+import frc.robot.commands.elevator.ElevatorMotionMagicCommand;
 import frc.robot.commands.elevator.ElevatorResetEncoderCommand;
 
 
@@ -49,21 +48,19 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
-  public XboxController leftJoy;
-  Button button1;
-  Button button2;
-  Button button3;
-  Button button4;
+
+  public BobXboxController drivetrainController;
+  public BobXboxController subsystemController;
 
   public OI() {
-    leftJoy = new XboxController(0);
-    button1 = new JoystickButton(leftJoy, 1);
-    button2 = new JoystickButton(leftJoy, 2);
-    button3 = new JoystickButton(leftJoy, 3);
-    button4 = new JoystickButton(leftJoy, 4);
-    button1.whenPressed(new ElevatorGoToFirstSpaceshipCommand());
-    button2.whenPressed(new ElevatorResetEncoderCommand());
-    button3.whenPressed(new BasicSolenoidToggleSolenoidCommand());
-    button4.whenPressed(new BasicSolenoidToggleCompressorCommand());
+    drivetrainController = new BobXboxController(Constants.DRIVETRAIN_CONTROLLER_USB_PORT);
+
+    subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
+    subsystemController.aButton.whenPressed(new ElevatorMotionMagicCommand(Robot.elevator.BOTTOM_POSITION));
+    subsystemController.bButton.whenPressed(new ElevatorMotionMagicCommand(Robot.elevator.SECOND_POSITION));
+    subsystemController.xButton.whenPressed(new ElevatorMotionMagicCommand(Robot.elevator.THIRD_POSITION));
+    subsystemController.yButton.whenPressed(new ElevatorMotionMagicCommand(Robot.elevator.MAX_POSITION));
+
+    drivetrainController.rightTriggerButton.whileHeld(new DrivetrainJoystickCommand());
   }
 }

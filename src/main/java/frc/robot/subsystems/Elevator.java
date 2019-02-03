@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -16,108 +17,139 @@ import frc.robot.Constants;
 import frc.robot.commands.elevator.ElevatorJoystickCommand;
 
 public class Elevator extends Subsystem {
+  // Subsystem Setpoints
+  public double
+    BOTTOM_POSITION = 0,
+    FIRST_POSITION = 10,
+    SECOND_POSITION = 30,
+    THIRD_POSITION = 50,
+    MAX_POSITION = 80;
 
-  private double targetPosition = 0; // inches
+  // Subsystem Motors
+  private TalonSRX elevatorMotor, elevatorFollowerMotor;
+
+  // Subsystem States
   private boolean isHomed = false;
-  private TalonSRX elevatorMotor;
-  private double homingSpeed = -3;
-  private int elevatorThreshold = 2; // Encoder Ticks
-  private boolean isHoldingPosition = false;
+  private double targetPosition = 0;    // Inches
 
-  private static final double GEAR_RATIO = 4.0 / 3.0; // Gear ratio between motor and Elevator
-  private static final int SPROCKET_TOOTH_COUNT = 22;
+  // Subsystem Constants
+  private static final double HOMING_SPEED = -0.2;            // Percent Output
+  private static final double THRESHOLD = 1;                  // Inches
+  private static final double HEIGHT_LIMIT = 80;              // Inches
+  private static final double CRUSING_VEL = 50;               // Inches / sec
+  private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
+
+  // Encoder Conversion Constants
+  private static final double ENCODER_TICKS_PER_REVOLUTION = 12;
+  private static final double GEAR_RATIO = 1 / 70.;
+  private static final int SPROCKET_TOOTH_COUNT = 16;
   private static final double LENGTH_OF_LINK = 0.25;
+  private static final int NUMBER_OF_STAGES = 3;
 
-  private static final int ENCODER_TICKS_PER_REVOLUTION = 4096; // TODO CHECK this?
-
-  private int elevatorFirstSpaceshipPosition = 10; //
-
-  // private ElevatorState state;
-
-  // private enum ElevatorState {
-  // MOVING,
-  // HOMING,
-  // HOLDING,
-  // IDLE
-  // }
+  //PID Values
+  private static final double kP = 3;
+  private static final double kI = 0;
+  private static final double kD = 5;
+  private static final double kF = 0.337 * 1023 / 70.;
+  private static final double kA = 0; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
 
   public Elevator() {
+    // Initialize main motor
     elevatorMotor = new TalonSRX(Constants.ELEVATOR_MOTOR_ID);
-    elevatorMotor.selectProfileSlot(0, 0);
-    elevatorMotor.config_kP(0, Constants.elevatorP); //TODO TUNE
-    elevatorMotor.config_kI(0, Constants.elevatorI);
-    elevatorMotor.config_kD(0, Constants.elevatorD);
-    elevatorMotor.config_kF(0, Constants.elevatorF);
-    elevatorMotor.configMotionCruiseVelocity(1500);
-    elevatorMotor.configMotionAcceleration(1500);
-    elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
+    elevatorMotor.configFactoryDefault();
+
+    // Configure main motor sensors
+    elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
     elevatorMotor.setInverted(true);
-    elevatorMotor.setSensorPhase(false);
-    // state = ElevatorState.IDLE;
+    elevatorMotor.setSensorPhase(true);
     elevatorMotor.overrideLimitSwitchesEnable(true);
     resetSensorPosition();
+
+    // Set motion magic parameters
+    elevatorMotor.configMotionCruiseVelocity(elevatorInchesToEncoderTicks(CRUSING_VEL));
+    elevatorMotor.configMotionAcceleration((int)(elevatorInchesToEncoderTicks(CRUSING_VEL)/TIME_TO_REACH_CRUSING_VEL));
+    
+    // Set main motor PID values
+    elevatorMotor.selectProfileSlot(0, 0);
+    elevatorMotor.config_kP(0, kP);
+    elevatorMotor.config_kI(0, kI);
+    elevatorMotor.config_kD(0, kD);
+    elevatorMotor.config_kF(0, kF);
+
+    // Initialize follower motor
+    elevatorFollowerMotor = new TalonSRX(Constants.ELEVATOR_FOLLOWER_MOTOR_ID);
+    elevatorFollowerMotor.configFactoryDefault();
+    // elevatorFollowerMotor.set(ControlMode.Follower, Constants.ELEVATOR_MOTOR_ID);
+    elevatorFollowerMotor.follow(elevatorMotor);
+    elevatorFollowerMotor.setInverted(false);
   }
 
   @Override
+  /**
+   * This command will run whenever there is no other command using the subsystem
+   */
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new ElevatorJoystickCommand());
+  }
+
+  /**
+   * Sets target position (in inches) for motion magic control
+   */
+  public void setTargetPosition(double targetPosition) {
+    if (targetPosition < 0) {
+      this.targetPosition = 0;
+    } else if (targetPosition > HEIGHT_LIMIT) {
+      this.targetPosition = HEIGHT_LIMIT;
+    }else{
+      this.targetPosition = targetPosition;
+    }
+  }
+
+  public void updateMotionMagic() {
+    elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition), DemandType.ArbitraryFeedForward, kA);
+  }
+
+  public void updatePercentOutput(double value) {
+    elevatorMotor.set(ControlMode.PercentOutput, value);
+  }
+
+  public boolean isInPosition() {
+    double positionError = Math.abs(encoderTicksToElevatorInches(getSensorPosition()) - this.targetPosition);
+    return positionError < THRESHOLD;
+  }
+
+  public void home() {
+    elevatorMotor.set(ControlMode.PercentOutput, HOMING_SPEED);
   }
 
   public void resetSensorPosition() {
     elevatorMotor.setSelectedSensorPosition(0, 0, 30);
   }
 
-  public int getElevatorFirstSpaceshipPosition() {
-    return elevatorFirstSpaceshipPosition;
-  }
-
-  // inches
-  public void setTargetPosition(double targetPosition) {
-    this.targetPosition = targetPosition;
-  }
-
-  public double nativeunitspersecond() {
-    return elevatorMotor.getSelectedSensorVelocity();
-  }
-
-  public void moveToPosition() {
-    // elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition));
-    elevatorMotor.set(ControlMode.MotionMagic, targetPosition * 4096);
-  }
-
-  public void percentOutput(double percent) {
-    elevatorMotor.set(ControlMode.PercentOutput, percent);
-  }
-
-  public void home() {
-    elevatorMotor.set(ControlMode.Velocity, homingSpeed);
-  }
-
   public boolean isLowerLimitPressed() {
-    return elevatorMotor.getSensorCollection().isRevLimitSwitchClosed();
+    if (elevatorMotor.getSensorCollection().isRevLimitSwitchClosed()) {
+      resetSensorPosition();
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  public boolean isUppperLimitPressed() {
+  public boolean isUpperLimitPressed() {
     return elevatorMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
-  public double elevatorInchesToEncoderTicks(double elevatorInches) {
-    return (elevatorInches / (GEAR_RATIO * SPROCKET_TOOTH_COUNT * LENGTH_OF_LINK)) * ENCODER_TICKS_PER_REVOLUTION / 2;
+  private static int elevatorInchesToEncoderTicks(double elevatorInches) {
+    return (int)((elevatorInches * ENCODER_TICKS_PER_REVOLUTION) / GEAR_RATIO / SPROCKET_TOOTH_COUNT / LENGTH_OF_LINK
+    / NUMBER_OF_STAGES);
   }
 
-  public int encoderTicksToElevatorInches(double encoderTicks) {
-    return (int)((encoderTicks / ENCODER_TICKS_PER_REVOLUTION) * GEAR_RATIO * SPROCKET_TOOTH_COUNT * LENGTH_OF_LINK * 2);
+  private static double encoderTicksToElevatorInches(double encoderTicks) {
+    return (encoderTicks / ENCODER_TICKS_PER_REVOLUTION) * GEAR_RATIO * SPROCKET_TOOTH_COUNT * LENGTH_OF_LINK
+        * NUMBER_OF_STAGES;
   }
 
-  public double getTargetPositionInEncoderTicks() {
-    return elevatorInchesToEncoderTicks(targetPosition);
-  }
-
-  public double getSensorPositionInElevatorInches() {
-    return encoderTicksToElevatorInches(getSensorPosition());
-  }
+  // ===== GETTERS AND SETTERS =====
 
   public void setHomed(boolean isHomed) {
     this.isHomed = isHomed;
@@ -127,12 +159,12 @@ public class Elevator extends Subsystem {
     return isHomed;
   }
 
-  public void setIsHoldingPosition(boolean isHoldingPosition) {
-    this.isHoldingPosition = isHoldingPosition;
+  public double getTargetPosition() {
+    return targetPosition;
   }
 
-  public boolean isHoldingPosition() {
-    return isHoldingPosition;
+  public double getCurrentHeight() {
+    return encoderTicksToElevatorInches(getSensorPosition());
   }
 
   public void setSensorValue(int sensorPos) {
@@ -143,17 +175,11 @@ public class Elevator extends Subsystem {
     return elevatorMotor.getSelectedSensorPosition();
   }
 
-  public double getTargetPosition() {
-    return targetPosition;
+  public double getSensorVelocity() {
+    return elevatorMotor.getSelectedSensorVelocity();
   }
 
-  public boolean isInPosition(int targetPosition) {
-    int currentPosition = this.getSensorPosition();
-    int positionError = Math.abs(currentPosition - targetPosition);
-    if (positionError < elevatorThreshold) {
-      return true;
-    } else {
-      return false;
-    }
+  public double getMotorOutputPercent() {
+    return elevatorMotor.getMotorOutputPercent();
   }
 }

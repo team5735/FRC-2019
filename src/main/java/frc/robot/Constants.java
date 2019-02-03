@@ -44,12 +44,16 @@ public class Constants {
     public static final int kDriveVelocityIZone = 0;
     public static final double kDriveVoltageRampRate = 0.0;
 
+    // Motor IDs
+    public static final int DRIVETRAIN_CONTROLLER_USB_PORT = 0;
+    public static final int SUBSYSTEM_CONTROLLER_USB_PORT = 1;
 
-    // max native unit is ~2500
-    public static final double elevatorP = 1;
-    public static final double elevatorI = 0;
-    public static final double elevatorD = 0;
-    public static final double elevatorF = 1023 / 2500;
+    public static final int ELEVATOR_MOTOR_ID = 2;
+    public static final int ELEVATOR_FOLLOWER_MOTOR_ID = 7;
 
-    public static final int ELEVATOR_MOTOR_ID = 4;
+    public static final int DRIVETRAIN_RIGHT_MASTER_MOTOR_ID = 5;
+    public static final int DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID = 6;
+    public static final int DRIVETRAIN_LEFT_MASTER_MOTOR_ID = 1;
+    public static final int DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID = 4;
+    
 }

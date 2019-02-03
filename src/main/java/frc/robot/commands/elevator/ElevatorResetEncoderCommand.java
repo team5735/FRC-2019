@@ -21,6 +21,7 @@ public class ElevatorResetEncoderCommand extends Command {
   @Override
   protected void initialize() {
     Robot.elevator.resetSensorPosition();
+    Robot.elevator.setTargetPosition(0);
   }
 
   // Called repeatedly when this Command is scheduled to run

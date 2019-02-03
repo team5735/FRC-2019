@@ -5,30 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.solenoid;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorHoldPositionToggleCommand extends Command {
-  public ElevatorHoldPositionToggleCommand() {
-    requires(Robot.elevator);
+public class BasicSolenoidToggleSolenoidCommand extends Command {
+  public BasicSolenoidToggleSolenoidCommand() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    // requires(Robot.basicSolenoid);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    if (!Robot.elevator.isHoldingPosition()) {
-      Robot.elevator.setTargetPosition(Robot.elevator.getSensorPosition());
-			Robot.elevator.setIsHoldingPosition(true);
-		} else {
-			Robot.elevator.setIsHoldingPosition(false);
-		}
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    System.out.println("toggle solenoid");
+    // Robot.basicSolenoid.togglePosition();
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -72,17 +72,18 @@ public class Drive extends Subsystem {
 
   public enum DriveControlState {
     OPEN_LOOP, // open loop voltage control
-    PATH_FOLLOWING, // velocity PID control
+    PATH_FOLLOWING // velocity PID control
   }
 
   private DriveControlState driveControlState;
 
   public Drive() {
     periodicIO = new PeriodicIO();
-    leftMaster = createTalon(1, true);
-    leftFollower = createTalon(2, true, leftMaster);
-    rightMaster = createTalon(1, true);
-    rightFollower = createTalon(2, true, rightMaster);
+    leftMaster = new TalonSRX(Constants.DRIVETRAIN_LEFT_MASTER_MOTOR_ID);
+    leftFollower = new TalonSRX(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID);
+    rightMaster = new TalonSRX(Constants.DRIVETRAIN_RIGHT_MASTER_MOTOR_ID);
+    rightFollower = new TalonSRX(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID);
+    
     final DCMotorTransmission transmission = new DCMotorTransmission(1.0 / Constants.kDriveKv,
         Units.inches_to_meters(Constants.kDriveWheelRadiusInches)
             * Units.inches_to_meters(Constants.kDriveWheelRadiusInches) * Constants.kRobotLinearInertia

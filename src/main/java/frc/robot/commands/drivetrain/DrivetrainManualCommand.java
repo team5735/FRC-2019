@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class BasicSolenoidToggleSolenoidCommand extends Command {
-  public BasicSolenoidToggleSolenoidCommand() {
+public class DrivetrainManualCommand extends Command {
+  public DrivetrainManualCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.basicSolenoid);
+    requires(Robot.drivetrain);
   }
 
   // Called just before this Command runs the first time
@@ -25,14 +25,14 @@ public class BasicSolenoidToggleSolenoidCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("toggle solenoid");
-    Robot.basicSolenoid.togglePosition();
+    Robot.drivetrain.updatePercentOutput(Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed());
+    // Robot.drivetrain.updateArcadePercent(Robot.oi.drivetrainController.rightStick.getYCubed(), Robot.oi.drivetrainController.leftStick.getXCubed(), false);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true
