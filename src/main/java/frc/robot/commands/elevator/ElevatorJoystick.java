@@ -5,16 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drivetrain;
+package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class DrivetrainManualCommand extends Command {
-  public DrivetrainManualCommand() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.drivetrain);
+public class ElevatorJoystick extends Command {
+
+  public ElevatorJoystick() {
+    requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
@@ -25,8 +24,9 @@ public class DrivetrainManualCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.drivetrain.updatePercentOutput(Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed());
-    // Robot.drivetrain.updateArcadePercent(Robot.oi.drivetrainController.rightStick.getYCubed(), Robot.oi.drivetrainController.leftStick.getXCubed(), false);
+    Robot.elevator.setTargetPosition(Robot.elevator.getTargetPosition() + 0.4 * Robot.oi.subsystemController.leftStick.getYCubed());
+    // System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " V: " + Robot.elevator.getMotorOutputVoltage());
+    Robot.elevator.updateMotionMagic();
   }
 
   // Make this return true when this Command no longer needs to run execute()

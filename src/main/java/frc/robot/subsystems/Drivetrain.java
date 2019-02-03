@@ -15,8 +15,8 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
-import frc.robot.commands.drivetrain.DrivetrainJoystickCommand;
-import frc.robot.commands.drivetrain.DrivetrainManualCommand;
+import frc.robot.commands.drivetrain.DrivetrainJoystick;
+import frc.robot.commands.drivetrain.DrivetrainManual;
 
 /**
  * Add your docs here.

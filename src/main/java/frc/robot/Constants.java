@@ -12,6 +12,17 @@ package frc.robot;
  */
 public class Constants {
 
+     /*
+          |  --FRONT--  | 
+          | |         | | 
+       L    |  |   |  |    R
+       E  | |  |___|  | |  I
+       F  | |    |    | |  G
+       T    |   LIFT  |    H
+          | |         | |  T
+          |   --REAR--  |
+    */
+
     // Wheel stuff for pose
     public static final double kDriveWheelTrackWidthInches = 25.54;
     public static final double kDriveWheelDiameterInches = 3.92820959548 * 0.99; // TODO TUNE

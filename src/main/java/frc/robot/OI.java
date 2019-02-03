@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.lib.controllers.BobXboxController;
-import frc.robot.commands.drivetrain.DrivetrainJoystickCommand;
-import frc.robot.commands.elevator.ElevatorMotionMagicCommand;
-import frc.robot.commands.elevator.ElevatorResetEncoderCommand;
+import frc.robot.commands.drivetrain.DrivetrainJoystick;
+import frc.robot.commands.elevator.ElevatorMotionMagic;
+import frc.robot.commands.elevator.ElevatorResetEncoder;
 
 
 /**
@@ -56,11 +56,11 @@ public class OI {
     drivetrainController = new BobXboxController(Constants.DRIVETRAIN_CONTROLLER_USB_PORT);
 
     subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
-    subsystemController.aButton.whenPressed(new ElevatorMotionMagicCommand(Robot.elevator.BOTTOM_POSITION));
-    subsystemController.bButton.whenPressed(new ElevatorMotionMagicCommand(Robot.elevator.SECOND_POSITION));
-    subsystemController.xButton.whenPressed(new ElevatorMotionMagicCommand(Robot.elevator.THIRD_POSITION));
-    subsystemController.yButton.whenPressed(new ElevatorMotionMagicCommand(Robot.elevator.MAX_POSITION));
+    subsystemController.aButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.BOTTOM_POSITION));
+    subsystemController.bButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.SECOND_POSITION));
+    subsystemController.xButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.THIRD_POSITION));
+    subsystemController.yButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.MAX_POSITION));
 
-    drivetrainController.rightTriggerButton.whileHeld(new DrivetrainJoystickCommand());
+    drivetrainController.rightTriggerButton.whileHeld(new DrivetrainJoystick());
   }
 }

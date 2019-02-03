@@ -14,7 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
-import frc.robot.commands.elevator.ElevatorJoystickCommand;
+import frc.robot.commands.elevator.ElevatorJoystick;
 
 public class Elevator extends Subsystem {
   // Subsystem Setpoints
@@ -89,7 +89,7 @@ public class Elevator extends Subsystem {
    * This command will run whenever there is no other command using the subsystem
    */
   public void initDefaultCommand() {
-    setDefaultCommand(new ElevatorJoystickCommand());
+    setDefaultCommand(new ElevatorJoystick());
   }
 
   /**
@@ -172,7 +172,9 @@ public class Elevator extends Subsystem {
   }
 
   public int getSensorPosition() {
-    return elevatorMotor.getSelectedSensorPosition();
+    elevatorMotor.set(ControlMode.PercentOutput, 0.5);
+    return elevatorMotor.getSensorCollection().getQuadraturePosition();
+    // return elevatorMotor.getSelectedSensorPosition();
   }
 
   public double getSensorVelocity() {

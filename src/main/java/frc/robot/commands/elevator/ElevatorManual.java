@@ -10,29 +10,27 @@ package frc.robot.commands.elevator;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorResetEncoderCommand extends Command {
-  public ElevatorResetEncoderCommand() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class ElevatorManual extends Command {
+
+  public ElevatorManual() {
     requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.resetSensorPosition();
-    Robot.elevator.setTargetPosition(0);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.elevator.updatePercentOutput(Robot.oi.subsystemController.leftStick.getYCubed() * 0.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true

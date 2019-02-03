@@ -10,39 +10,38 @@ package frc.robot.commands.elevator;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorMotionMagicCommand extends Command {
-
-  private double target;
-
-  public ElevatorMotionMagicCommand(double target) {
+public class ElevatorHome extends Command {
+  public ElevatorHome() {
     // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
     requires(Robot.elevator);
-    this.target = target;
-
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.setTargetPosition(target);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " V: " + Robot.elevator.getMotorOutputVoltage());
-    Robot.elevator.updateMotionMagic();
+    Robot.elevator.home();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.elevator.isInPosition();
+    if (Robot.elevator.isLowerLimitPressed()) {
+      return true;
+    }
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.elevator.resetSensorPosition();
+    Robot.elevator.setHomed(true);
   }
 
   // Called when another command which requires one or more of the same

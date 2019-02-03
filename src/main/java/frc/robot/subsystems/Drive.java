@@ -40,7 +40,7 @@ import frc.lib.util.Units;
 import frc.lib.util.Util;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.commands.drivetrain.DrivetrainJoystickCommand;
+import frc.robot.commands.drivetrain.DrivetrainJoystick;
 
 /**
  * Add your docs here.
@@ -123,7 +123,7 @@ public class Drive extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new DrivetrainJoystickCommand());
+    setDefaultCommand(new DrivetrainJoystick());
   }
 
   public void drive(ControlMode controlMode, double left, double right) {

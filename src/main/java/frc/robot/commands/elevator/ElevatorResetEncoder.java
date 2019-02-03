@@ -10,29 +10,29 @@ package frc.robot.commands.elevator;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorJoystickCommand extends Command {
-
-  public ElevatorJoystickCommand() {
+public class ElevatorResetEncoder extends Command {
+  public ElevatorResetEncoder() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
     requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.elevator.resetSensorPosition();
+    Robot.elevator.setTargetPosition(0);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.elevator.setTargetPosition(Robot.elevator.getTargetPosition() + 0.4 * Robot.oi.subsystemController.leftStick.getYCubed());
-    // System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " V: " + Robot.elevator.getMotorOutputVoltage());
-    Robot.elevator.updateMotionMagic();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
