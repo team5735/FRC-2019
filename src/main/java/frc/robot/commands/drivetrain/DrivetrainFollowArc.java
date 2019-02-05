@@ -27,7 +27,7 @@ public class DrivetrainFollowArc extends Command {
   public DrivetrainFollowArc(Trajectory<TimedState<Pose2dWithCurvature>> trajectory, boolean resetPose) {
     this.trajectory = new TrajectoryIterator<>(new TimedView<>(trajectory));
     this.resetPose = resetPose;
-    // requires(Robot.drive);
+    requires(Robot.drivetrain);
   }
 
   // Called just before this Command runs the first time

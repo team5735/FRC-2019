@@ -7,7 +7,10 @@
 
 package frc.robot.commands.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.command.Command;
+import frc.lib.util.DriveSignal;
 import frc.robot.Robot;
 
 public class DrivetrainManual extends Command {
@@ -25,6 +28,7 @@ public class DrivetrainManual extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    // Robot.drive.drive(ControlMode.PercentOutput, new DriveSignal(Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed()));
     Robot.drivetrain.updatePercentOutput(Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed());
     // Robot.drivetrain.updateArcadePercent(Robot.oi.drivetrainController.rightStick.getYCubed(), Robot.oi.drivetrainController.leftStick.getXCubed(), false);
   }

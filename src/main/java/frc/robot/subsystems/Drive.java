@@ -77,13 +77,45 @@ public class Drive extends Subsystem {
 
   private DriveControlState driveControlState;
 
+  // PID Right
+  public static final double RIGHT_kF = 1023. / 3600, RIGHT_kP = 0.005, RIGHT_kI = 0.001, RIGHT_kD = 10;
+
+  // PID Left
+  public static final double LEFT_kF = 1023. / 3700, LEFT_kP = 0.005, LEFT_kI = 0.001, LEFT_kD = 10;
+
   public Drive() {
     periodicIO = new PeriodicIO();
+
     leftMaster = new TalonSRX(Constants.DRIVETRAIN_LEFT_MASTER_MOTOR_ID);
+    leftMaster.configFactoryDefault();
+    leftMaster.setSensorPhase(true);
+    leftMaster.selectProfileSlot(0, 0);
+    leftMaster.config_kP(0, LEFT_kP);
+    leftMaster.config_kI(0, LEFT_kI);
+    leftMaster.config_kD(0, LEFT_kD);
+    leftMaster.config_kF(0, LEFT_kF);
+
     leftFollower = new TalonSRX(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID);
+    leftFollower.configFactoryDefault();
+    leftFollower.follow(leftMaster);
+
     rightMaster = new TalonSRX(Constants.DRIVETRAIN_RIGHT_MASTER_MOTOR_ID);
+    rightMaster.configFactoryDefault();
+    rightMaster.setInverted(true);
+    rightMaster.setSensorPhase(true);
+    rightMaster.selectProfileSlot(0, 0);
+    rightMaster.config_kP(0, RIGHT_kP);
+    rightMaster.config_kI(0, RIGHT_kI);
+    rightMaster.config_kD(0, RIGHT_kD);
+    rightMaster.config_kF(0, RIGHT_kF);
+
     rightFollower = new TalonSRX(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID);
-    
+    rightFollower.configFactoryDefault();
+    rightFollower.setInverted(true);
+    rightFollower.follow(rightMaster);
+
+    pigeon = new PigeonIMU(rightFollower); // Motor pigeon is attachd to
+
     final DCMotorTransmission transmission = new DCMotorTransmission(1.0 / Constants.kDriveKv,
         Units.inches_to_meters(Constants.kDriveWheelRadiusInches)
             * Units.inches_to_meters(Constants.kDriveWheelRadiusInches) * Constants.kRobotLinearInertia
@@ -208,9 +240,9 @@ public class Drive extends Subsystem {
       rightMaster.set(ControlMode.PercentOutput, periodicIO.right_demand, DemandType.ArbitraryFeedForward, 0.0);
     } else {
       leftMaster.set(ControlMode.Velocity, periodicIO.left_demand, DemandType.ArbitraryFeedForward,
-          periodicIO.left_feedforward + Constants.kDriveVelocityKd * periodicIO.left_accel / 1023.0);
+          periodicIO.left_feedforward + LEFT_kD * periodicIO.left_accel / 1023.0);
       rightMaster.set(ControlMode.Velocity, periodicIO.right_demand, DemandType.ArbitraryFeedForward,
-          periodicIO.right_feedforward + Constants.kDriveVelocityKd * periodicIO.right_accel / 1023.0);
+          periodicIO.right_feedforward + RIGHT_kD * periodicIO.right_accel / 1023.0);
     }
   }
 
@@ -650,10 +682,10 @@ public class Drive extends Subsystem {
 
   public boolean isDoneWithTrajectory() {
     if (driveControlState != DriveControlState.PATH_FOLLOWING) {
-        return false;
+      return false;
     }
     return this.isDone() || overrideTrajectory;
-}
+  }
 
   public Pose2d error() {
     return mError;

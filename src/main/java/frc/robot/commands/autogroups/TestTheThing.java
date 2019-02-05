@@ -16,7 +16,7 @@ public class TestTheThing extends CommandGroup {
    * Add your docs here.
    */
   public TestTheThing() {
-    requires(Robot.drivetrain);
+    // requires(Robot.drivetrain);
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -33,6 +33,6 @@ public class TestTheThing extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    addSequential(new DrivetrainFollowArc(Robot.trajectoryGenerator.getTrajectorySet().sideStartToNearScale.get(true)));
+    // addSequential(new DrivetrainFollowArc(Robot.trajectoryGenerator.getTrajectorySet().sideStartToNearScale.get(true)));
   }
 }

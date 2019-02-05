@@ -47,14 +47,6 @@ public class Constants {
     public static final double kPathLookaheadTime = 0.4;  // seconds to look ahead along the path for steering
     public static final double kPathMinLookaheadDistance = 24.0;  // inches
 
-    //PID
-    public static final double kDriveVelocityKp = 0.9;
-    public static final double kDriveVelocityKi = 0.0;
-    public static final double kDriveVelocityKd = 10.0;
-    public static final double kDriveVelocityKf = 0.0;
-    public static final int kDriveVelocityIZone = 0;
-    public static final double kDriveVoltageRampRate = 0.0;
-
     // Motor IDs
     public static final int DRIVETRAIN_CONTROLLER_USB_PORT = 0;
     public static final int SUBSYSTEM_CONTROLLER_USB_PORT = 1;
