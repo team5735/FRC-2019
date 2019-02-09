@@ -24,7 +24,7 @@ public class Climber extends Subsystem {
   private TalonSRX climbingMotor;
 
   public Climber() {
-    climbingMotor = new TalonSRX(5);
+    climbingMotor = new TalonSRX(10);
     climbingMotor.configFactoryDefault();
 
   }

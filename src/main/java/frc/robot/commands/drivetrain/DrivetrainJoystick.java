@@ -30,7 +30,7 @@ public class DrivetrainJoystick extends Command {
   @Override
   protected void execute() {
     System.out.println("foo");
-    Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubed(), Robot.oi.drivetrainController.leftStick.getXCubed());
+    Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubed(), Robot.oi.drivetrainController.leftStick.getXCubed(), Robot.oi.drivetrainController.getRawButton(1));
     // Robot.drive.drive(ControlMode.Velocity, Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed());
     // Robot.drivetrain.updateVelocityPercent(Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed());
     // Robot.drivetrain.updateArcadePercent(Robot.oi.drivetrainController.rightStick.getYCubed(), Robot.oi.drivetrainController.leftStick.getXCubed(), false);

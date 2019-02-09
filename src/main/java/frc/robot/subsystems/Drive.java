@@ -200,8 +200,8 @@ public class Drive extends Subsystem {
     }
   }
 
-  public void cheesyDrive(double throttle, double turn) {
-    drive(ControlMode.PercentOutput, cheesyDriveHelper.cheesyDrive(throttle, turn, false));
+  public void cheesyDrive(double throttle, double turn, boolean isQuickTurn) {
+    drive(ControlMode.PercentOutput, cheesyDriveHelper.cheesyDrive(throttle, turn, isQuickTurn));
   }
 
   public synchronized void resetEncoders() {

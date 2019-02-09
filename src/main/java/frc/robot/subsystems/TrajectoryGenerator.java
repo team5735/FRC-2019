@@ -51,22 +51,22 @@ public class TrajectoryGenerator extends Subsystem {
     return mTrajectorySet;
   }
 
-//   public Trajectory<TimedState<Pose2dWithCurvature>> generateTrajectory(boolean reversed, final List<Pose2d> waypoints,
-//       final List<TimingConstraint<Pose2dWithCurvature>> constraints, double max_vel, // inches/s
-//       double max_accel, // inches/s^2
-//       double max_voltage) {
-//     return Robot.drive.generateTrajectory(reversed, waypoints, constraints, max_vel, max_accel, max_voltage);
-//   }
+  public Trajectory<TimedState<Pose2dWithCurvature>> generateTrajectory(boolean reversed, final List<Pose2d> waypoints,
+      final List<TimingConstraint<Pose2dWithCurvature>> constraints, double max_vel, // inches/s
+      double max_accel, // inches/s^2
+      double max_voltage) {
+    return Robot.drive.generateTrajectory(reversed, waypoints, constraints, max_vel, max_accel, max_voltage);
+  }
 
-//   public Trajectory<TimedState<Pose2dWithCurvature>> generateTrajectory(boolean reversed, final List<Pose2d> waypoints,
-//       final List<TimingConstraint<Pose2dWithCurvature>> constraints, double start_vel, // inches/s
-//       double end_vel, // inches/s
-//       double max_vel, // inches/s
-//       double max_accel, // inches/s^2
-//       double max_voltage) {
-//     return Robot.drive.generateTrajectory(reversed, waypoints, constraints, start_vel, end_vel, max_vel, max_accel,
-//         max_voltage);
-//   }
+  public Trajectory<TimedState<Pose2dWithCurvature>> generateTrajectory(boolean reversed, final List<Pose2d> waypoints,
+      final List<TimingConstraint<Pose2dWithCurvature>> constraints, double start_vel, // inches/s
+      double end_vel, // inches/s
+      double max_vel, // inches/s
+      double max_accel, // inches/s^2
+      double max_voltage) {
+    return Robot.drive.generateTrajectory(reversed, waypoints, constraints, start_vel, end_vel, max_vel, max_accel,
+        max_voltage);
+  }
 
   // CRITICAL POSES
   // Origin is the center of the robot when the robot is placed against the middle
@@ -174,23 +174,25 @@ public class TrajectoryGenerator extends Subsystem {
       public final Trajectory<TimedState<Pose2dWithCurvature>> right;
     }
 
-    // public final MirroredTrajectory sideStartToNearScale;
+    public final MirroredTrajectory sideStartToNearScale;
 
-    // private TrajectorySet() {
-    //   sideStartToNearScale = new MirroredTrajectory(getSideStartToNearScale());
+    private TrajectorySet() {
+      sideStartToNearScale = new MirroredTrajectory(getSideStartToNearScale());
 
     }
 
-    // private Trajectory<TimedState<Pose2dWithCurvature>> getSideStartToNearScale() {
-    //   List<Pose2d> waypoints = new ArrayList<>();
-    //   waypoints.add(kSideStartPose);
+    private Trajectory<TimedState<Pose2dWithCurvature>> getSideStartToNearScale() {
+      List<Pose2d> waypoints = new ArrayList<>();
+      waypoints.add(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(180.0)));
+      waypoints.add(new Pose2d(10.0, 0.0, Rotation2d.fromDegrees(180.0)));
+      waypoints.add(new Pose2d(-10.0, -4.0, Rotation2d.fromDegrees(180.0)));
     //   waypoints.add(kSideStartPose.transformBy(Pose2d.fromTranslation(new Translation2d(-120.0, 0.0))));
     //   waypoints.add(kNearScaleEmptyPose);
-    //   return generateTrajectory(true, waypoints,
-    //       Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccelElevatorDown)), kMaxVelocity,
-    //       kMaxAccel, kMaxVoltage);
-    // }
-//   }
+      return generateTrajectory(true, waypoints,
+          Arrays.asList(new CentripetalAccelerationConstraint(kMaxCentripetalAccelElevatorDown)), kMaxVelocity,
+          kMaxAccel, kMaxVoltage);
+    }
+  }
 
   @Override
   public void initDefaultCommand() {

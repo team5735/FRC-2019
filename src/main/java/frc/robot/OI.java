@@ -51,16 +51,16 @@ public class OI {
   // button.whenReleased(new ExampleCommand());
 
   public BobXboxController drivetrainController;
-  public BobXboxController subsystemController;
+  // public BobXboxController subsystemController;
 
   public OI() {
     drivetrainController = new BobXboxController(Constants.DRIVETRAIN_CONTROLLER_USB_PORT);
 
-    subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
-    subsystemController.aButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.BOTTOM_POSITION));
-    subsystemController.bButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.SECOND_POSITION));
-    subsystemController.xButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.THIRD_POSITION));
-    subsystemController.yButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.MAX_POSITION));
+    // subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
+    // subsystemController.aButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.BOTTOM_POSITION));
+    // subsystemController.bButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.SECOND_POSITION));
+    // subsystemController.xButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.THIRD_POSITION));
+    // subsystemController.yButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.MAX_POSITION));
 
   }
 }
