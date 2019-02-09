@@ -7,45 +7,30 @@
 
 package frc.robot.commands.elevator;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.Robot;
 
-public class ElevatorGoToSecondSpaceship extends Command {
-
-  private double elevatorSecondSpaceshipPosition = Robot.elevator.getElevatorSecondSpaceshipPosition();
-
+public class ElevatorGoToSecondSpaceship extends CommandGroup {
+  /**
+   * Add your docs here.
+   */
   public ElevatorGoToSecondSpaceship() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.elevator);
-  }
+    // Add Commands here:
+    // e.g. addSequential(new Command1());
+    // addSequential(new Command2());
+    // these will run in order.
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-    Robot.elevator.setTargetPosition(elevatorSecondSpaceshipPosition);
-    System.out.println("moving to second spaceship position");
-  }
+    // To run multiple commands at the same time,
+    // use addParallel()
+    // e.g. addParallel(new Command1());
+    // addSequential(new Command2());
+    // Command1 and Command2 will run in parallel.
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
+    // A command group will require all of the subsystems that each member
+    // would require.
+    // e.g. if Command1 requires chassis, and Command2 requires arm,
+    // a CommandGroup containing them would require both the chassis and the
+    // arm.
+    addSequential(new ElevatorMotionMagic(Robot.elevator.getElevatorSecondSpaceshipPosition()));
   }
 }

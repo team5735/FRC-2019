@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
@@ -25,10 +26,11 @@ import frc.robot.subsystems.TrajectoryGenerator;
  * project.
  */
 public class Robot extends TimedRobot {
-  // public static Drive drive = new Drive();
-  public static Drivetrain drivetrain = new Drivetrain();
+  public static Drive drive = new Drive();
+  // public static Drivetrain drivetrain = new Drivetrain();
   public static Elevator elevator = new Elevator();
   public static RobotState robotState = new RobotState();
+  public static Climber climber = new Climber();
   // public static BasicSolenoid basicSolenoid = new BasicSolenoid();
   public static OI oi;
 

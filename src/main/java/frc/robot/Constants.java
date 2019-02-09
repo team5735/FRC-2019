@@ -54,7 +54,7 @@ public class Constants {
     public static final int ELEVATOR_MOTOR_ID = 2;
     public static final int ELEVATOR_FOLLOWER_MOTOR_ID = 7;
 
-    public static final int DRIVETRAIN_RIGHT_MASTER_MOTOR_ID = 5;
+    public static final int DRIVETRAIN_RIGHT_MASTER_MOTOR_ID = 7;
     public static final int DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID = 6;
     public static final int DRIVETRAIN_LEFT_MASTER_MOTOR_ID = 1;
     public static final int DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID = 4;

@@ -17,7 +17,7 @@ public class DrivetrainJoystick extends Command {
   public DrivetrainJoystick() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.drivetrain);
+    requires(Robot.drive);
   }
 
   // Called just before this Command runs the first time
@@ -30,9 +30,9 @@ public class DrivetrainJoystick extends Command {
   @Override
   protected void execute() {
     System.out.println("foo");
-    // Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubed(), Robot.oi.drivetrainController.leftStick.getXCubed());
+    Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubed(), Robot.oi.drivetrainController.leftStick.getXCubed());
     // Robot.drive.drive(ControlMode.Velocity, Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed());
-    Robot.drivetrain.updateVelocityPercent(Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed());
+    // Robot.drivetrain.updateVelocityPercent(Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed());
     // Robot.drivetrain.updateArcadePercent(Robot.oi.drivetrainController.rightStick.getYCubed(), Robot.oi.drivetrainController.leftStick.getXCubed(), false);
   }
 

@@ -10,5 +10,11 @@
     ".classpath": true,
     ".project": true
   },
-  "wpilib.online": true
+  "wpilib.online": true,
+  "workbench.colorCustomizations": {
+    // "activityBar.background": "#00AA00"
+    // "editor.background": "#ff0000",
+    // "sideBar.background": "#ff0000",
+    // "foreground": "#ff0000"
+  }
 }

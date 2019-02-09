@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.lib.controllers.BobXboxController;
+import frc.robot.commands.climber.ClimberMove;
 import frc.robot.commands.drivetrain.DrivetrainJoystick;
 import frc.robot.commands.elevator.ElevatorMotionMagic;
 import frc.robot.commands.elevator.ElevatorResetEncoder;
@@ -61,6 +62,5 @@ public class OI {
     subsystemController.xButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.THIRD_POSITION));
     subsystemController.yButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.MAX_POSITION));
 
-    drivetrainController.rightTriggerButton.whileHeld(new DrivetrainJoystick());
   }
 }

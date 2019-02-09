@@ -7,40 +7,30 @@
 
 package frc.robot.commands.elevator;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.Robot;
 
-public class ElevatorGoToFirstSpaceship extends Command {
-
-  private double elevatorFirstSpaceshipPosition = Robot.elevator.getElevatorFirstSpaceshipPosition();
-
+public class ElevatorGoToFirstSpaceship extends CommandGroup {
+  /**
+   * Add your docs here.
+   */
   public ElevatorGoToFirstSpaceship() {
-    requires(Robot.elevator);
-  }
+    // Add Commands here:
+    // e.g. addSequential(new Command1());
+    // addSequential(new Command2());
+    // these will run in order.
 
-  @Override
-  protected void initialize() {
-    Robot.elevator.setTargetPosition(elevatorFirstSpaceshipPosition);
-    System.out.println("moving to first spaceship position");
-  }
+    // To run multiple commands at the same time,
+    // use addParallel()
+    // e.g. addParallel(new Command1());
+    // addSequential(new Command2());
+    // Command1 and Command2 will run in parallel.
 
-  @Override
-  protected void execute() {
-    // System.out.println("Sensor: " + Robot.elevator.getSensorPosition());
-    // System.out.println("Target: " + Robot.elevator.getTargetPosition() * 4096);
-    // Robot.elevator.moveToPosition();
-  }
-
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
-
-  @Override
-  protected void end() {
-  }
-
-  @Override
-  protected void interrupted() {
+    // A command group will require all of the subsystems that each member
+    // would require.
+    // e.g. if Command1 requires chassis, and Command2 requires arm,
+    // a CommandGroup containing them would require both the chassis and the
+    // arm.
+    addSequential(new ElevatorMotionMagic(Robot.elevator.getElevatorFirstSpaceshipPosition()));
   }
 }
