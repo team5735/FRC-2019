@@ -19,8 +19,7 @@ import frc.robot.commands.elevator.ElevatorMotionMagic;
 
 public class Elevator extends Subsystem {
   // Subsystem Setpoints
-  public double
-    BOTTOM_POSITION = 0,
+  public static final double BOTTOM_POSITION = 0,
     FIRST_POSITION = 10,
     SECOND_POSITION = 30,
     THIRD_POSITION = 50,

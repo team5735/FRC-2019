@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.jack;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorJoystick extends Command {
+public class JackJoystick extends Command {
 
-  public ElevatorJoystick() {
-    requires(Robot.elevator);
+  public JackJoystick() {
+    requires(Robot.jack);
   }
 
   // Called just before this Command runs the first time
@@ -24,9 +24,7 @@ public class ElevatorJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.elevator.setTargetPosition(Robot.elevator.getTargetPosition() + 0.4 * Robot.oi.subsystemController.leftStick.getYCubed());
-    // System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " V: " + Robot.elevator.getMotorOutputVoltage());
-    Robot.elevator.updateMotionMagic();
+    Robot.jack.updatePercentOutput(Robot.oi.subsystemController.rightStick.getXCubed());
   }
 
   // Make this return true when this Command no longer needs to run execute()

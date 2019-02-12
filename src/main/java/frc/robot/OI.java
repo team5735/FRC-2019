@@ -7,11 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.lib.controllers.BobXboxController;
-import frc.robot.commands.climber.ClimberMove;
 import frc.robot.commands.drivetrain.DrivetrainJoystick;
 import frc.robot.commands.elevator.ElevatorMotionMagic;
 import frc.robot.commands.elevator.ElevatorResetEncoder;
@@ -51,12 +47,12 @@ public class OI {
   // button.whenReleased(new ExampleCommand());
 
   public BobXboxController drivetrainController;
-  // public BobXboxController subsystemController;
+  public BobXboxController subsystemController;
 
   public OI() {
     drivetrainController = new BobXboxController(Constants.DRIVETRAIN_CONTROLLER_USB_PORT);
 
-    // subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
+    subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
     // subsystemController.aButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.BOTTOM_POSITION));
     // subsystemController.bButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.SECOND_POSITION));
     // subsystemController.xButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.THIRD_POSITION));
