@@ -65,8 +65,8 @@ public class Constants {
     public static final int DRIVETRAIN_LEFT_MASTER_MOTOR_ID = 4;
     public static final int DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID = 5; 
 
-    public static final int CARGO_CLAW_RIGHT = 8;
-    public static final int CARGO_CLAW_LEFT = 9;
+    public static final int CARGO_HOLDER_RIGHT = 8;
+    public static final int CARGO_HOLDER_LEFT = 9;
     
     public static final int CARGO_WHEELS = 12;
 
