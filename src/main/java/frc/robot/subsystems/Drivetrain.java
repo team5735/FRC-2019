@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -25,7 +26,8 @@ public class Drivetrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private TalonSRX leftMaster, rightMaster, leftFollower, rightFollower;
+  private TalonSRX leftMaster, rightMaster, leftFollower;
+  private VictorSPX rightFollower;
   private PigeonIMU pigeonIMU;
 
   private static final int MAX_DRIVETRAIN_VELOCITY = 3700;
@@ -78,12 +80,12 @@ public class Drivetrain extends Subsystem {
     rightMaster.config_kD(0, RIGHT_kD);
     rightMaster.config_kF(0, RIGHT_kF);
 
-    rightFollower = new TalonSRX(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID);
+    rightFollower = new VictorSPX(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID);
     rightFollower.configFactoryDefault();
     rightFollower.setInverted(true);
     rightFollower.follow(rightMaster);
 
-    pigeonIMU = new PigeonIMU(rightFollower); // Motor pigeon is attachd to
+    pigeonIMU = new PigeonIMU(leftFollower); // Motor pigeon is attachd to
   }
 
   public void updatePercentOutput(double leftPercent, double rightPercent) {
