@@ -21,7 +21,6 @@ public class Jack extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-
   private TalonSRX jackMotor;
 
   public Jack() {
@@ -38,7 +37,9 @@ public class Jack extends Subsystem {
   }
 
   // public void updateMotionMagic() {
-  //   jackMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition), DemandType.ArbitraryFeedForward, kA);
+  // jackMotor.set(ControlMode.MotionMagic,
+  // elevatorInchesToEncoderTicks(targetPosition),
+  // DemandType.ArbitraryFeedForward, kA);
   // }
 
   public void updatePercentOutput(double value) {

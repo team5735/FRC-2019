@@ -47,28 +47,20 @@ public class Constants {
     public static final double kPathLookaheadTime = 0.4;  // seconds to look ahead along the path for steering
     public static final double kPathMinLookaheadDistance = 24.0;  // inches
 
-    // Controllers
+    // Motor IDs
     public static final int DRIVETRAIN_CONTROLLER_USB_PORT = 0;
     public static final int SUBSYSTEM_CONTROLLER_USB_PORT = 1;
 
-    // Motor IDs
     public static final int ELEVATOR_MOTOR_ID = 6;
     public static final int ELEVATOR_FOLLOWER_MOTOR_ID = 7;
 
-    public static final int JACK_MOTOR_ID = 14;
+    public static final int JACK_MOTOR_ID = 14; // tdfaasdfin
 
-    public static final int INTAKE_ARM_MOTOR_ID = 10;
-    public static final int INTAKE_ARM_MOTOR_FOLLOWER_ID = 11;
+    public static final int INTAKE_ARM_MOTOR_ID = 123;
+    public static final int INTAKE_ARM_MOTOR_FOLLOWER_ID = 123124;
 
     public static final int DRIVETRAIN_RIGHT_MASTER_MOTOR_ID = 2;
     public static final int DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID = 3;
     public static final int DRIVETRAIN_LEFT_MASTER_MOTOR_ID = 4;
     public static final int DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID = 5; 
-
-    public static final int CARGO_HOLDER_RIGHT = 8;
-    public static final int CARGO_HOLDER_LEFT = 9;
-    
-    public static final int CARGO_WHEELS = 12;
-
-    public static final int HP_INTAKE = 13;
 }
