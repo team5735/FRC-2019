@@ -5,43 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drivetrain;
+package frc.robot.commands.elevator;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
-import edu.wpi.first.wpilibj.Joystick.ButtonType;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.lib.controllers.BobXboxController;
-import frc.lib.util.DriveSignal;
 import frc.robot.Robot;
 
-public class DrivetrainJoystick extends Command {
-  public DrivetrainJoystick() {
+public class ElevatorHoldPosition extends Command {
+  public ElevatorHoldPosition() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.drive);
+    requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    System.out.println("foo");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("foo");
-    Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubed(),
-        Robot.oi.drivetrainController.leftStick.getXCubed(),
-         Robot.oi.drivetrainController.getRawButton(5)); // left trigger button
-    // Robot.drive.drive(ControlMode.Velocity,
-    // Robot.oi.drivetrainController.leftStick.getYCubed(),
-    // Robot.oi.drivetrainController.rightStick.getYCubed());
-    // Robot.drivetrain.updateVelocityPercent(Robot.oi.drivetrainController.leftStick.getYCubed(),
-    // Robot.oi.drivetrainController.rightStick.getYCubed());
-    // Robot.drivetrain.updateArcadePercent(Robot.oi.drivetrainController.rightStick.getYCubed(),
-    // Robot.oi.drivetrainController.leftStick.getXCubed(), false);
+    Robot.elevator.updateMotionMagic();
   }
 
   // Make this return true when this Command no longer needs to run execute()

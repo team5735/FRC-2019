@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.solenoid;
+package frc.robot.commands.cargoholder;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class BasicSolenoidToggleCompressorCommand extends Command {
-  public BasicSolenoidToggleCompressorCommand() {
+public class CargoHolderRun extends Command {
+  public CargoHolderRun() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    // requires(Robot.basicSolenoid);
+    requires(Robot.cargoHolder);
   }
 
   // Called just before this Command runs the first time
@@ -25,14 +25,13 @@ public class BasicSolenoidToggleCompressorCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("toggle compressor");
-    // Robot.basicSolenoid.toggleCompressing();
+    Robot.cargoHolder.run(Robot.oi.subsystemController.triggers.getRight());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true
@@ -46,4 +45,3 @@ public class BasicSolenoidToggleCompressorCommand extends Command {
   protected void interrupted() {
   }
 }
- 

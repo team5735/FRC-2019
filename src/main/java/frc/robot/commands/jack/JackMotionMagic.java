@@ -5,49 +5,38 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drivetrain;
+package frc.robot.commands.jack;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
-import edu.wpi.first.wpilibj.Joystick.ButtonType;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.lib.controllers.BobXboxController;
-import frc.lib.util.DriveSignal;
 import frc.robot.Robot;
 
-public class DrivetrainJoystick extends Command {
-  public DrivetrainJoystick() {
+public class JackMotionMagic extends Command {
+
+  private double target;
+
+  public JackMotionMagic(double target) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.drive);
+    requires(Robot.jack);
+    this.target = target;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    System.out.println("foo");
+    Robot.jack.setTargetPosition(target);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("foo");
-    Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubed(),
-        Robot.oi.drivetrainController.leftStick.getXCubed(),
-         Robot.oi.drivetrainController.getRawButton(5)); // left trigger button
-    // Robot.drive.drive(ControlMode.Velocity,
-    // Robot.oi.drivetrainController.leftStick.getYCubed(),
-    // Robot.oi.drivetrainController.rightStick.getYCubed());
-    // Robot.drivetrain.updateVelocityPercent(Robot.oi.drivetrainController.leftStick.getYCubed(),
-    // Robot.oi.drivetrainController.rightStick.getYCubed());
-    // Robot.drivetrain.updateArcadePercent(Robot.oi.drivetrainController.rightStick.getYCubed(),
-    // Robot.oi.drivetrainController.leftStick.getXCubed(), false);
+    Robot.jack.updateMotionMagic();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.jack.isInPosition();
   }
 
   // Called once after isFinished returns true

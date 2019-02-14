@@ -24,7 +24,7 @@ public class ElevatorJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.elevator.setTargetPosition(Robot.elevator.getTargetPosition() + 0.4 * Robot.oi.subsystemController.leftStick.getYCubed());
+    Robot.elevator.setTargetPosition(Robot.elevator.getTargetPosition() + 0.2 * Robot.oi.subsystemController.leftStick.getYCubed());
     // System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " V: " + Robot.elevator.getMotorOutputVoltage());
     Robot.elevator.updateMotionMagic();
   }

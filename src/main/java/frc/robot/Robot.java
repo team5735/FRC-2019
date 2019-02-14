@@ -21,11 +21,9 @@ import frc.robot.subsystems.Jack;
 import frc.robot.subsystems.TrajectoryGenerator;
 
 /**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
+ * FRC team 5735 space mission thing 2019
+ * 
+ * Written by Walker Whitehouse circa 2019
  */
 public class Robot extends TimedRobot {
   public static Drive drive = new Drive();

@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -43,16 +44,19 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.commands.drivetrain.DrivetrainJoystick;
 
-/**
- * Add your docs here.
- */
 public class Drive extends Subsystem {
-  /**
-   * Add your docs here.
-   */
   private static final double DRIVE_ENCODER_PPR = 4096.;
 
-  private TalonSRX leftMaster, rightMaster, leftFollower, rightFollower;
+  /**
+   * One of the Drive train motors is a VictorSPX
+   * 
+   * private TalonSRX leftMaster, rightMaster, leftFollower, rightFollower;
+   * 
+   */
+
+  private TalonSRX leftMaster, rightMaster, rightFollower;
+  private VictorSPX leftFollower;
+
   private final CheesyDriveHelper cheesyDriveHelper = new CheesyDriveHelper();
   private PigeonIMU pigeon;
   public Rotation2d gyro_heading;
@@ -108,7 +112,10 @@ public class Drive extends Subsystem {
     leftMaster.config_kF(0, LEFT_kF);
     leftMaster.configNeutralDeadband(0.04, 0);
 
-    leftFollower = new TalonSRX(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID);
+    // leftFollower = new TalonSRX(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID);
+
+    leftFollower = new VictorSPX(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID);
+    leftFollower.setInverted(false);
     leftFollower.configFactoryDefault();
     leftFollower.follow(leftMaster);
     leftFollower.configNeutralDeadband(0.04, 0);
@@ -141,7 +148,6 @@ public class Drive extends Subsystem {
         Constants.kRobotAngularDrag, Units.inches_to_meters(Constants.kDriveWheelDiameterInches / 2.0),
         Units.inches_to_meters(Constants.kDriveWheelTrackWidthInches / 2.0 * Constants.kTrackScrubFactor), transmission,
         transmission);
-    pigeon = new PigeonIMU(leftMaster); // Motor pigeon is attachd to
     leftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_11_UartGadgeteer, 10, 10);
 
     error = Pose2d.identity();

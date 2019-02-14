@@ -56,6 +56,8 @@ public class Constants {
 
     public static final int JACK_MOTOR_ID = 14; // tdfaasdfin
 
+    public static final int CARGO_INTAKE_MOTOR_ID = 4206969;
+
     public static final int INTAKE_ARM_MOTOR_ID = 123;
     public static final int INTAKE_ARM_MOTOR_FOLLOWER_ID = 123124;
 

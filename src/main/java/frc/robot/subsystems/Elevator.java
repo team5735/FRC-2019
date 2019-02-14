@@ -15,7 +15,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.commands.elevator.ElevatorJoystick;
-import frc.robot.commands.elevator.ElevatorMotionMagic;
 
 public class Elevator extends Subsystem {
   // Subsystem Setpoints
@@ -31,8 +30,6 @@ public class Elevator extends Subsystem {
   // Subsystem States
   private boolean isHomed = false;
   private double targetPosition = 0;    // Inches
-  private double elevatorFirstSpaceshipPosition = 10;
-  private double elevatorSecondSpaceshipPosition = 20;
 
   // Subsystem Constants
   private static final double HOMING_SPEED = -0.2;            // Percent Output
@@ -105,14 +102,6 @@ public class Elevator extends Subsystem {
     }else{
       this.targetPosition = targetPosition;
     }
-  }
-
-  public double getElevatorFirstSpaceshipPosition() {
-    return elevatorFirstSpaceshipPosition;
-  }
-
-  public double getElevatorSecondSpaceshipPosition() {
-    return elevatorSecondSpaceshipPosition;
   }
 
   public void updateMotionMagic() {

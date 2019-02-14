@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.solenoid;
+package frc.robot.commands.hatchholder;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class BasicSolenoidToggleSolenoidCommand extends Command {
-  public BasicSolenoidToggleSolenoidCommand() {
+public class HatchHolderToggleCompressor extends Command {
+  public HatchHolderToggleCompressor() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    // requires(Robot.basicSolenoid);
+    requires(Robot.hatchHolder);
   }
 
   // Called just before this Command runs the first time
@@ -25,8 +25,7 @@ public class BasicSolenoidToggleSolenoidCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("toggle solenoid");
-    // Robot.basicSolenoid.togglePosition();
+    Robot.hatchHolder.toggleCompressing();
   }
 
   // Make this return true when this Command no longer needs to run execute()

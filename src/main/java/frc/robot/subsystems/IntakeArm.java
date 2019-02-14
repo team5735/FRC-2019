@@ -25,10 +25,10 @@ public class IntakeArm extends Subsystem {
   private TalonSRX intakeArmFollower;
 
   // PID Values
-  private static final double kP = 3;
+  private static final double kP = 0.1;
   private static final double kI = 0;
-  private static final double kD = 5;
-  private static final double kF = 0.337 * 1023 / 70.;
+  private static final double kD = 0;
+  private static final double kF = 0;
   private static final double kA = 0; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
 
   public IntakeArm() {
@@ -55,22 +55,8 @@ public class IntakeArm extends Subsystem {
     intakeArmFollower = new TalonSRX(Constants.INTAKE_ARM_MOTOR_FOLLOWER_ID);
     intakeArmFollower.configFactoryDefault();
 
-    intakeArmFollower.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
-    intakeArmFollower.setInverted(true);
-    intakeArmFollower.setSensorPhase(true);
-    intakeArmFollower.overrideLimitSwitchesEnable(true);
-    resetSensorPosition();
-
-    // Set motion magic parameters
-    // intakeArmFollower.configMotionCruiseVelocity(elevatorInchesToEncoderTicks(CRUSING_VEL));
-    // intakeArmFollower.configMotionAcceleration((int) (elevatorInchesToEncoderTicks(CRUSING_VEL) / TIME_TO_REACH_CRUSING_VEL));
-
-    // Set main motor PID values
-    intakeArmFollower.selectProfileSlot(0, 0);
-    intakeArmFollower.config_kP(0, kP);
-    intakeArmFollower.config_kI(0, kI);
-    intakeArmFollower.config_kD(0, kD);
-    intakeArmFollower.config_kF(0, kF);
+    intakeArmFollower.follow(intakeArmMotor);
+    intakeArmFollower.setInverted(false);
   }
 
   @Override
