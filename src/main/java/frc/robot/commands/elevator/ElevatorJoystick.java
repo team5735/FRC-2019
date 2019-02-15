@@ -24,8 +24,8 @@ public class ElevatorJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    rightTriggerValue = Robot.oi.subsystemController.triggers.getRight();
-    leftTriggerValue = Robot.oi.subsystemController.triggers.getLeft();
+    double rightTriggerValue = Robot.oi.subsystemController.triggers.getRight();
+    double leftTriggerValue = Robot.oi.subsystemController.triggers.getLeft();
 
     double deltaPosition;
     if(rightTriggerValue > 0.05) {

@@ -11,6 +11,8 @@ import frc.lib.controllers.BobXboxController;
 import frc.robot.commands.drivetrain.DrivetrainJoystick;
 import frc.robot.commands.elevator.ElevatorMotionMagic;
 import frc.robot.commands.elevator.ElevatorResetEncoder;
+import frc.robot.commands.hatchholder.HatchHolderToggleClaw;
+import frc.robot.commands.hatchholder.HatchHolderToggleCompressor;
 
 
 /**
