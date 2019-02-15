@@ -30,7 +30,7 @@ public class CargoHolder extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+     setDefaultCommand(new CargoHolderRun());
   }
 
   public void run(double targetPercent) {

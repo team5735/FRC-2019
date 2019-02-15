@@ -9,6 +9,9 @@ package frc.robot.commands.cargoholder;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+// ====================================================================================
+// ======================= CHANGE THIS LATER WHEN YOU HAVE TIME!!! ====================
+// ====================================================================================
 
 public class CargoHolderRun extends Command {
   public CargoHolderRun() {
@@ -17,15 +20,24 @@ public class CargoHolderRun extends Command {
     requires(Robot.cargoHolder);
   }
 
+  private double speed = 0.4;
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.cargoHolder.run(Robot.oi.subsystemController.triggers.getRight());
+    if (Robot.oi.subsystemController.Dpad.Up.get()) {
+      Robot.cargoHolder.run(speed);
+    } else if (Robot.oi.subsystemController.Dpad.Down.get()) {
+      Robot.cargoHolder.run(-speed);
+    } else {
+      Robot.cargoHolder.run(0);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

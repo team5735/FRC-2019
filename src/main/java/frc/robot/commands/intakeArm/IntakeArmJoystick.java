@@ -25,7 +25,7 @@ public class IntakeArmJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.intakeArm.updatePercentOutput(Robot.oi.subsystemController.leftStick.getXCubed());
+    Robot.intakeArm.updatePercentOutput(Robot.oi.subsystemController.leftStick.getYCubed());
   }
 
   // Make this return true when this Command no longer needs to run execute()
