@@ -10,8 +10,8 @@ package frc.robot.commands.hatchholder;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class HatchHolderToggleClaw extends Command {
-  public HatchHolderToggleClaw() {
+public class HatchHolderToggleExtentention extends Command {
+  public HatchHolderToggleExtentention() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.hatchHolder);
@@ -25,7 +25,7 @@ public class HatchHolderToggleClaw extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.hatchHolder.toggleClaw();
+    Robot.hatchHolder.toggleExtentention();
   }
 
   // Make this return true when this Command no longer needs to run execute()

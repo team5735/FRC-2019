@@ -37,7 +37,7 @@ public class IntakeArm extends Subsystem {
     intakeArmMotor.configFactoryDefault();
 
     intakeArmMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
-    intakeArmMotor.setInverted(true);
+    intakeArmMotor.setInverted(false);
     intakeArmMotor.setSensorPhase(true);
     intakeArmMotor.overrideLimitSwitchesEnable(true);
     resetSensorPosition();
@@ -57,7 +57,7 @@ public class IntakeArm extends Subsystem {
     intakeArmFollower.configFactoryDefault();
 
     intakeArmFollower.follow(intakeArmMotor);
-    intakeArmFollower.setInverted(false);
+    intakeArmFollower.setInverted(true);
   }
 
   @Override

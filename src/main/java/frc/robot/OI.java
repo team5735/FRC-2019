@@ -11,8 +11,7 @@ import frc.lib.controllers.BobXboxController;
 import frc.robot.commands.drivetrain.DrivetrainJoystick;
 import frc.robot.commands.elevator.ElevatorMotionMagic;
 import frc.robot.commands.elevator.ElevatorResetEncoder;
-import frc.robot.commands.hatchholder.HatchHolderToggleClaw;
-import frc.robot.commands.hatchholder.HatchHolderToggleCompressor;
+import frc.robot.commands.hatchholder.*;
 
 
 /**
@@ -56,7 +55,8 @@ public class OI {
 
     subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
     subsystemController.aButton.whenPressed(new HatchHolderToggleClaw());
-    subsystemController.bButton.whenPressed(new HatchHolderToggleCompressor());
+    subsystemController.bButton.whenPressed(new HatchHolderToggleExtentention());
+    subsystemController.xButton.whenPressed(new HatchHolderToggleCompressor());
 //     subsystemController.aButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.BOTTOM_POSITION));
 //     subsystemController.bButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.SECOND_POSITION));
     // subsystemController.xButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.THIRD_POSITION));

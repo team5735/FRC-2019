@@ -18,11 +18,12 @@ public class HatchHolder extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private DoubleSolenoid doubleSolenoid;
+  private DoubleSolenoid clawSolenoid, extentionSolenoid;
   private Compressor compressor;
 
   public HatchHolder() {
-    doubleSolenoid = new DoubleSolenoid(1, 1, 0); // PCM, forward id, reverse id
+    clawSolenoid = new DoubleSolenoid(1, 1, 0); // PCM, forward id, reverse id
+    extentionSolenoid = new DoubleSolenoid(1, 2, 3);
     compressor = new Compressor(1);
     compressor.setClosedLoopControl(false);
   }
@@ -34,15 +35,23 @@ public class HatchHolder extends Subsystem {
   }
 
   public void open() {
-    doubleSolenoid.set(DoubleSolenoid.Value.kForward);
+    clawSolenoid.set(DoubleSolenoid.Value.kForward);
   }
 
   public void close() {
-    doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+    clawSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void togglePosition() {
-    if (doubleSolenoid.get() == DoubleSolenoid.Value.kForward) {
+  public void toggleClaw() {
+    if (clawSolenoid.get() == DoubleSolenoid.Value.kForward) {
+      close();
+    } else {
+      open();
+    }
+  }
+
+  public void toggleExtentention() {
+    if (clawSolenoid.get() == DoubleSolenoid.Value.kForward) {
       close();
     } else {
       open();
