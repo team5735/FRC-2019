@@ -5,39 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.cargoholder;
+package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-// ====================================================================================
-// ======================= CHANGE THIS LATER WHEN YOU HAVE TIME!!! ====================
-// ====================================================================================
 
-public class CargoHolderRun extends Command {
-  public CargoHolderRun() {
+public class ElevatorManuel extends Command {
+  public ElevatorManuel() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.cargoHolder);
+    requires(Robot.elevator);
   }
-
-  private double speed = 0.8;
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.oi.subsystemController.Dpad.Up.get()) {
-      Robot.cargoHolder.run(speed);
-    } else if (Robot.oi.subsystemController.Dpad.Down.get()) {
-      Robot.cargoHolder.run(-speed);
-    } else {
-      Robot.cargoHolder.run(0);
-    }
+    Robot.elevator.updatePercentOutput(Robot.oi.subsystemController.rightStick.getYCubed());
   }
 
   // Make this return true when this Command no longer needs to run execute()

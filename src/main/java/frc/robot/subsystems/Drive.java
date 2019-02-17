@@ -160,7 +160,9 @@ public class Drive extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new DrivetrainJoystick());
+    if (Constants.DRIVETRAIN_DO_STUFF) {
+      setDefaultCommand(new DrivetrainJoystick());
+    }
   }
 
   public void drive(ControlMode controlMode, double left, double right) {
@@ -632,5 +634,9 @@ public class Drive extends Subsystem {
 
   public TimedState<Pose2dWithCurvature> setpoint() {
     return mSetpoint;
+  }
+
+  public String periodicOutput() {
+    return "";
   }
 }

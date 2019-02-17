@@ -125,6 +125,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    Robot.elevator.resetSensorPosition();
   }
 
   /**
@@ -133,6 +134,16 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+
+    //Periodic testing outputs
+    System.out.println("Drive");
+    System.out.println(drive.periodicOutput());
+    System.out.println("Elevator");
+    System.out.println(elevator.periodicOutput());
+    System.out.println("Intake Arm");
+    System.out.println(intakeArm.periodicOutput());
+    System.out.println("jack");
+    System.out.println(jack.periodicOutput());
   }
 
   /**

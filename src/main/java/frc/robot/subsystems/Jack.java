@@ -36,8 +36,8 @@ public class Jack extends Subsystem {
 
   // Encoder Conversion Constants
   private static final double ENCODER_TICKS_PER_REVOLUTION = 12;
-  private static final double GEAR_RATIO = 1 / 70.;
-  private static final int SPROCKET_TOOTH_COUNT = 16;
+  private static final double GEAR_RATIO = 1 / 100 * 18 / 30;
+  private static final int SPROCKET_TOOTH_COUNT = 22;
   private static final double LENGTH_OF_LINK = 0.25;
 
   // PID Values
@@ -73,7 +73,9 @@ public class Jack extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new JackJoystick());
+    if (Constants.JACK_DO_STUFF) {
+      setDefaultCommand(new JackJoystick());
+    }
   }
 
     /**
@@ -139,5 +141,19 @@ public class Jack extends Subsystem {
 
   public double getMotorOutputPercent() {
     return jackMotor.getMotorOutputPercent();
+  }
+
+  public boolean isUpperLimitSwitchPressed() {
+    return jackMotor.getSensorCollection().isFwdLimitSwitchClosed();
+  }
+
+  public boolean isLowerLimitSwitchPressed() {
+    return jackMotor.getSensorCollection().isRevLimitSwitchClosed();
+  }
+
+  public String periodicOutput() {
+    // return "" + jackMotor.getSelectedSensorPosition();
+    return "Upper: " + (isUpperLimitSwitchPressed() ? "Yes" : "No ") + "Lower: " + (isLowerLimitSwitchPressed() ? "Yes" : "No ");
+    // return "";
   }
 }

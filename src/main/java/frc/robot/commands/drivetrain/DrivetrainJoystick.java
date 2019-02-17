@@ -33,8 +33,8 @@ public class DrivetrainJoystick extends Command {
   protected void execute() {
     System.out.println("foo");
     Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubed(),
-        Robot.oi.drivetrainController.leftStick.getXCubed(),
-         Robot.oi.drivetrainController.getRawButton(5)); // left trigger button
+        Robot.oi.drivetrainController.leftStick.getXCubed() * 0.5,
+         Robot.oi.drivetrainController.triggers.getLeft() > 0.5); // left trigger 
     // Robot.drive.drive(ControlMode.Velocity,
     // Robot.oi.drivetrainController.leftStick.getYCubed(),
     // Robot.oi.drivetrainController.rightStick.getYCubed());

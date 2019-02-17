@@ -24,7 +24,7 @@ public class JackJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.jack.updatePercentOutput(Robot.oi.subsystemController.rightStick.getYCubed());
+    // Robot.jack.updatePercentOutput(Robot.oi.subsystemController.rightStick.getYCubed());
   }
 
   // Make this return true when this Command no longer needs to run execute()

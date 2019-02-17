@@ -11,10 +11,12 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.commands.elevator.ElevatorJoystick;
+import frc.robot.commands.elevator.ElevatorManuel;
 
 public class Elevator extends Subsystem {
   // Subsystem Setpoints
@@ -25,7 +27,8 @@ public class Elevator extends Subsystem {
     MAX_POSITION = 70;
 
   // Subsystem Motors
-  private TalonSRX elevatorMotor, elevatorFollowerMotor;
+  private TalonSRX elevatorMotor;
+  private VictorSPX elevatorFollowerMotor;
 
   // Subsystem States
   private boolean isHomed = false;
@@ -76,7 +79,7 @@ public class Elevator extends Subsystem {
     elevatorMotor.config_kF(0, kF);
 
     // Initialize follower motor
-    elevatorFollowerMotor = new TalonSRX(Constants.ELEVATOR_FOLLOWER_MOTOR_ID);
+    elevatorFollowerMotor = new VictorSPX(Constants.ELEVATOR_FOLLOWER_MOTOR_ID);
     elevatorFollowerMotor.configFactoryDefault();
     // elevatorFollowerMotor.set(ControlMode.Follower, Constants.ELEVATOR_MOTOR_ID);
     elevatorFollowerMotor.follow(elevatorMotor);
@@ -88,7 +91,10 @@ public class Elevator extends Subsystem {
    * This command will run whenever there is no other command using the subsystem
    */
   public void initDefaultCommand() {
-    setDefaultCommand(new ElevatorJoystick());
+    if (Constants.ELEVATOR_DO_STUFF) {
+      // setDefaultCommand(new ElevatorJoystick());
+      setDefaultCommand(new ElevatorManuel());
+    }
   }
 
   /**
@@ -105,7 +111,8 @@ public class Elevator extends Subsystem {
   }
 
   public void updateMotionMagic() {
-    elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition), DemandType.ArbitraryFeedForward, kA);
+    elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition));
+    // elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition), DemandType.ArbitraryFeedForward, kA);
   }
 
   public void updatePercentOutput(double value) {
@@ -138,12 +145,12 @@ public class Elevator extends Subsystem {
     return elevatorMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
-  private static int elevatorInchesToEncoderTicks(double elevatorInches) {
+  public int elevatorInchesToEncoderTicks(double elevatorInches) {
     return (int)((elevatorInches * ENCODER_TICKS_PER_REVOLUTION) / GEAR_RATIO / SPROCKET_TOOTH_COUNT / LENGTH_OF_LINK
     / NUMBER_OF_STAGES);
   }
 
-  private static double encoderTicksToElevatorInches(double encoderTicks) {
+  public double encoderTicksToElevatorInches(double encoderTicks) {
     return (encoderTicks / ENCODER_TICKS_PER_REVOLUTION) * GEAR_RATIO * SPROCKET_TOOTH_COUNT * LENGTH_OF_LINK
         * NUMBER_OF_STAGES;
   }
@@ -171,7 +178,6 @@ public class Elevator extends Subsystem {
   }
 
   public int getSensorPosition() {
-    elevatorMotor.set(ControlMode.PercentOutput, 0.5);
     return elevatorMotor.getSensorCollection().getQuadraturePosition();
     // return elevatorMotor.getSelectedSensorPosition();
   }
@@ -182,5 +188,18 @@ public class Elevator extends Subsystem {
 
   public double getMotorOutputPercent() {
     return elevatorMotor.getMotorOutputPercent();
+  }
+
+  public boolean isUpperLimitSwitchPressed() {
+    return elevatorMotor.getSensorCollection().isFwdLimitSwitchClosed();
+  }
+
+  public boolean isLowerLimitSwitchPressed() {
+    return elevatorMotor.getSensorCollection().isRevLimitSwitchClosed();
+  }
+
+  public String periodicOutput() {
+    return "Upper: " + (isUpperLimitSwitchPressed() ? "Yes" : "No ") + "Lower: " + (isLowerLimitSwitchPressed() ? "Yes" : "No ");
+    // return "";
   }
 }

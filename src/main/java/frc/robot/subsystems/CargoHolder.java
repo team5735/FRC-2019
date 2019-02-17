@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
@@ -20,21 +21,33 @@ import frc.robot.commands.cargoholder.CargoHolderRun;
 public class CargoHolder extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  private TalonSRX cargoIntakeMotor;
+  private VictorSPX cargoIntakeMotor;
+  private VictorSPX cargoIntakeMotorFollower;
 
   public CargoHolder() {
-    cargoIntakeMotor = new TalonSRX(Constants.CARGO_INTAKE_MOTOR_ID);
+    cargoIntakeMotor = new VictorSPX(Constants.CARGO_INTAKE_MOTOR_ID);
+    // cargoIntakeMotor = new TalonSRX(Constants.CARGO_INTAKE_MOTOR_ID);
     cargoIntakeMotor.configFactoryDefault();
-    cargoIntakeMotor.overrideLimitSwitchesEnable(true);
+    // cargoIntakeMotor.overrideLimitSwitchesEnable(true);
+
+    cargoIntakeMotorFollower = new VictorSPX(Constants.CARGO_INTAKE_MOTOR_FOLLOWER_ID);
+    cargoIntakeMotorFollower.configFactoryDefault();
+    // cargoIntakeMotorFollower.overrideLimitSwitchesEnable(true);
+    cargoIntakeMotorFollower.follow(cargoIntakeMotor);
+    cargoIntakeMotorFollower.setInverted(true);
   }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-     setDefaultCommand(new CargoHolderRun());
+    setDefaultCommand(new CargoHolderRun());
   }
 
   public void run(double targetPercent) {
     cargoIntakeMotor.set(ControlMode.PercentOutput, targetPercent);
+  }
+
+  public String periodicOutput() {
+    return "";
   }
 }

@@ -34,27 +34,35 @@ public class HatchHolder extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void open() {
+  public void openClaw() {
     clawSolenoid.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void close() {
+  public void closeClaw() {
     clawSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void toggleClaw() {
     if (clawSolenoid.get() == DoubleSolenoid.Value.kForward) {
-      close();
+      closeClaw();
     } else {
-      open();
+      openClaw();
     }
   }
 
+  public void extendExtentention() {
+    extentionSolenoid.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void unextendExtentention() {
+    extentionSolenoid.set(DoubleSolenoid.Value.kReverse);
+  }
+
   public void toggleExtentention() {
-    if (clawSolenoid.get() == DoubleSolenoid.Value.kForward) {
-      close();
+    if (extentionSolenoid.get() == DoubleSolenoid.Value.kForward) {
+      unextendExtentention();
     } else {
-      open();
+      extendExtentention();
     }
   }
 
@@ -72,5 +80,9 @@ public class HatchHolder extends Subsystem {
     } else {
       startCompressing();
     }
+  }
+
+  public String periodicOutput() {
+    return "";
   }
 }

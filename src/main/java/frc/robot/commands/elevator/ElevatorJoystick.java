@@ -24,24 +24,24 @@ public class ElevatorJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double rightTriggerValue = Robot.oi.subsystemController.triggers.getRight();
-    double leftTriggerValue = Robot.oi.subsystemController.triggers.getLeft();
+    // double rightTriggerValue = Robot.oi.subsystemController.triggers.getRight();
+    // double leftTriggerValue = Robot.oi.subsystemController.triggers.getLeft();
+    double input = Robot.oi.subsystemController.leftStick.getYCubed();
 
     double deltaPosition;
-    if(rightTriggerValue > 0.05) {
-      deltaPosition = rightTriggerValue;
-    } else if (leftTriggerValue > 0.05) {
-      deltaPosition = -leftTriggerValue;
+    if (input > 0.07) {
+      deltaPosition = input;
+    } else if (input < -0.07) {
+      deltaPosition = input;
     } else {
       deltaPosition = 0;
     }
 
-    Robot.elevator.setTargetPosition(Robot.elevator.getTargetPosition() + 0.2 * deltaPosition);
-
-//    Robot.elevator.setTargetPosition(Robot.elevator.getTargetPosition() + 0.2 * Robot.oi.subsystemController.leftStick.getYCubed());
+    Robot.elevator.setTargetPosition(Robot.elevator.getTargetPosition() + 0.4 * deltaPosition);
     Robot.elevator.updateMotionMagic();
 
-    // System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " V: " + Robot.elevator.getMotorOutputVoltage());
+    System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + Robot.elevator.encoderTicksToElevatorInches(Robot.elevator.getSensorPosition()) + " V: "
+        + Robot.elevator.getMotorOutputPercent());
   }
 
   // Make this return true when this Command no longer needs to run execute()
