@@ -8,6 +8,9 @@
 package frc.robot;
 
 import frc.lib.controllers.BobXboxController;
+import frc.robot.commands.combos.ElevatorHatchPanel;
+import frc.robot.commands.combos.JackIntakeArmClimbDrivetrainClimb;
+import frc.robot.commands.combos.JackIntakeArmReadyPosition;
 import frc.robot.commands.drivetrain.DrivetrainJoystick;
 import frc.robot.commands.elevator.ElevatorMotionMagic;
 import frc.robot.commands.elevator.ElevatorResetEncoder;
@@ -52,11 +55,17 @@ public class OI {
 
   public OI() {
     drivetrainController = new BobXboxController(Constants.DRIVETRAIN_CONTROLLER_USB_PORT);
+    // drivetrainController.xButton.whenPressed(new JackIntakeArmReadyPosition());
+    // drivetrainController.startButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
 
     subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
-    subsystemController.aButton.whenPressed(new HatchHolderToggleClaw());
-    subsystemController.bButton.whenPressed(new HatchHolderToggleExtentention());
-    subsystemController.xButton.whenPressed(new HatchHolderToggleCompressor());
+    subsystemController.Dpad.Up.whenPressed(new HatchHolderToggleClaw());
+    subsystemController.Dpad.Down.whenPressed(new HatchHolderToggleExtentention());
+    subsystemController.Dpad.Left.whenPressed(new HatchHolderToggleCompressor());
+    subsystemController.aButton.whenPressed(new ElevatorHatchPanel());
+    // subsystemController.bButton.whenPressed(new ElevatorArm(Robot.elevator.SECOND_POSITION, Robot.intakeArm.getCurrentDegrees()));
+    // subsystemController.xButton.whenPressed(new ElevatorArm(Robot.elevator.THIRD_POSITION, Robot.intakeArm.getCurrentDegrees()));
+
 //     subsystemController.aButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.BOTTOM_POSITION));
 //     subsystemController.bButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.SECOND_POSITION));
     // subsystemController.xButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.THIRD_POSITION));

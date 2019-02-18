@@ -5,36 +5,39 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intakeArm;
+package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class IntakeArmJoystick extends Command {
-  public IntakeArmJoystick() {
+public class ControllerRumble extends Command {
+
+  private int duration;
+  public ControllerRumble() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.intakeArm);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    duration = 0;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- PO: " + Robot.intakeArm.getPercentOutput());
+    Robot.oi.drivetrainController.setRumble(RumbleType.kLeftRumble, 1);
+    Robot.oi.drivetrainController.setRumble(RumbleType.kRightRumble, 1);
 
-    Robot.intakeArm.setTargetAngle(Robot.intakeArm.getTargetDegress() + 5 * Robot.oi.subsystemController.leftStick.getYCubed());
-    Robot.intakeArm.updateMotionMagic();
+    duration++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return duration >= 10;
   }
 
   // Called once after isFinished returns true

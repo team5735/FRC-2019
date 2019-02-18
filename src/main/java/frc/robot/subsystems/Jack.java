@@ -58,8 +58,8 @@ public class Jack extends Subsystem {
     resetSensorPosition();
 
     // Set motion magic parameters
-    jackMotor.configMotionCruiseVelocity(jackInchesToEncoderTicks(CRUSING_VEL));
-    jackMotor.configMotionAcceleration((int)(jackInchesToEncoderTicks(CRUSING_VEL) / TIME_TO_REACH_CRUSING_VEL));
+    // jackMotor.configMotionCruiseVelocity(jackInchesToEncoderTicks(CRUSING_VEL));
+    // jackMotor.configMotionAcceleration((int)(jackInchesToEncoderTicks(CRUSING_VEL) / TIME_TO_REACH_CRUSING_VEL));
 
     // Set main motor PID values
     jackMotor.selectProfileSlot(0, 0);
@@ -90,7 +90,7 @@ public class Jack extends Subsystem {
       this.targetPosition = targetPosition;
     }
   }
-  
+
   public boolean isInPosition() {
     double positionError = Math.abs(encoderTicksToJackInches(getSensorPosition()) - this.targetPosition);
     return positionError < THRESHOLD;
@@ -104,8 +104,8 @@ public class Jack extends Subsystem {
     return (encoderTicks / ENCODER_TICKS_PER_REVOLUTION) * GEAR_RATIO * SPROCKET_TOOTH_COUNT * LENGTH_OF_LINK;
   }
 
-  public void updateMotionMagic() {
-    jackMotor.set(ControlMode.MotionMagic, jackInchesToEncoderTicks(targetPosition),
+  public void updatePosition() {
+    jackMotor.set(ControlMode.Position, jackInchesToEncoderTicks(targetPosition),
         DemandType.ArbitraryFeedForward, kA);
   }
 

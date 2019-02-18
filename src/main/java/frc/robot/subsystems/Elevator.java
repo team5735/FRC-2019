@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
-import frc.robot.commands.elevator.ElevatorJoystick;
+import frc.robot.commands.elevator.ElevatorHoldPosition;
 import frc.robot.commands.elevator.ElevatorManuel;
 
 public class Elevator extends Subsystem {
@@ -37,8 +37,8 @@ public class Elevator extends Subsystem {
   // Subsystem Constants
   private static final double HOMING_SPEED = -0.2;            // Percent Output
   private static final double THRESHOLD = 1;                  // Inches
-  private static final double HEIGHT_LIMIT = 80;              // Inches
-  private static final double CRUSING_VEL = 50;               // Inches / sec
+  private static final double HEIGHT_LIMIT = 60;              // Inches
+  private static final double CRUSING_VEL = 5;               // Inches / sec
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
   // Encoder Conversion Constants
@@ -48,12 +48,17 @@ public class Elevator extends Subsystem {
   private static final double LENGTH_OF_LINK = 0.25;
   private static final int NUMBER_OF_STAGES = 3;
 
+  // Conflict range
+  public static final double CONFLICT_LOWER_BOUND = 1;
+  public static final double CONFLICT_UPPER_BOUND = 20;
+  public static final double SAFE_POSITION = 21;
+
   //PID Values
   private static final double kP = 3;
   private static final double kI = 0;
   private static final double kD = 5;
   private static final double kF = 0.337 * 1023 / 70.;
-  private static final double kA = 0; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
+  private static final double kA = 0.1; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
 
   public Elevator() {
     // Initialize main motor
@@ -62,7 +67,7 @@ public class Elevator extends Subsystem {
 
     // Configure main motor sensors
     elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
-    elevatorMotor.setInverted(true);
+    elevatorMotor.setInverted(false);
     elevatorMotor.setSensorPhase(true);
     elevatorMotor.overrideLimitSwitchesEnable(true);
     resetSensorPosition();
@@ -83,7 +88,7 @@ public class Elevator extends Subsystem {
     elevatorFollowerMotor.configFactoryDefault();
     // elevatorFollowerMotor.set(ControlMode.Follower, Constants.ELEVATOR_MOTOR_ID);
     elevatorFollowerMotor.follow(elevatorMotor);
-    elevatorFollowerMotor.setInverted(false);
+    elevatorFollowerMotor.setInverted(true);
   }
 
   @Override
@@ -94,6 +99,7 @@ public class Elevator extends Subsystem {
     if (Constants.ELEVATOR_DO_STUFF) {
       // setDefaultCommand(new ElevatorJoystick());
       setDefaultCommand(new ElevatorManuel());
+      // setDefaultCommand(new ElevatorHoldPosition());
     }
   }
 

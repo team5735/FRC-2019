@@ -9,35 +9,33 @@ package frc.robot.commands.intakeArm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.IntakeArm;
 
-public class IntakeArmMotionMagic extends Command {
-
-  private double target;
-
-  public IntakeArmMotionMagic(double target) {
+public class IntakeArmPreventCollsion extends Command {
+  public IntakeArmPreventCollsion() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.intakeArm);
-    this.target = target;
-
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.intakeArm.setTargetPosition(target);
+    if(Robot.intakeArm.getCurrentDegrees() < IntakeArm.Angle.SAFE) {
+      Robot.intakeArm.setTargetAngle(IntakeArm.Angle.SAFE);
+    }
   }
+  
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " V: " + Robot.elevator.getMotorOutputVoltage());
-    Robot.intakeArm.updateMotionMagic();
+    // Robot.intakeArm.updateMotionMagic();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.intakeArm.isInPosition();
+    return Robot.intakeArm.getCurrentDegrees() > IntakeArm.Angle.SAFE;
   }
 
   // Called once after isFinished returns true

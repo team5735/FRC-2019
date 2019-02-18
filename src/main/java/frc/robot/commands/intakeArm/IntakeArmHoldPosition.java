@@ -5,38 +5,35 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.jack;
+package frc.robot.commands.intakeArm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class JackMotionMagic extends Command {
-
-  private double target;
-
-  public JackMotionMagic(double target) {
+public class IntakeArmHoldPosition extends Command {
+  public IntakeArmHoldPosition() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.jack);
-    this.target = target;
+    requires(Robot.intakeArm);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.jack.setTargetPosition(target);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.jack.updateMotionMagic();
+    // System.out.println(Robot.intakeArm.getSensorPosition());
+    // System.out.println(Robot.intakeArm.getCurrentDegrees());
+    // Robot.intakeArm.updatePosition();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.jack.isInPosition();
+    return false;
   }
 
   // Called once after isFinished returns true

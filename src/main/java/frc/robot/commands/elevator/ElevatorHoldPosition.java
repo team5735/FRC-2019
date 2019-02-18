@@ -25,6 +25,7 @@ public class ElevatorHoldPosition extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    System.out.println("ELEVATOR: " + Robot.elevator.getCurrentHeight());
     Robot.elevator.updateMotionMagic();
   }
 

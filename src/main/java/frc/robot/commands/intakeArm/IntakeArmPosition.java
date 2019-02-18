@@ -10,31 +10,34 @@ package frc.robot.commands.intakeArm;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class IntakeArmJoystick extends Command {
-  public IntakeArmJoystick() {
+public class IntakeArmPosition extends Command {
+
+  private double target;
+
+  public IntakeArmPosition(double target) {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.intakeArm);
+    this.target = target;
+
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.intakeArm.setTargetAngle(target);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- PO: " + Robot.intakeArm.getPercentOutput());
-
-    Robot.intakeArm.setTargetAngle(Robot.intakeArm.getTargetDegress() + 5 * Robot.oi.subsystemController.leftStick.getYCubed());
-    Robot.intakeArm.updateMotionMagic();
+    // System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " V: " + Robot.elevator.getMotorOutputVoltage());
+    // Robot.intakeArm.updatePosition();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.intakeArm.isInPosition();
   }
 
   // Called once after isFinished returns true

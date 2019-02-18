@@ -31,9 +31,9 @@ public class CargoHolderRun extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.oi.subsystemController.Dpad.Up.get()) {
+    if (Robot.oi.subsystemController.leftBumper.get()) {
       Robot.cargoHolder.run(speed);
-    } else if (Robot.oi.subsystemController.Dpad.Down.get()) {
+    } else if (Robot.oi.subsystemController.rightBumper.get()) {
       Robot.cargoHolder.run(-speed);
     } else {
       Robot.cargoHolder.run(0);

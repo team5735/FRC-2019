@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,7 +21,7 @@ public class CargoHolder extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private VictorSPX cargoIntakeMotor;
-  private VictorSPX cargoIntakeMotorFollower;
+  // private VictorSPX cargoIntakeMotorFollower;
 
   public CargoHolder() {
     cargoIntakeMotor = new VictorSPX(Constants.CARGO_INTAKE_MOTOR_ID);
@@ -30,11 +29,11 @@ public class CargoHolder extends Subsystem {
     cargoIntakeMotor.configFactoryDefault();
     // cargoIntakeMotor.overrideLimitSwitchesEnable(true);
 
-    cargoIntakeMotorFollower = new VictorSPX(Constants.CARGO_INTAKE_MOTOR_FOLLOWER_ID);
-    cargoIntakeMotorFollower.configFactoryDefault();
-    // cargoIntakeMotorFollower.overrideLimitSwitchesEnable(true);
-    cargoIntakeMotorFollower.follow(cargoIntakeMotor);
-    cargoIntakeMotorFollower.setInverted(true);
+    // cargoIntakeMotorFollower = new VictorSPX(Constants.CARGO_INTAKE_MOTOR_FOLLOWER_ID);
+    // cargoIntakeMotorFollower.configFactoryDefault();
+    // // cargoIntakeMotorFollower.overrideLimitSwitchesEnable(true);
+    // cargoIntakeMotorFollower.follow(cargoIntakeMotor);
+    // cargoIntakeMotorFollower.setInverted(true);
   }
 
   @Override

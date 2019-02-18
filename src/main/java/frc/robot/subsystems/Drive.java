@@ -44,18 +44,69 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.commands.drivetrain.DrivetrainJoystick;
 
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+/**
+ * DOESN'T WORK !DO NOT USE MOTION PROFILING!
+ * 
+ * 
+ */
+
 public class Drive extends Subsystem {
-  private static final double DRIVE_ENCODER_PPR = 4096.;
+  private static final double DRIVE_ENCODER_PPR = 42.; // 4096.
 
   /**
    * One of the Drive train motors is a VictorSPX
    * 
    * private TalonSRX leftMaster, rightMaster, leftFollower, rightFollower;
    * 
+   * private TalonSRX leftMaster, rightMaster, rightFollower;
+   * private VictorSPX leftFollower;
+   * 
+   *     
+    leftMaster = new TalonSRX(Constants.DRIVETRAIN_LEFT_MASTER_MOTOR_ID);
+    leftMaster.configFactoryDefault();
+    leftMaster.setSensorPhase(true);
+    leftMaster.selectProfileSlot(0, 0);
+    leftMaster.config_kP(0, LEFT_kP);
+    leftMaster.config_kI(0, LEFT_kI);
+    leftMaster.config_kD(0, LEFT_kD);
+    leftMaster.config_kF(0, LEFT_kF);
+    leftMaster.configNeutralDeadband(0.04, 0);
+
+    // leftFollower = new TalonSRX(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID);
+
+    leftFollower = new VictorSPX(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID);
+    leftFollower.setInverted(false);
+    leftFollower.configFactoryDefault();
+    leftFollower.follow(leftMaster);
+    leftFollower.configNeutralDeadband(0.04, 0);
+
+    rightMaster = new TalonSRX(Constants.DRIVETRAIN_RIGHT_MASTER_MOTOR_ID);
+    rightMaster.configFactoryDefault();
+    rightMaster.setInverted(true);
+    rightMaster.setSensorPhase(true);
+    rightMaster.selectProfileSlot(0, 0);
+    rightMaster.config_kP(0, RIGHT_kP);
+    rightMaster.config_kI(0, RIGHT_kI);
+    rightMaster.config_kD(0, RIGHT_kD);
+    rightMaster.config_kF(0, RIGHT_kF);
+    rightMaster.configNeutralDeadband(0.04, 0);
+
+    rightFollower = new TalonSRX(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID);
+    rightFollower.configFactoryDefault();
+    rightFollower.setInverted(true);
+    rightFollower.follow(rightMaster);
+    rightFollower.configNeutralDeadband(0.04, 0);
+
+    pigeon = new PigeonIMU(rightFollower); // Motor pigeon is attachd to
+   * 
    */
 
-  private TalonSRX leftMaster, rightMaster, rightFollower;
-  private VictorSPX leftFollower;
+  private CANSparkMax leftMaster, rightMaster, leftFollower, rightFollower;
+  private CANEncoder leftMasterEncoder, rightMasterEncoder;
 
   private final CheesyDriveHelper cheesyDriveHelper = new CheesyDriveHelper();
   private PigeonIMU pigeon;
@@ -102,6 +153,27 @@ public class Drive extends Subsystem {
   public static final double LEFT_kP = 0.005, LEFT_kI = 0.001, LEFT_kD = 10;
 
   public Drive() {
+    leftMaster = new CANSparkMax(Constants.DRIVETRAIN_LEFT_MASTER_MOTOR_ID, MotorType.kBrushless);
+    leftMaster.restoreFactoryDefaults();
+    leftMasterEncoder = leftMaster.getEncoder();
+    leftMaster.setInverted(false);
+
+    leftFollower = new CANSparkMax(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID, MotorType.kBrushless);
+    leftFollower.restoreFactoryDefaults();
+    leftFollower.follow(leftMaster);
+    leftMaster.setInverted(false);
+
+    rightMaster = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_MASTER_MOTOR_ID, MotorType.kBrushless);
+    rightMaster.restoreFactoryDefaults();
+    rightMasterEncoder = rightMaster.getEncoder();
+    rightMaster.setInverted(false);
+
+    rightFollower = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID, MotorType.kBrushless);
+    rightFollower.restoreFactoryDefaults();
+    rightFollower.follow(rightMaster);
+    rightFollower.setInverted(false);
+
+    /**
     leftMaster = new TalonSRX(Constants.DRIVETRAIN_LEFT_MASTER_MOTOR_ID);
     leftMaster.configFactoryDefault();
     leftMaster.setSensorPhase(true);
@@ -138,6 +210,8 @@ public class Drive extends Subsystem {
     rightFollower.configNeutralDeadband(0.04, 0);
 
     pigeon = new PigeonIMU(rightFollower); // Motor pigeon is attachd to
+     */
+
 
     final DCMotorTransmission transmission = new DCMotorTransmission(1.0 / Constants.kDriveKv,
         Units.inches_to_meters(Constants.kDriveWheelRadiusInches)
@@ -148,7 +222,7 @@ public class Drive extends Subsystem {
         Constants.kRobotAngularDrag, Units.inches_to_meters(Constants.kDriveWheelDiameterInches / 2.0),
         Units.inches_to_meters(Constants.kDriveWheelTrackWidthInches / 2.0 * Constants.kTrackScrubFactor), transmission,
         transmission);
-    leftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_11_UartGadgeteer, 10, 10);
+    // leftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_11_UartGadgeteer, 10, 10);
 
     error = Pose2d.identity();
     gyro_heading = Rotation2d.identity();
@@ -165,20 +239,33 @@ public class Drive extends Subsystem {
     }
   }
 
-  public void drive(ControlMode controlMode, double left, double right) {
-    leftMaster.set(controlMode, left);
-    rightMaster.set(controlMode, right);
+  public void drive(double left, double right) {
+    // System.out.println(left + " " + right);
+    leftMaster.set(-left);
+    // leftFollower.set(left);
+    rightMaster.set(right);
+    // rightFollower.set(right);
   }
 
   public void drive(ControlMode controlMode, DriveSignal driveSignal) {
-    drive(controlMode, driveSignal.getLeft(), driveSignal.getRight());
+    drive(driveSignal.getLeft(), driveSignal.getRight());
   }
 
+  // public void drive(ControlMode controlMode, double left, double right) {
+  //   leftMaster.set();
+  //   leftMaster.set(controlMode, left);
+  //   rightMaster.set(controlMode, right);
+  // }
+
+  // public void drive(ControlMode controlMode, DriveSignal driveSignal) {
+  //   drive(controlMode, driveSignal.getLeft(), driveSignal.getRight());
+  // }
+
   public void driveVelocity(DriveSignal driveSignal, DriveSignal arbitraryFeedForward, DriveSignal acceleration) {
-    leftMaster.set(ControlMode.Velocity, driveSignal.getLeft(), DemandType.ArbitraryFeedForward,
-        arbitraryFeedForward.getLeft() + LEFT_kD * acceleration.getLeft() / 1023.0);
-    rightMaster.set(ControlMode.Velocity, driveSignal.getRight(), DemandType.ArbitraryFeedForward,
-        arbitraryFeedForward.getRight() + RIGHT_kD * acceleration.getRight() / 1023.0);
+    // leftMaster.set(ControlMode.Velocity, driveSignal.getLeft(), DemandType.ArbitraryFeedForward,
+        // arbitraryFeedForward.getLeft() + LEFT_kD * acceleration.getLeft() / 1023.0);
+    // rightMaster.set(ControlMode.Velocity, driveSignal.getRight(), DemandType.ArbitraryFeedForward,
+        // arbitraryFeedForward.getRight() + RIGHT_kD * acceleration.getRight() / 1023.0);
   }
 
   public void followPath() {
@@ -212,9 +299,14 @@ public class Drive extends Subsystem {
     drive(ControlMode.PercentOutput, cheesyDriveHelper.cheesyDrive(throttle, turn, isQuickTurn));
   }
 
+  // public synchronized void resetEncoders() {
+  //   leftMaster.setSelectedSensorPosition(0, 0, 0);
+  //   rightMaster.setSelectedSensorPosition(0, 0, 0);
+  // }
+
   public synchronized void resetEncoders() {
-    leftMaster.setSelectedSensorPosition(0, 0, 0);
-    rightMaster.setSelectedSensorPosition(0, 0, 0);
+    leftMasterEncoder.setPosition(0);
+    rightMasterEncoder.setPosition(0);
   }
 
   public void zeroSensors() {
@@ -255,11 +347,13 @@ public class Drive extends Subsystem {
   }
 
   public double getLeftEncoderRotations() {
-    return leftMaster.getSelectedSensorPosition(0) / DRIVE_ENCODER_PPR;
+    return leftMasterEncoder.getPosition() / DRIVE_ENCODER_PPR;
+    // return leftMaster.getSelectedSensorPosition(0) / DRIVE_ENCODER_PPR;
   }
 
   public double getRightEncoderRotations() {
-    return rightMaster.getSelectedSensorPosition(0) / DRIVE_ENCODER_PPR;
+    return rightMasterEncoder.getPosition() / DRIVE_ENCODER_PPR;
+    // return rightMaster.getSelectedSensorPosition(0) / DRIVE_ENCODER_PPR;
   }
 
   public double getLeftEncoderDistance() {
@@ -271,13 +365,18 @@ public class Drive extends Subsystem {
   }
 
   public double getLeftVelocityNativeUnits() {
-    return leftMaster.getSelectedSensorVelocity(); // sensor units per 100ms
+    return leftMasterEncoder.getVelocity();
+    // return leftMaster.getSelectedSensorVelocity(); // sensor units per 100ms
   }
 
   public double getRightVelocityNativeUnits() {
-    return rightMaster.getSelectedSensorVelocity(); // sensor units per 100ms
+    return leftMasterEncoder.getVelocity();
+    // return rightMaster.getSelectedSensorVelocity(); // sensor units per 100ms
   }
 
+  // DOESN'T WORK!!!! DO NOT USE MOTION PROFILING WILL BREAK ROBOT
+
+// TODO FIX
   public double getLeftLinearVelocity() {
     return rotationsToInches(getLeftVelocityNativeUnits() * 10.0 / DRIVE_ENCODER_PPR);
   }
@@ -298,21 +397,21 @@ public class Drive extends Subsystem {
     overrideTrajectory = value;
   }
 
-  public double getLeftDriveLeadDistance() {
-    return this.leftMaster.getSelectedSensorPosition();
-  }
+  // public double getLeftDriveLeadDistance() {
+  //   return this.leftMaster.getSelectedSensorPosition();
+  // }
 
-  public double getRightDriveLeadDistance() {
-    return this.rightMaster.getSelectedSensorPosition();
-  }
+  // public double getRightDriveLeadDistance() {
+  //   return this.rightMaster.getSelectedSensorPosition();
+  // }
 
-  public double getLeftDriveLeadVelocity() {
-    return this.leftMaster.getSelectedSensorVelocity();
-  }
+  // public double getLeftDriveLeadVelocity() {
+  //   return this.leftMaster.getSelectedSensorVelocity();
+  // }
 
-  public double getRightDriveLeadVelocity() {
-    return this.rightMaster.getSelectedSensorVelocity();
-  }
+  // public double getRightDriveLeadVelocity() {
+  //   return this.rightMaster.getSelectedSensorVelocity();
+  // }
 
   public TalonSRX createTalon(int id, boolean left) {
     TalonSRX talon = new TalonSRX(id);

@@ -126,6 +126,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     Robot.elevator.resetSensorPosition();
+    Robot.intakeArm.resetSensorPosition();
   }
 
   /**
@@ -136,14 +137,14 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
 
     //Periodic testing outputs
-    System.out.println("Drive");
-    System.out.println(drive.periodicOutput());
-    System.out.println("Elevator");
-    System.out.println(elevator.periodicOutput());
-    System.out.println("Intake Arm");
-    System.out.println(intakeArm.periodicOutput());
-    System.out.println("jack");
-    System.out.println(jack.periodicOutput());
+    // System.out.println("Drive");
+    // System.out.println(drive.periodicOutput());
+    // System.out.println("Elevator");
+    // System.out.println(elevator.periodicOutput());
+    // System.out.println("Intake Arm");
+    // System.out.println(intakeArm.periodicOutput());
+    // System.out.println("jack");
+    // System.out.println(jack.periodicOutput());
   }
 
   /**

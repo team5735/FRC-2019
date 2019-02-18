@@ -47,7 +47,7 @@ public class Constants {
     public static final double kPathLookaheadTime = 0.4;  // seconds to look ahead along the path for steering
     public static final double kPathMinLookaheadDistance = 24.0;  // inches
 
-    public static final boolean DRIVETRAIN_DO_STUFF = false;
+    public static final boolean DRIVETRAIN_DO_STUFF = true;
     public static final boolean ELEVATOR_DO_STUFF = true;
     public static final boolean JACK_DO_STUFF = false;
 
@@ -73,4 +73,7 @@ public class Constants {
     public static final int DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID = 5; //victor
 
     public static final int INTAKE_ARM_WHEEL_MOTOR_ID = 12;
+
+    // inches
+    public static final double HEIGHT_OF_BOX = 19;
 }

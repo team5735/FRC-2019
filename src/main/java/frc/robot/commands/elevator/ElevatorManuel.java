@@ -25,6 +25,8 @@ public class ElevatorManuel extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    // System.out.println("{ELEVATOR} Current Position: " + Robot.elevator.getCurrentHeight() + " ------- Percent Output: " + Robot.elevator.getMotorOutputPercent());
+
     Robot.elevator.updatePercentOutput(Robot.oi.subsystemController.rightStick.getYCubed());
   }
 
