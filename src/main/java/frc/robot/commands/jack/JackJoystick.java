@@ -58,7 +58,7 @@ public class JackJoystick extends Command {
         
       Robot.jack.isLowerLimitSwitchPressed();
       Robot.jack.isUpperLimitSwitchPressed();
-      Robot.jack.updatePercentOutput(Robot.oi.subsystemController.rightStick.getYCubed());
+      // Robot.jack.updatePercentOutput(Robot.oi.subsystemController.rightStick.getYCubed());
     }
 
   }

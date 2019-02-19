@@ -18,6 +18,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchHolder;
 import frc.robot.subsystems.IntakeArm;
 import frc.robot.subsystems.Jack;
+import frc.robot.subsystems.SpinnyMotor;
 import frc.robot.subsystems.TrajectoryGenerator;
 
 /**
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot {
   public static IntakeArm intakeArm = new IntakeArm();
   public static CargoHolder cargoHolder = new CargoHolder();
   public static HatchHolder hatchHolder = new HatchHolder(); //pneum
+  public static SpinnyMotor spinnyMotor = new SpinnyMotor();
   // public static BasicSolenoid basicSolenoid = new BasicSolenoid();
   public static OI oi;
 
@@ -52,6 +54,11 @@ public class Robot extends TimedRobot {
     // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+    System.out.println(Robot.intakeArm.inchesToDegrees(0));
+    System.out.println(Robot.intakeArm.inchesToDegrees(5));
+    System.out.println(Robot.intakeArm.inchesToDegrees(10));
+    System.out.println(Robot.intakeArm.inchesToDegrees(15));
+    System.out.println(Robot.intakeArm.inchesToDegrees(20));
   }
 
   /**

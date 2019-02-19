@@ -55,16 +55,16 @@ public class JackIntakeArmClimbDrivetrainClimb extends Command {
         // System.out.println("changing");
         position += velocity;
       } else {
-        Robot.oi.drivetrainController.setRumble(RumbleType.kLeftRumble, 1);
-        Robot.oi.drivetrainController.setRumble(RumbleType.kRightRumble, 1);
+        // Robot.oi.drivetrainController.setRumble(RumbleType.kLeftRumble, 1);
+        // Robot.oi.drivetrainController.setRumble(RumbleType.kRightRumble, 1);
       }
     // } else if (Robot.oi.drivetrainController.bButton.get()) {
     } else if(Robot.oi.drivetrainController.triggers.getRight() > 0.5) {
       up -= velocity * 0.5;
     }
     Robot.jack.setTargetPosition(Jack.JACK_READY_POSITION + position + jackadjustment - up);
-    Robot.intakeArm.setTargetAngle(Robot.intakeArm.inchesToDegrees(Constants.HEIGHT_OF_BOX -position - intakearmadjustment + up));
-    System.out.println(Constants.HEIGHT_OF_BOX -position - intakearmadjustment + up);
+    Robot.intakeArm.setTargetAngle(Robot.intakeArm.inchesToDegrees(Constants.HEIGHT_OF_BOX - position - intakearmadjustment + up));
+    System.out.println(-Constants.HEIGHT_OF_BOX + position - intakearmadjustment + up);
     Robot.jack.updatePosition();
     Robot.intakeArm.updatePosition();
   }

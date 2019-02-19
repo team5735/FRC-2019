@@ -5,40 +5,32 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intakeArm;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.IntakeArm;
 
-public class IntakeArmPreventCollsion extends Command {
-
-  public IntakeArmPreventCollsion() {
+public class RotateOI extends Command {
+  public RotateOI() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.intakeArm);
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    if(Robot.intakeArm.getCurrentDegrees() < IntakeArm.Angle.SAFE) {
-      Robot.intakeArm.setTargetAngle(IntakeArm.Angle.SAFE);
-    }
+    // Robot.oi.rotate();
   }
-  
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- PO: " + Robot.intakeArm.getPercentOutput());
-
-    Robot.intakeArm.updateMotionMagic();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.intakeArm.getCurrentDegrees() + IntakeArm.THRESHOLD > IntakeArm.Angle.SAFE;
+    return true;
   }
 
   // Called once after isFinished returns true

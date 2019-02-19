@@ -34,7 +34,7 @@ public class ReadyPose extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    addSequential(new JackPosition(Jack.JACK_READY_POSITION));
     addSequential(new IntakeArmMotionMagic(IntakeArm.Angle.READY));
+    addSequential(new JackPosition(Jack.JACK_READY_POSITION));
   }
 }
