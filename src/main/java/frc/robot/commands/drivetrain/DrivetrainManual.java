@@ -28,9 +28,6 @@ public class DrivetrainManual extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.drive.drive(ControlMode.PercentOutput, new DriveSignal(Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed()));
-    // Robot.drivetrain.updatePercentOutput(Robot.oi.drivetrainController.leftStick.getYCubed(), Robot.oi.drivetrainController.rightStick.getYCubed());
-    // Robot.drivetrain.updateArcadePercent(Robot.oi.drivetrainController.rightStick.getYCubed(), Robot.oi.drivetrainController.leftStick.getXCubed(), false);
   }
 
   // Make this return true when this Command no longer needs to run execute()

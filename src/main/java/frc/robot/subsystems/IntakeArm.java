@@ -120,6 +120,14 @@ public class IntakeArm extends Subsystem {
     }
   }
 
+  public void resetHomed(){
+    this.isHomed = false;
+  }
+
+  public void forceSetTargetAngle(double targetAngle) {
+    this.targetAngle = targetAngle;
+  }
+
   public boolean isInPosition() {
     double positionError = Math.abs(getSensorPosition() - degreesToEncoderTicks(this.targetAngle));
     return positionError < THRESHOLD;
@@ -136,13 +144,13 @@ public class IntakeArm extends Subsystem {
 
   public void updateMotionMagic() {
     isUpperLimitSwitchPressed();
-    System.out.println(-MAX_FEEDFORWARD*Math.sin(getCurrentDegrees() - Angle.OFFSET));
+    // System.out.println(-MAX_FEEDFORWARD*Math.sin(getCurrentDegrees() - Angle.OFFSET));
     intakeArmMotor.set(ControlMode.MotionMagic, degreesToEncoderTicks(targetAngle), DemandType.ArbitraryFeedForward, -MAX_FEEDFORWARD*Math.sin(getCurrentDegrees() - Angle.OFFSET)); // -MAX_FEEDFORWARD*Math.sin(targetAngle - Angle.OFFSET)
   }
 
   public void updatePercentOutputOnArm(double value) {
     isUpperLimitSwitchPressed();
-    intakeArmMotor.set(ControlMode.PercentOutput, value * 0.15);
+    intakeArmMotor.set(ControlMode.PercentOutput, value * 0.25);
   }
 
   public void updatePercentOutputOnSpinner(double value) {

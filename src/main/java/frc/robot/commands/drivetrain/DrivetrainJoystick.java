@@ -34,22 +34,14 @@ public class DrivetrainJoystick extends Command {
   protected void execute() {
     // System.out.println("foo");
     if (Robot.oi.drivetrainController.leftBumper.get()) {
-      Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05),
-          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * 0.5, true);
-      // Robot.oi.drivetrainController.triggers.getLeft() > 0.5); // left trigger
-    } else {
       Robot.drive.cheesyDrive(-Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05),
-          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * 0.5, true);
-      // Robot.oi.drivetrainController.triggers.getLeft() > 0.5); // left trigger
+          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * 0.5,
+      Robot.oi.drivetrainController.rightBumper.get()); // left trigger
+    } else {
+      Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05),
+          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * 0.5,
+      Robot.oi.drivetrainController.rightBumper.get()); // left trigger
     }
-
-    // Robot.drive.drive(ControlMode.Velocity,
-    // Robot.oi.drivetrainController.leftStick.getYCubed(),
-    // Robot.oi.drivetrainController.rightStick.getYCubed());
-    // Robot.drivetrain.updateVelocityPercent(Robot.oi.drivetrainController.leftStick.getYCubed(),
-    // Robot.oi.drivetrainController.rightStick.getYCubed());
-    // Robot.drivetrain.updateArcadePercent(Robot.oi.drivetrainController.rightStick.getYCubed(),
-    // Robot.oi.drivetrainController.leftStick.getXCubed(), false);
   }
 
   // Make this return true when this Command no longer needs to run execute()

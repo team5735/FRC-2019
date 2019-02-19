@@ -34,7 +34,7 @@ public class CargoHolderRun extends Command {
     if (Robot.oi.subsystemController.leftBumper.get()) {
       Robot.cargoHolder.run(speed);
     } else if (Robot.oi.subsystemController.rightBumper.get()) {
-      Robot.cargoHolder.run(-speed);
+      Robot.cargoHolder.run(-1);
     } else {
       Robot.cargoHolder.run(0);
     }

@@ -31,7 +31,7 @@ public class Elevator extends Subsystem {
     public static final double BALL_FIRST = 15,
         BALL_SECOND = 35,
         BALL_THIRD = 55,
-        BALL_CARGOSHIP = 45;
+        BALL_CARGOSHIP = 30;
 
     private double value;
 
@@ -65,8 +65,8 @@ public class Elevator extends Subsystem {
   // Subsystem Constants
   private static final double HOMING_SPEED = -0.2;            // Percent Output
   public static final double THRESHOLD = 1;                  // Inches
-  private static final double HEIGHT_LIMIT = 60;              // Inches
-  private static final double CRUSING_VEL = 10;               // Inches / sec
+  private static final double HEIGHT_LIMIT = 75;              // Inches
+  private static final double CRUSING_VEL = 5;               // Inches / sec
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
   // Encoder Conversion Constants
@@ -82,11 +82,11 @@ public class Elevator extends Subsystem {
   // public static final double SAFE_POSITION = 21;
 
   //PID Values
-  private static final double kP = 3;
+  private static final double kP = 5;
   private static final double kI = 0;
-  private static final double kD = 5;
-  private static final double kF = 0.337 * 1023 / 70.;
-  private static final double kA = 0.1; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
+  private static final double kD = 2;
+  private static final double kF = 0.337 * 1023 / 68.;
+  private static final double kA = 0.07; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
 
   public Elevator() {
     // Initialize main motor
@@ -143,14 +143,24 @@ public class Elevator extends Subsystem {
     }
   }
 
+  public void forceSetTargetPosition(double targetPosition) {
+    this.targetPosition = targetPosition;
+  }
+
   public void updateMotionMagic() {
     isLowerLimitSwitchPressed();
     elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition));
     // elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition), DemandType.ArbitraryFeedForward, kA);
   }
 
+  public void resetHomed(){
+    this.isHomed = false;
+  }
+
   public void updatePercentOutput(double value) {
-    System.out.println("Lower: " + isLowerLimitSwitchPressed() + " Upper: " + isUpperLimitSwitchPressed());
+    isLowerLimitSwitchPressed();
+    isUpperLimitSwitchPressed();
+    // System.out.println("Lower: " + isLowerLimitSwitchPressed() + " Upper: " + isUpperLimitSwitchPressed());
     elevatorMotor.set(ControlMode.PercentOutput, value);
   }
 

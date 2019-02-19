@@ -25,8 +25,6 @@ public class ElevatorJoystick extends Command {
   @Override
   protected void execute() {
     if (Robot.elevator.isHomed()) {
-      // double rightTriggerValue = Robot.oi.subsystemController.triggers.getRight();
-      // double leftTriggerValue = Robot.oi.subsystemController.triggers.getLeft();
       double input = Robot.oi.subsystemController.rightStick.getYCubed();
 
       double deltaPosition;

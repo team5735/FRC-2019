@@ -27,7 +27,6 @@ public class ElevatorManuel extends Command {
   protected void execute() {
     System.out.println("{ELEVATOR} Current Position: " + Robot.elevator.getCurrentHeight() + " ------- Percent Output: " + Robot.elevator.getMotorOutputPercent());
 
-    Robot.elevator.updatePercentOutput(Robot.oi.subsystemController.rightStick.getYCubed());
   }
 
   // Make this return true when this Command no longer needs to run execute()

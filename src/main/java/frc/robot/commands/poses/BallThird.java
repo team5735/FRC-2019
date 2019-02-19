@@ -14,13 +14,13 @@ import frc.robot.commands.intakeArm.IntakeArmPreventCollsion;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.IntakeArm;
 
-public class BallFirst extends CommandGroup {
+public class BallThird extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public BallFirst() {
+  public BallThird() {
     addSequential(new IntakeArmPreventCollsion());
-    addSequential(new ElevatorMotionMagic(Elevator.Position.BALL_FIRST));
-    // addSequential(new IntakeArmMotionMagic(IntakeArm.Angle.VERY_INSIDE));
+    addSequential(new ElevatorMotionMagic(Elevator.Position.BALL_THIRD));
+    // addSequential(new IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
   }
 }

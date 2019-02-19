@@ -31,10 +31,12 @@ public class IntakeArmJoystick extends Command {
       Robot.intakeArm.setTargetAngle(Robot.intakeArm.getTargetDegress() + 2 * Robot.oi.subsystemController.leftStick.getYCubed());
       Robot.intakeArm.updateMotionMagic();
     } else {
-      // System.out.println("{INTAKE} Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- Speed: " + Robot.intakeArm.getArmVelocityInEncoderTicks());
+      System.out.println("{INTAKE} Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- Speed: " + Robot.intakeArm.getArmVelocityInEncoderTicks());
 
       Robot.intakeArm.updatePercentOutputOnArm(Robot.oi.subsystemController.leftStick.getYCubed());
     }
+
+    Robot.intakeArm.updatePercentOutputOnSpinner(Robot.oi.subsystemController.triggers.getRight() - Robot.oi.subsystemController.triggers.getLeft());
     
   }
 

@@ -125,6 +125,11 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    Robot.elevator.forceSetTargetPosition(Robot.elevator.getCurrentHeight());
+    Robot.elevator.resetHomed();
+    Robot.intakeArm.forceSetTargetAngle(Robot.intakeArm.getCurrentDegrees());
+    Robot.intakeArm.resetHomed();
   }
 
   /**

@@ -29,8 +29,7 @@ public class IntakeArmManual extends Command {
 
     System.out.println("{INTAKE} Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- Speed: " + Robot.intakeArm.getArmVelocityInEncoderTicks());
 
-    Robot.intakeArm.updatePercentOutputOnArm(Robot.oi.subsystemController.leftStick.getYCubed());
-    // Robot.intakeArm.updatePercentOutputOnSpinner(Robot.oi.subsystemController.rightStick.getYCubed());
+   
   }
 
   // Make this return true when this Command no longer needs to run execute()

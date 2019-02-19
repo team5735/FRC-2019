@@ -9,18 +9,15 @@ package frc.robot.commands.poses;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.elevator.ElevatorMotionMagic;
-import frc.robot.commands.intakeArm.IntakeArmMotionMagic;
 import frc.robot.commands.intakeArm.IntakeArmPreventCollsion;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.IntakeArm;
 
-public class BallFirst extends CommandGroup {
+public class HatchThird extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public BallFirst() {
+  public HatchThird() {
     addSequential(new IntakeArmPreventCollsion());
-    addSequential(new ElevatorMotionMagic(Elevator.Position.BALL_FIRST));
-    // addSequential(new IntakeArmMotionMagic(IntakeArm.Angle.VERY_INSIDE));
+    addSequential(new ElevatorMotionMagic(Elevator.Position.HATCH_THIRD));
   }
 }
