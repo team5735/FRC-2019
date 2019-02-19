@@ -34,7 +34,7 @@ public class JackJoystick extends Command {
   protected void execute() {
     if (Robot.jack.isHomed()) {
       double input = 0;
-      input = Robot.oi.subsystemController.rightStick.getYCubed() * 0.5;
+      // input = Robot.oi.subsystemController.rightStick.getYCubed() * 0.5;
 
       double deltaPosition;
       if (input > 0.07) {

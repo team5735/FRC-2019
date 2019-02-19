@@ -48,7 +48,7 @@ public class Constants {
     public static final double kPathMinLookaheadDistance = 24.0;  // inches
 
     public static final boolean DRIVETRAIN_DO_STUFF = false;
-    public static final boolean ELEVATOR_DO_STUFF = false;
+    public static final boolean ELEVATOR_DO_STUFF = true;
     public static final boolean JACK_DO_STUFF = false;
 
     // Motor IDs

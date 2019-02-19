@@ -35,6 +35,7 @@ public class IntakeArmMotionMagic extends Command {
   @Override
   protected boolean isFinished() {
     return Robot.intakeArm.isInPosition();
+    // return true;
   }
 
   // Called once after isFinished returns true

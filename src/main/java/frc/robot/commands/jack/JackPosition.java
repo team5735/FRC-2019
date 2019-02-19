@@ -37,6 +37,7 @@ public class JackPosition extends Command {
   @Override
   protected boolean isFinished() {
     return Robot.jack.isInPosition();
+    // return true;
   }
 
   // Called once after isFinished returns true

@@ -44,22 +44,29 @@ public class JackIntakeArmClimbDrivetrainClimb extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    intakearmadjustment += Robot.oi.drivetrainController.triggers.getLeft() * 0.1;
-    jackadjustment += Robot.oi.drivetrainController.triggers.getRight() * 0.1;
-    if (Robot.oi.drivetrainController.aButton.get()) {
+    // intakearmadjustment += Robot.oi.drivetrainController.triggers.getLeft() * 0.1;
+    // jackadjustment += Robot.oi.drivetrainController.triggers.getRight() * 0.1;
+    // if (Robot.oi.drivetrainController.aButton.get()) {
+    if(true) {
+      // System.out.println("a");
       if (up < 0) {
         up += velocity;
       } else if (position < (Constants.HEIGHT_OF_BOX + Math.abs(intakearmadjustment - jackadjustment))) {
+        // System.out.println("changing");
         position += velocity;
       } else {
         Robot.oi.drivetrainController.setRumble(RumbleType.kLeftRumble, 1);
         Robot.oi.drivetrainController.setRumble(RumbleType.kRightRumble, 1);
       }
-    } else if (Robot.oi.drivetrainController.bButton.get()) {
+    // } else if (Robot.oi.drivetrainController.bButton.get()) {
+    } else if(Robot.oi.drivetrainController.triggers.getRight() > 0.5) {
       up -= velocity * 0.5;
     }
-    // Robot.jack.setTargetPosition(Jack.JACK_READY_POSITION + position + jackadjustment - up);
-    // Robot.intakeArm.setTargetAngle(IntakeArm.Angle.READY + Robot.intakeArm.inchesToDegrees(-position - intakearmadjustment + up));
+    Robot.jack.setTargetPosition(Jack.JACK_READY_POSITION + position + jackadjustment - up);
+    Robot.intakeArm.setTargetAngle(Robot.intakeArm.inchesToDegrees(Constants.HEIGHT_OF_BOX -position - intakearmadjustment + up));
+    System.out.println(Constants.HEIGHT_OF_BOX -position - intakearmadjustment + up);
+    Robot.jack.updatePosition();
+    Robot.intakeArm.updatePosition();
   }
 
   // Make this return true when this Command no longer needs to run execute()

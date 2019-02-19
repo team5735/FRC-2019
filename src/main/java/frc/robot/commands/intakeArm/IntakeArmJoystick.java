@@ -26,13 +26,17 @@ public class IntakeArmJoystick extends Command {
   @Override
   protected void execute() {
     if(Robot.intakeArm.isHomed()) {
-      System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- PO: " + Robot.intakeArm.getPercentOutput());
+      // System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- PO: " + Robot.intakeArm.getPercentOutput());
+      // System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Height: " + Robot.intakeArm.degreesToInches(Robot.intakeArm.getCurrentDegrees()) + " ------- PO: " + Robot.intakeArm.getPercentOutput());
 
       Robot.intakeArm.setTargetAngle(Robot.intakeArm.getTargetDegress() + 2 * Robot.oi.subsystemController.leftStick.getYCubed());
+      // Robot.intakeArm.setTargetAngle(Robot.intakeArm.inchesToDegrees(10 * Math.abs(Robot.oi.subsystemController.leftStick.getYCubed())));
       Robot.intakeArm.updatePosition();
     } else {
       System.out.println("{INTAKE} Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- Speed: " + Robot.intakeArm.getArmVelocityInEncoderTicks());
 
+      Robot.intakeArm.isLowerLimitSwitchPressed();
+      Robot.intakeArm.isUpperLimitSwitchPressed();
       Robot.intakeArm.updatePercentOutputOnArm(Robot.oi.subsystemController.leftStick.getYCubed());
     }
 

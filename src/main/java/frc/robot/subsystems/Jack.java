@@ -112,9 +112,9 @@ public class Jack extends Subsystem {
   }
 
   public void updatePosition() {
+    System.out.println("{JACK} Target: " + getTargetPosition() + "Current Height: "+ getCurrentHeight() + " ------- PO: " + getMotorOutputPercent());
     jackMotor.set(ControlMode.Position, jackInchesToEncoderTicks(targetPosition),
         DemandType.ArbitraryFeedForward, kA);
-        System.out.println(jackInchesToEncoderTicks(targetPosition));
     // jackMotor.set(ControlMode.Position, jackInchesToEncoderTicks(targetPosition));
   }
 

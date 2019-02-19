@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------------*/
+  /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
@@ -8,6 +8,7 @@
 package frc.robot;
 
 import frc.lib.controllers.BobXboxController;
+import frc.robot.commands.combos.JackIntakeArmClimbDrivetrainClimb;
 import frc.robot.commands.elevator.ElevatorMotionMagic;
 import frc.robot.commands.hatchholder.HatchHolderToggleClaw;
 import frc.robot.commands.hatchholder.HatchHolderToggleCompressor;
@@ -18,6 +19,7 @@ import frc.robot.commands.intakeArm.unused.IntakeArmPosition;
 import frc.robot.commands.poses.BallShip;
 import frc.robot.commands.poses.HatchFirst;
 import frc.robot.commands.poses.IntakePose;
+import frc.robot.commands.poses.ReadyPose;
 import frc.robot.commands.poses.StartingPose;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.IntakeArm;
@@ -69,9 +71,11 @@ public class OI {
     subsystemController.Dpad.Down.whenPressed(new HatchHolderToggleExtentention());
     subsystemController.Dpad.Left.whenPressed(new HatchHolderToggleCompressor());
 
-    subsystemController.aButton.whenPressed(new StartingPose());
+    // subsystemController.aButton.whenPressed(new StartingPose());
+    subsystemController.aButton.whenPressed(new ReadyPose());
     // subsystemController.bButton.whenPressed(new IntakePose());
-    subsystemController.bButton.whenPressed(new IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
+    subsystemController.bButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
+    // subsystemController.bButton.whenPressed(new IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
     subsystemController.xButton.whenPressed(new HatchFirst());
     subsystemController.yButton.whenPressed(new BallShip());
 
