@@ -5,14 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.combos;
+package frc.robot.commands.combos.unused;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.Constants;
-import frc.robot.commands.ControllerRumble;
-import frc.robot.commands.intakeArm.IntakeArmPosition;
-import frc.robot.commands.jack.JackPosition;
-import frc.robot.subsystems.IntakeArm;
 
 public class JackIntakeArmReadyPosition extends CommandGroup {
   /**

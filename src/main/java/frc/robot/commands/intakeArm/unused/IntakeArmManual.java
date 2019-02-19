@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.intakeArm.unused;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorManuel extends Command {
-  public ElevatorManuel() {
+public class IntakeArmManual extends Command {
+  public IntakeArmManual() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.elevator);
+    requires(Robot.intakeArm);
   }
 
   // Called just before this Command runs the first time
@@ -25,9 +25,12 @@ public class ElevatorManuel extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // System.out.println("{ELEVATOR} Current Position: " + Robot.elevator.getCurrentHeight() + " ------- Percent Output: " + Robot.elevator.getMotorOutputPercent());
+    // System.out.println("bar");
 
-    Robot.elevator.updatePercentOutput(Robot.oi.subsystemController.rightStick.getYCubed());
+    System.out.println("{INTAKE} Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- Speed: " + Robot.intakeArm.getArmVelocityInEncoderTicks());
+
+    Robot.intakeArm.updatePercentOutputOnArm(Robot.oi.subsystemController.leftStick.getYCubed());
+    // Robot.intakeArm.updatePercentOutputOnSpinner(Robot.oi.subsystemController.rightStick.getYCubed());
   }
 
   // Make this return true when this Command no longer needs to run execute()

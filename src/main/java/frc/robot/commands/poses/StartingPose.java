@@ -5,18 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.combos;
+package frc.robot.commands.poses;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.elevator.ElevatorMotionMagic;
+import frc.robot.commands.intakeArm.IntakeArmMotionMagic;
 import frc.robot.commands.intakeArm.IntakeArmPreventCollsion;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.IntakeArm;
 
-public class ElevatorHatchPanel extends CommandGroup {
+public class StartingPose extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public ElevatorHatchPanel() {
+  public StartingPose() {
     addSequential(new IntakeArmPreventCollsion());
-    addSequential(new ElevatorMotionMagic(10));
+    addSequential(new ElevatorMotionMagic(Elevator.Position.ZERO));
+    addSequential(new IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
   }
 }

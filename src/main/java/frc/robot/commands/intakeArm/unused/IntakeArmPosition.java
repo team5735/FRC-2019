@@ -5,34 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.intakeArm.unused;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorResetEncoder extends Command {
-  public ElevatorResetEncoder() {
+public class IntakeArmPosition extends Command {
+
+  private double target;
+
+  public IntakeArmPosition(double target) {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.elevator);
+    requires(Robot.intakeArm);
+    this.target = target;
+
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.elevator.resetSensorPosition();
-    Robot.elevator.setTargetPosition(0);
+    Robot.intakeArm.setTargetAngle(target);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- PO: " + Robot.intakeArm.getPercentOutput());
+
+    Robot.intakeArm.updateMotionMagic();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return Robot.intakeArm.isInPosition();
   }
 
   // Called once after isFinished returns true

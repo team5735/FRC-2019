@@ -5,6 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
 package frc.robot.commands.jack;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,12 +26,41 @@ public class JackJoystick extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // Robot.jack.updatePercentOutput(Robot.oi.subsystemController.rightStick.getYCubed());
+    // if (Robot.jack.isHomed()) {
+    //   double input = 0;
+    //   if (Robot.oi.drivetrainController.Dpad.Up.get()) {
+    //     input = 1;
+    //   }
+
+    //   double deltaPosition;
+    //   if (input > 0.07) {
+    //     deltaPosition = input;
+    //   } else if (input < -0.07) {
+    //     deltaPosition = input;
+    //   } else {
+    //     deltaPosition = 0;
+    //   }
+
+    //   Robot.jack.setTargetPosition(Robot.jack.getTargetPosition() + 0.05 * deltaPosition);
+    //   Robot.jack.updateMotionMagic();
+
+    //   System.out.println("T:" + (Robot.jack.getTargetPosition() + "     ").substring(0, 6) + " C:"
+    //       + "" + " PO: "
+    //       + Robot.elevator.getMotorOutputPercent());
+    // } else {
+      // System.out.println(Robot.jack.isHomed());
+      System.out.println("{JACK} Current Position: " + Robot.jack.getCurrentHeight()
+          + " ------- Percent Output: " + Robot.jack.getMotorOutputPercent());
+        
+      Robot.jack.updatePercentOutput(0.2* (Robot.oi.drivetrainController.triggers.getRight() - Robot.oi.drivetrainController.triggers.getLeft() ) );
+    // }
+
   }
 
   // Make this return true when this Command no longer needs to run execute()

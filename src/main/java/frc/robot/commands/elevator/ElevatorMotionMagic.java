@@ -15,7 +15,6 @@ public class ElevatorMotionMagic extends Command {
   private double target;
 
   public ElevatorMotionMagic(double target) {
-    // Use requires() here to declare subsystem dependencies
     requires(Robot.elevator);
     this.target = target;
 

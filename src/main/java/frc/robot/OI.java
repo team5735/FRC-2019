@@ -1,4 +1,4 @@
-                                                                                                                                                                            /*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
 /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
@@ -8,13 +8,14 @@
 package frc.robot;
 
 import frc.lib.controllers.BobXboxController;
-import frc.robot.commands.combos.ElevatorHatchPanel;
-import frc.robot.commands.combos.JackIntakeArmClimbDrivetrainClimb;
-import frc.robot.commands.combos.JackIntakeArmReadyPosition;
-import frc.robot.commands.drivetrain.DrivetrainJoystick;
 import frc.robot.commands.elevator.ElevatorMotionMagic;
-import frc.robot.commands.elevator.ElevatorResetEncoder;
-import frc.robot.commands.hatchholder.*;
+import frc.robot.commands.hatchholder.HatchHolderToggleClaw;
+import frc.robot.commands.hatchholder.HatchHolderToggleCompressor;
+import frc.robot.commands.hatchholder.HatchHolderToggleExtentention;
+import frc.robot.commands.intakeArm.IntakeArmPreventCollsion;
+import frc.robot.commands.intakeArm.unused.IntakeArmPosition;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.IntakeArm;
 
 
 /**
@@ -62,14 +63,13 @@ public class OI {
     subsystemController.Dpad.Up.whenPressed(new HatchHolderToggleClaw());
     subsystemController.Dpad.Down.whenPressed(new HatchHolderToggleExtentention());
     subsystemController.Dpad.Left.whenPressed(new HatchHolderToggleCompressor());
-    subsystemController.aButton.whenPressed(new ElevatorHatchPanel());
-    // subsystemController.bButton.whenPressed(new ElevatorArm(Robot.elevator.SECOND_POSITION, Robot.intakeArm.getCurrentDegrees()));
-    // subsystemController.xButton.whenPressed(new ElevatorArm(Robot.elevator.THIRD_POSITION, Robot.intakeArm.getCurrentDegrees()));
 
-//     subsystemController.aButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.BOTTOM_POSITION));
-//     subsystemController.bButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.SECOND_POSITION));
-    // subsystemController.xButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.THIRD_POSITION));
-    // subsystemController.yButton.whenPressed(new ElevatorMotionMagic(Robot.elevator.MAX_POSITION));
+    // subsystemController.aButton.whenPressed(new IntakeArmPreventCollsion());
+    // subsystemController.bButton.whenPressed(new IntakeArmPosition(IntakeArm.Angle.INSIDE));
+    // subsystemController.xButton.whenPressed(new IntakeArmPosition(-10));
+
+    subsystemController.aButton.whenPressed(new ElevatorMotionMagic(Elevator.Position.HATCH_FIRST));
+
 
   }
 }

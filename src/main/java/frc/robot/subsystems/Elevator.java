@@ -16,19 +16,47 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.commands.elevator.ElevatorHoldPosition;
-import frc.robot.commands.elevator.ElevatorManuel;
+import frc.robot.commands.elevator.ElevatorJoystick;
 
 public class Elevator extends Subsystem {
-  // Subsystem Setpoints
-  public final double BOTTOM_POSITION = 0,
-    FIRST_POSITION = 10,
-    SECOND_POSITION = 30,
-    THIRD_POSITION = 50,
-    MAX_POSITION = 70;
+
+  public class Position {
+    public static final double ZERO = 0;
+
+    public static final double HATCH_FIRST = 10,
+        HATCH_SECOND = 30,
+        HATCH_THIRD = 50,
+        HATCH_HANDOFF = 5;
+    
+    public static final double BALL_FIRST = 15,
+        BALL_SECOND = 35,
+        BALL_THIRD = 55,
+        BALL_CARGOSHIP = 45;
+
+    private double value;
+
+    public Position(double value) {
+      this.value = value;
+    }
+
+    public double getValue() {
+      return this.value;
+    }
+  }
+
+  // // Subsystem Setpoints
+  // public final double BOTTOM_POSITION = 0,
+  //   FIRST_POSITION = 10,
+  //   SECOND_POSITION = 30,
+  //   THIRD_POSITION = 50,
+  //   MAX_POSITION = 70;
 
   // Subsystem Motors
   private TalonSRX elevatorMotor;
   private VictorSPX elevatorFollowerMotor;
+
+  private boolean forwardLimitSwitchLastPressed = false;
+  private boolean reverseLimitSwitchLastPressed = false;
 
   // Subsystem States
   private boolean isHomed = false;
@@ -36,9 +64,9 @@ public class Elevator extends Subsystem {
 
   // Subsystem Constants
   private static final double HOMING_SPEED = -0.2;            // Percent Output
-  private static final double THRESHOLD = 1;                  // Inches
+  public static final double THRESHOLD = 1;                  // Inches
   private static final double HEIGHT_LIMIT = 60;              // Inches
-  private static final double CRUSING_VEL = 5;               // Inches / sec
+  private static final double CRUSING_VEL = 10;               // Inches / sec
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
   // Encoder Conversion Constants
@@ -49,9 +77,9 @@ public class Elevator extends Subsystem {
   private static final int NUMBER_OF_STAGES = 3;
 
   // Conflict range
-  public static final double CONFLICT_LOWER_BOUND = 1;
-  public static final double CONFLICT_UPPER_BOUND = 20;
-  public static final double SAFE_POSITION = 21;
+  // public static final double CONFLICT_LOWER_BOUND = 1;
+  // public static final double CONFLICT_UPPER_BOUND = 20;
+  // public static final double SAFE_POSITION = 21;
 
   //PID Values
   private static final double kP = 3;
@@ -67,10 +95,9 @@ public class Elevator extends Subsystem {
 
     // Configure main motor sensors
     elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
-    elevatorMotor.setInverted(false);
+    elevatorMotor.setInverted(true);
     elevatorMotor.setSensorPhase(true);
     elevatorMotor.overrideLimitSwitchesEnable(true);
-    resetSensorPosition();
 
     // Set motion magic parameters
     elevatorMotor.configMotionCruiseVelocity(elevatorInchesToEncoderTicks(CRUSING_VEL));
@@ -88,7 +115,7 @@ public class Elevator extends Subsystem {
     elevatorFollowerMotor.configFactoryDefault();
     // elevatorFollowerMotor.set(ControlMode.Follower, Constants.ELEVATOR_MOTOR_ID);
     elevatorFollowerMotor.follow(elevatorMotor);
-    elevatorFollowerMotor.setInverted(true);
+    elevatorFollowerMotor.setInverted(false);
   }
 
   @Override
@@ -97,8 +124,8 @@ public class Elevator extends Subsystem {
    */
   public void initDefaultCommand() {
     if (Constants.ELEVATOR_DO_STUFF) {
-      // setDefaultCommand(new ElevatorJoystick());
-      setDefaultCommand(new ElevatorManuel());
+      setDefaultCommand(new ElevatorJoystick());
+      // setDefaultCommand(new ElevatorManuel());
       // setDefaultCommand(new ElevatorHoldPosition());
     }
   }
@@ -117,11 +144,13 @@ public class Elevator extends Subsystem {
   }
 
   public void updateMotionMagic() {
+    isLowerLimitSwitchPressed();
     elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition));
     // elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition), DemandType.ArbitraryFeedForward, kA);
   }
 
   public void updatePercentOutput(double value) {
+    System.out.println("Lower: " + isLowerLimitSwitchPressed() + " Upper: " + isUpperLimitSwitchPressed());
     elevatorMotor.set(ControlMode.PercentOutput, value);
   }
 
@@ -130,24 +159,27 @@ public class Elevator extends Subsystem {
     return positionError < THRESHOLD;
   }
 
-  public void home() {
-    elevatorMotor.set(ControlMode.PercentOutput, HOMING_SPEED);
-  }
+  // public void home() {
+  //   elevatorMotor.set(ControlMode.PercentOutput, HOMING_SPEED);
+  // }
 
-  public void resetSensorPosition() {
-    elevatorMotor.setSelectedSensorPosition(0, 0, 30);
-  }
-
-  public boolean isLowerLimitPressed() {
+  public boolean isLowerLimitSwitchPressed() {
     if (elevatorMotor.getSensorCollection().isRevLimitSwitchClosed()) {
-      resetSensorPosition();
+      if (!reverseLimitSwitchLastPressed) {
+        targetPosition = 0;
+        reverseLimitSwitchLastPressed = true;
+      }
+
+      isHomed = true;
+      elevatorMotor.setSelectedSensorPosition((int)elevatorInchesToEncoderTicks(0), 0, 30);
       return true;
     } else {
+      reverseLimitSwitchLastPressed = false;
       return false;
     }
   }
 
-  public boolean isUpperLimitPressed() {
+  public boolean isUpperLimitSwitchPressed() {
     return elevatorMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
@@ -162,10 +194,6 @@ public class Elevator extends Subsystem {
   }
 
   // ===== GETTERS AND SETTERS =====
-
-  public void setHomed(boolean isHomed) {
-    this.isHomed = isHomed;
-  }
 
   public boolean isHomed() {
     return isHomed;
@@ -194,18 +222,5 @@ public class Elevator extends Subsystem {
 
   public double getMotorOutputPercent() {
     return elevatorMotor.getMotorOutputPercent();
-  }
-
-  public boolean isUpperLimitSwitchPressed() {
-    return elevatorMotor.getSensorCollection().isFwdLimitSwitchClosed();
-  }
-
-  public boolean isLowerLimitSwitchPressed() {
-    return elevatorMotor.getSensorCollection().isRevLimitSwitchClosed();
-  }
-
-  public String periodicOutput() {
-    return "Upper: " + (isUpperLimitSwitchPressed() ? "Yes" : "No ") + "Lower: " + (isLowerLimitSwitchPressed() ? "Yes" : "No ");
-    // return "";
   }
 }

@@ -17,7 +17,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.intakeArm.IntakeArmHoldPosition;
 import frc.robot.commands.intakeArm.IntakeArmJoystick;
-import frc.robot.commands.intakeArm.IntakeArmManual;
 import frc.robot.Constants;
 
 /**
@@ -31,23 +30,28 @@ public class IntakeArm extends Subsystem {
   private TalonSRX intakeArmFollower;
   private TalonSRX spinnyMotor;
 
+  private boolean isHomed = false;
+
+  private boolean forwardLimitSwitchLastPressed = false;
+  private boolean reverseLimitSwitchLastPressed = false;
+
   // PID Values
-  private static final double kP = 0;
+  private static final double kP = 4;
   private static final double kI = 0;
-  private static final double kD = 0;
-  private static final double kF = 1023. / 1120.;
+  private static final double kD = 10;
+  private static final double kF = 1023. / 1050.;
   private static final double kA = 0; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
 
   private static final double ARM_LENGTH = 15.25; //inches
   private static final double HEIGHT_OFF_GROUND = 10; //inches
   // private static final double OFFSET_TO_STRAIGHT_UP = 30; //degrees
 
-  private static final double MAX_FEEDFORWARD = 0.2;
+  private static final double MAX_FEEDFORWARD = 0.008;  // 0.2
 
-  private static final int THRESHOLD = 2;
+  public static final int THRESHOLD = 2;
 
   public class Angle {
-    public static final double ZERO = 0, INSIDE = 20, VERY_INSIDE = 10, SAFE = 35, INTAKE = 60, MAX_ANGLE = 130, READY = 30, OFFSET = 40;
+    public static final double MIN_ANGLE = -150, INSIDE = -125, VERY_INSIDE = -145, SAFE = -95, INTAKE = -55, MAX_ANGLE = 0, READY = -90, OFFSET = -115;
 
     private double value;
 
@@ -59,16 +63,12 @@ public class IntakeArm extends Subsystem {
       return this.value;
     }
   }
-  
-  // private final double UPPER_LIMIT = 150, LOWER_LIMIT = 0;
-
-  // private final double UPPER_LIMIT = ARM_LENGTH + HEIGHT_OFF_GROUND - 0.0001;
-  // private final double LOWER_LIMIT = 10 + 0.0001; // 69
-  // private final double LOWER_LIMIT = intakeArmEncoderTicksToInches(-4096. / 360. * 30.) + 0.0001; // 69
 
   private double targetAngle = 0;
 
   public IntakeArm() {
+    this.isHomed = false;
+
     intakeArmMotor = new TalonSRX(Constants.INTAKE_ARM_MOTOR_ID);
     intakeArmMotor.configFactoryDefault();
 
@@ -76,7 +76,6 @@ public class IntakeArm extends Subsystem {
     intakeArmMotor.setInverted(true);
     intakeArmMotor.setSensorPhase(true);
     intakeArmMotor.overrideLimitSwitchesEnable(true);
-    resetSensorPosition();
 
     // Set motion magic parameters
     intakeArmMotor.configMotionCruiseVelocity(200);
@@ -104,13 +103,16 @@ public class IntakeArm extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new IntakeArmManual());
+    // if(isHomed) {
     setDefaultCommand(new IntakeArmJoystick());
+    // } else {
+    //   setDefaultCommand(new IntakeArmManual());
+    // }
   }
 
   public void setTargetAngle(double targetAngle) {
-    if (targetAngle < Angle.ZERO) {
-      this.targetAngle = Angle.ZERO;
+    if (targetAngle < Angle.MIN_ANGLE) {
+      this.targetAngle = Angle.MIN_ANGLE;
     } else if (targetAngle > Angle.MAX_ANGLE) {
       this.targetAngle = Angle.MAX_ANGLE;
     } else {
@@ -128,36 +130,51 @@ public class IntakeArm extends Subsystem {
   }
 
   public void updatePosition() {
-    if(isUpperLimitSwitchPressed()) {
-      resetSensorPosition();
-    }
+    isUpperLimitSwitchPressed();
     intakeArmMotor.set(ControlMode.Position, degreesToEncoderTicks(targetAngle));
   }
 
   public void updateMotionMagic() {
-    if(isUpperLimitSwitchPressed()) {
-      resetSensorPosition();
-    }
-    intakeArmMotor.set(ControlMode.MotionMagic, degreesToEncoderTicks(targetAngle), DemandType.ArbitraryFeedForward, 0); // -MAX_FEEDFORWARD*Math.sin(targetAngle - Angle.OFFSET)
+    isUpperLimitSwitchPressed();
+    System.out.println(-MAX_FEEDFORWARD*Math.sin(getCurrentDegrees() - Angle.OFFSET));
+    intakeArmMotor.set(ControlMode.MotionMagic, degreesToEncoderTicks(targetAngle), DemandType.ArbitraryFeedForward, -MAX_FEEDFORWARD*Math.sin(getCurrentDegrees() - Angle.OFFSET)); // -MAX_FEEDFORWARD*Math.sin(targetAngle - Angle.OFFSET)
   }
 
   public void updatePercentOutputOnArm(double value) {
-    if(isUpperLimitSwitchPressed()) {
-      resetSensorPosition();
-    }
-    intakeArmMotor.set(ControlMode.PercentOutput, value);
+    isUpperLimitSwitchPressed();
+    intakeArmMotor.set(ControlMode.PercentOutput, value * 0.15);
   }
 
   public void updatePercentOutputOnSpinner(double value) {
     spinnyMotor.set(ControlMode.PercentOutput, value);
   }
 
-  public void resetSensorPosition() {
-    intakeArmMotor.setSelectedSensorPosition((int)degreesToEncoderTicks(Angle.MAX_ANGLE), 0, 30);
+  public boolean isHomed() {
+    return isHomed;
   }
 
+  // public void resetSensorPosition() {
+  //   System.out.println("Upper limit pressed!");
+  //   if (!forwardLimitSwitchLastPressed) {
+  //     targetAngle = Angle.MAX_ANGLE;
+  //     forwardLimitSwitchLastPressed = true;
+  //   }
+  // }
+
   public boolean isUpperLimitSwitchPressed() {
-    return intakeArmMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    if (intakeArmMotor.getSensorCollection().isFwdLimitSwitchClosed()) {
+      if (!forwardLimitSwitchLastPressed) {
+        targetAngle = Angle.MAX_ANGLE;
+        forwardLimitSwitchLastPressed = true;
+      } 
+      isHomed = true;
+      intakeArmMotor.setSelectedSensorPosition((int)degreesToEncoderTicks(Angle.MAX_ANGLE), 0, 30);
+
+      return true;
+    } else {
+      forwardLimitSwitchLastPressed = false;
+      return false;
+    }
   }
 
   public boolean isLowerLimitSwitchPressed() {

@@ -5,39 +5,36 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intakeArm;
+package frc.robot.commands.elevator.unused;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class IntakeArmPosition extends Command {
-
-  private double target;
-
-  public IntakeArmPosition(double target) {
+public class ElevatorHome extends Command {
+  public ElevatorHome() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.intakeArm);
-    this.target = target;
-
+    // eg. requires(chassis);
+    requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.intakeArm.setTargetAngle(target);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " V: " + Robot.elevator.getMotorOutputVoltage());
-    // Robot.intakeArm.updatePosition();
+    // Robot.elevator.home();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.intakeArm.isInPosition();
+    if (Robot.elevator.isLowerLimitSwitchPressed()) {
+      return true;
+    }
+    return false;
   }
 
   // Called once after isFinished returns true

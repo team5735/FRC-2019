@@ -5,43 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intakeArm;
+package frc.robot.commands.elevator.unused;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class IntakeArmJoystick extends Command {
-  public IntakeArmJoystick() {
+public class ElevatorResetEncoder extends Command {
+  public ElevatorResetEncoder() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.intakeArm);
+    requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.elevator.setTargetPosition(0);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Robot.intakeArm.isHomed()) {
-      // System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- PO: " + Robot.intakeArm.getPercentOutput());
-
-      Robot.intakeArm.setTargetAngle(Robot.intakeArm.getTargetDegress() + 2 * Robot.oi.subsystemController.leftStick.getYCubed());
-      Robot.intakeArm.updateMotionMagic();
-    } else {
-      // System.out.println("{INTAKE} Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- Speed: " + Robot.intakeArm.getArmVelocityInEncoderTicks());
-
-      Robot.intakeArm.updatePercentOutputOnArm(Robot.oi.subsystemController.leftStick.getYCubed());
-    }
-    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

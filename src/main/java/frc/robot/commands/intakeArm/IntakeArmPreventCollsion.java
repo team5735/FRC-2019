@@ -12,6 +12,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.IntakeArm;
 
 public class IntakeArmPreventCollsion extends Command {
+
   public IntakeArmPreventCollsion() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.intakeArm);
@@ -29,13 +30,15 @@ public class IntakeArmPreventCollsion extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // Robot.intakeArm.updateMotionMagic();
+    System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- PO: " + Robot.intakeArm.getPercentOutput());
+
+    Robot.intakeArm.updateMotionMagic();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.intakeArm.getCurrentDegrees() > IntakeArm.Angle.SAFE;
+    return Robot.intakeArm.getCurrentDegrees() + IntakeArm.THRESHOLD > IntakeArm.Angle.SAFE;
   }
 
   // Called once after isFinished returns true

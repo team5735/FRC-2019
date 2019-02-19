@@ -24,24 +24,34 @@ public class ElevatorJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // double rightTriggerValue = Robot.oi.subsystemController.triggers.getRight();
-    // double leftTriggerValue = Robot.oi.subsystemController.triggers.getLeft();
-    double input = Robot.oi.subsystemController.rightStick.getYCubed();
+    if (Robot.elevator.isHomed()) {
+      // double rightTriggerValue = Robot.oi.subsystemController.triggers.getRight();
+      // double leftTriggerValue = Robot.oi.subsystemController.triggers.getLeft();
+      double input = Robot.oi.subsystemController.rightStick.getYCubed();
 
-    double deltaPosition;
-    if (input > 0.07) {
-      deltaPosition = input;
-    } else if (input < -0.07) {
-      deltaPosition = input;
+      double deltaPosition;
+      if (input > 0.07) {
+        deltaPosition = input;
+      } else if (input < -0.07) {
+        deltaPosition = input;
+      } else {
+        deltaPosition = 0;
+      }
+
+      Robot.elevator.setTargetPosition(Robot.elevator.getTargetPosition() + 0.4 * deltaPosition);
+      Robot.elevator.updateMotionMagic();
+
+      System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " C:"
+          + Robot.elevator.encoderTicksToElevatorInches(Robot.elevator.getSensorPosition()) + " PO: "
+          + Robot.elevator.getMotorOutputPercent());
     } else {
-      deltaPosition = 0;
+      System.out.println(Robot.elevator.isHomed());
+      System.out.println("{ELEVATOR} Current Position: " + Robot.elevator.getCurrentHeight()
+          + " ------- Percent Output: " + Robot.elevator.getMotorOutputPercent());
+
+      Robot.elevator.updatePercentOutput(0.5*Robot.oi.subsystemController.rightStick.getYCubed());
     }
 
-    Robot.elevator.setTargetPosition(Robot.elevator.getTargetPosition() + 0.4 * deltaPosition);
-    Robot.elevator.updateMotionMagic();
-
-    System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + Robot.elevator.encoderTicksToElevatorInches(Robot.elevator.getSensorPosition()) + " V: "
-        + Robot.elevator.getMotorOutputPercent());
   }
 
   // Make this return true when this Command no longer needs to run execute()

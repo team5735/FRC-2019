@@ -31,6 +31,11 @@ public class BobThumbStick {
 		return Math.pow(this.controller.getRawAxis(xAxis.value), 3);
 	}
 
+	public double getXCubedWithDeadband(double deadband) {
+		double value = Math.pow(this.controller.getRawAxis(xAxis.value), 3);
+		return handleDeadband(value, deadband);
+	}
+
 	public double getY() {
 		double value = this.controller.getRawAxis(yAxis.value);
 		return -handleDeadband(value, yDeadband);
@@ -38,6 +43,11 @@ public class BobThumbStick {
 
 	public double getYCubed() {
 		return -Math.pow(this.controller.getRawAxis(yAxis.value), 3);
+	}
+
+	public double getYCubedWithDeadband(double deadband) {
+		double value = -Math.pow(this.controller.getRawAxis(yAxis.value), 3);
+		return -handleDeadband(value, deadband);
 	}
 
 	public void setXDeadband(double deadband) {
