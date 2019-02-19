@@ -30,18 +30,25 @@ public class Jack extends Subsystem {
 
   // Subsystem Constants
   private static final double THRESHOLD = 1;                  // Inches
-  private static final double HEIGHT_LIMIT = 40;              // Inches
+  private static final double HEIGHT_LIMIT = 15;              // Inches
   private static final double CRUSING_VEL = 50;               // Inches / sec
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
   // Encoder Conversion Constants
   private static final double ENCODER_TICKS_PER_REVOLUTION = 12;
-  private static final double GEAR_RATIO = 1 / 100 * 18 / 30;
+  private static final double GEAR_RATIO = 1. / 100. * 18. / 30.;
   private static final int SPROCKET_TOOTH_COUNT = 22;
   private static final double LENGTH_OF_LINK = 0.25;
 
+  public static final double JACK_READY_POSITION = 2;
+
+  private boolean isHomed = false;
+
+  private boolean forwardLimitSwitchLastPressed = false;
+  private boolean reverseLimitSwitchLastPressed = false;
+
   // PID Values
-  private static final double kP = 0.1;
+  private static final double kP = 1;
   private static final double kI = 0;
   private static final double kD = 0;
   private static final double kF = 0;
@@ -52,7 +59,7 @@ public class Jack extends Subsystem {
     jackMotor.configFactoryDefault();
 
     jackMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
-    jackMotor.setInverted(true);
+    jackMotor.setInverted(false);
     jackMotor.setSensorPhase(true);
     jackMotor.overrideLimitSwitchesEnable(true);
     resetSensorPosition();
@@ -107,6 +114,8 @@ public class Jack extends Subsystem {
   public void updatePosition() {
     jackMotor.set(ControlMode.Position, jackInchesToEncoderTicks(targetPosition),
         DemandType.ArbitraryFeedForward, kA);
+        System.out.println(jackInchesToEncoderTicks(targetPosition));
+    // jackMotor.set(ControlMode.Position, jackInchesToEncoderTicks(targetPosition));
   }
 
   public void updatePercentOutput(double value) {
@@ -130,7 +139,6 @@ public class Jack extends Subsystem {
   }
 
   public int getSensorPosition() {
-    jackMotor.set(ControlMode.PercentOutput, 0.5);
     return jackMotor.getSensorCollection().getQuadraturePosition();
     // return jackMotor.getSelectedSensorPosition();
   }
@@ -148,7 +156,27 @@ public class Jack extends Subsystem {
   }
 
   public boolean isLowerLimitSwitchPressed() {
-    return jackMotor.getSensorCollection().isRevLimitSwitchClosed();
+    if (jackMotor.getSensorCollection().isRevLimitSwitchClosed()) {
+      if (!reverseLimitSwitchLastPressed) {
+        targetPosition = 0;
+        reverseLimitSwitchLastPressed = true;
+      }
+
+      isHomed = true;
+      jackMotor.setSelectedSensorPosition((int)jackInchesToEncoderTicks(0), 0, 30);
+      return true;
+    } else {
+      reverseLimitSwitchLastPressed = false;
+      return false;
+    }
+  }
+
+  public boolean isHomed() {
+    return isHomed;
+  }
+  
+  public void resetHomed(){
+    this.isHomed = false;
   }
 
   public String periodicOutput() {

@@ -5,12 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.combos.unused;
+package frc.robot.commands.combos;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.subsystems.IntakeArm;
+import frc.robot.subsystems.Jack;
 
 public class JackIntakeArmClimbDrivetrainClimb extends Command {
 
@@ -42,22 +44,22 @@ public class JackIntakeArmClimbDrivetrainClimb extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // intakearmadjustment += Robot.oi.drivetrainController.triggers.getLeft() * 0.1;
-    // jackadjustment += Robot.oi.drivetrainController.triggers.getRight() * 0.1;
-    // if (Robot.oi.drivetrainController.aButton.get()) {
-    //   if (up < 0) {
-    //     up += velocity;
-    //   } else if (position < (Constants.HEIGHT_OF_BOX + Math.abs(intakearmadjustment - jackadjustment))) {
-    //     position += velocity;
-    //   } else {
-    //     Robot.oi.drivetrainController.setRumble(RumbleType.kLeftRumble, 1);
-    //     Robot.oi.drivetrainController.setRumble(RumbleType.kRightRumble, 1);
-    //   }
-    // } else if (Robot.oi.drivetrainController.bButton.get()) {
-    //   up -= velocity * 0.5;
-    // }
-    // Robot.jack.setTargetPosition(Constants.JACK_READY_POSITION + position + jackadjustment - up);
-    // Robot.intakeArm.setTargetAngle(Robot.intakeArm.inchesToDegrees(Constants.INTAKE_ARM_READY_POSITION - position - intakearmadjustment + up));
+    intakearmadjustment += Robot.oi.drivetrainController.triggers.getLeft() * 0.1;
+    jackadjustment += Robot.oi.drivetrainController.triggers.getRight() * 0.1;
+    if (Robot.oi.drivetrainController.aButton.get()) {
+      if (up < 0) {
+        up += velocity;
+      } else if (position < (Constants.HEIGHT_OF_BOX + Math.abs(intakearmadjustment - jackadjustment))) {
+        position += velocity;
+      } else {
+        Robot.oi.drivetrainController.setRumble(RumbleType.kLeftRumble, 1);
+        Robot.oi.drivetrainController.setRumble(RumbleType.kRightRumble, 1);
+      }
+    } else if (Robot.oi.drivetrainController.bButton.get()) {
+      up -= velocity * 0.5;
+    }
+    // Robot.jack.setTargetPosition(Jack.JACK_READY_POSITION + position + jackadjustment - up);
+    // Robot.intakeArm.setTargetAngle(IntakeArm.Angle.READY + Robot.intakeArm.inchesToDegrees(-position - intakearmadjustment + up));
   }
 
   // Make this return true when this Command no longer needs to run execute()

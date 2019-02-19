@@ -12,6 +12,7 @@ import frc.robot.commands.elevator.ElevatorMotionMagic;
 import frc.robot.commands.hatchholder.HatchHolderToggleClaw;
 import frc.robot.commands.hatchholder.HatchHolderToggleCompressor;
 import frc.robot.commands.hatchholder.HatchHolderToggleExtentention;
+import frc.robot.commands.intakeArm.IntakeArmMotionMagic;
 import frc.robot.commands.intakeArm.IntakeArmPreventCollsion;
 import frc.robot.commands.intakeArm.unused.IntakeArmPosition;
 import frc.robot.commands.poses.BallShip;
@@ -70,6 +71,7 @@ public class OI {
 
     subsystemController.aButton.whenPressed(new StartingPose());
     // subsystemController.bButton.whenPressed(new IntakePose());
+    subsystemController.bButton.whenPressed(new IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
     subsystemController.xButton.whenPressed(new HatchFirst());
     subsystemController.yButton.whenPressed(new BallShip());
 

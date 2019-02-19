@@ -24,13 +24,13 @@ public class Elevator extends Subsystem {
     public static final double ZERO = 0;
 
     public static final double HATCH_FIRST = 10,
-        HATCH_SECOND = 30,
-        HATCH_THIRD = 50,
+        HATCH_SECOND = 38,
+        HATCH_THIRD = 65,
         HATCH_HANDOFF = 5;
     
-    public static final double BALL_FIRST = 15,
-        BALL_SECOND = 35,
-        BALL_THIRD = 55,
+    public static final double BALL_FIRST = 19,
+        BALL_SECOND = 75,
+        BALL_THIRD = 44,
         BALL_CARGOSHIP = 30;
 
     private double value;

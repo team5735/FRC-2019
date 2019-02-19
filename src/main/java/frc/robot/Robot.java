@@ -128,6 +128,7 @@ public class Robot extends TimedRobot {
 
     Robot.elevator.forceSetTargetPosition(Robot.elevator.getCurrentHeight());
     Robot.elevator.resetHomed();
+    Robot.jack.resetHomed();
     Robot.intakeArm.forceSetTargetAngle(Robot.intakeArm.getCurrentDegrees());
     Robot.intakeArm.resetHomed();
   }
