@@ -29,8 +29,8 @@ public class Elevator extends Subsystem {
         HATCH_HANDOFF = 5;
     
     public static final double BALL_FIRST = 19,
-        BALL_SECOND = 75,
-        BALL_THIRD = 44,
+        BALL_SECOND = 44,
+        BALL_THIRD = 75,
         BALL_CARGOSHIP = 30;
 
     private double value;

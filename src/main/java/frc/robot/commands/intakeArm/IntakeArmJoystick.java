@@ -29,19 +29,16 @@ public class IntakeArmJoystick extends Command {
       // System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- PO: " + Robot.intakeArm.getPercentOutput());
       // System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Height: " + Robot.intakeArm.degreesToInches(Robot.intakeArm.getCurrentDegrees()) + " ------- PO: " + Robot.intakeArm.getPercentOutput());
 
-      Robot.intakeArm.setTargetAngle(Robot.intakeArm.getTargetDegress() + 2 * Robot.oi.subsystemController.leftStick.getYCubed());
+      Robot.intakeArm.setTargetAngle(Robot.intakeArm.getTargetDegress() - 2 * Robot.oi.subsystemController.leftStick.getYCubed());
       // Robot.intakeArm.setTargetAngle(Robot.intakeArm.inchesToDegrees(10 * Math.abs(Robot.oi.subsystemController.leftStick.getYCubed())));
-      Robot.intakeArm.updatePosition();
+      Robot.intakeArm.updateMotionMagic();
     } else {
-      System.out.println("{INTAKE} Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- Speed: " + Robot.intakeArm.getArmVelocityInEncoderTicks());
+      // System.out.println("{INTAKE} Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- Speed: " + Robot.intakeArm.getArmVelocityInEncoderTicks());
 
       Robot.intakeArm.isLowerLimitSwitchPressed();
       Robot.intakeArm.isUpperLimitSwitchPressed();
-      Robot.intakeArm.updatePercentOutputOnArm(Robot.oi.subsystemController.leftStick.getYCubed());
-    }
-
-    Robot.intakeArm.updatePercentOutputOnSpinner(Robot.oi.subsystemController.triggers.getRight() - Robot.oi.subsystemController.triggers.getLeft());
-    
+      Robot.intakeArm.updatePercentOutputOnArm(-Robot.oi.subsystemController.leftStick.getYCubed());
+    }    
   }
 
   // Make this return true when this Command no longer needs to run execute()

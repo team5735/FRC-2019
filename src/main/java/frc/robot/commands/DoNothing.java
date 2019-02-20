@@ -5,49 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drivetrain;
+package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
-import edu.wpi.first.wpilibj.Joystick.ButtonType;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.lib.controllers.BobXboxController;
-import frc.lib.util.DriveSignal;
-import frc.robot.OI;
-import frc.robot.Robot;
 
-public class DrivetrainJoystick extends Command {
-  public DrivetrainJoystick() {
+public class DoNothing extends Command {
+  public DoNothing() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.drive);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // System.out.println("foo");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // System.out.println("foo");
-    if (Robot.oi.drivetrainController.leftBumper.get()) {
-      Robot.drive.cheesyDrive(-Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05) * 0.5,
-          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * 0.5,
-      Robot.oi.drivetrainController.rightBumper.get()); // left trigger
-    } else {
-      Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05) * 0.5,
-          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * 0.5,
-      Robot.oi.drivetrainController.rightBumper.get()); // left trigger
-    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

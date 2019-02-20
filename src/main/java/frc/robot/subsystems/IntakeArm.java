@@ -28,7 +28,6 @@ public class IntakeArm extends Subsystem {
 
   private TalonSRX intakeArmMotor;
   private TalonSRX intakeArmFollower;
-  private TalonSRX spinnyMotor;
 
   private boolean isHomed = false;
 
@@ -51,8 +50,13 @@ public class IntakeArm extends Subsystem {
   public static final int THRESHOLD = 2;
 
   public class Angle {
+<<<<<<< HEAD
     public static final double MIN_ANGLE = -150, INSIDE = -125, VERY_INSIDE = -145, SAFE = -95, INTAKE = -55,
         MAX_ANGLE = 0, READY = -86, OFFSET = -123, OFFSET_WALKER = 41;
+=======
+    public static final double MIN_ANGLE = -150, INSIDE = -125, VERY_INSIDE = -145, SAFE = -95, INTAKE = -50,
+        MAX_ANGLE = 0, READY = -110, OFFSET = 41;
+>>>>>>> ef16ef29baa832e7c781adbef10ed289f6ec5f27
 
     private double value;
 
@@ -96,9 +100,6 @@ public class IntakeArm extends Subsystem {
 
     intakeArmMotor.configReverseLimitSwitchSource(RemoteLimitSwitchSource.RemoteTalonSRX,
         LimitSwitchNormal.NormallyOpen, intakeArmFollower.getDeviceID(), 10);
-
-    spinnyMotor = new TalonSRX(Constants.INTAKE_ARM_SPINNER_MOTOR_ID);
-    spinnyMotor.configFactoryDefault();
   }
 
   @Override
@@ -156,10 +157,6 @@ public class IntakeArm extends Subsystem {
     intakeArmMotor.set(ControlMode.PercentOutput, value * 0.3);
   }
 
-  public void updatePercentOutputOnSpinner(double value) {
-    spinnyMotor.set(ControlMode.PercentOutput, value);
-  }
-
   public boolean isHomed() {
     return isHomed;
   }
@@ -215,7 +212,17 @@ public class IntakeArm extends Subsystem {
   }
 
   public double intakeArmInchesToDegrees(double inches) {
+<<<<<<< HEAD
     return Angle.OFFSET + Math.toDegrees(Math.acos(((inches + 2) - HEIGHT_OFF_GROUND) / ARM_LENGTH));
+=======
+    // return Math.acos((inches - HEIGHT_OFF_GROUND) / ARM_LENGTH) / 2. / Math.PI *
+    // 4096. + Angle.OFFSET / 360. * 4096.;
+    // return Math.abs(Math.asin((inches - HEIGHT_OFF_GROUND) / ARM_LENGTH)) / 2. /
+    // Math.PI * 4096. + 35. / 360. * 4096.;
+    double degrees = Math.asin((inches - HEIGHT_OFF_GROUND) / ARM_LENGTH) / 2. / Math.PI * 360. + Angle.OFFSET;
+    degrees = - degrees;
+    return degrees < -90 ? -180 - degrees : degrees;
+>>>>>>> ef16ef29baa832e7c781adbef10ed289f6ec5f27
   }
 
   public double degreesToIntakeArmInches(double degrees) {

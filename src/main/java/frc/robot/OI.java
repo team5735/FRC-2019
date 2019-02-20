@@ -1,4 +1,4 @@
-  /*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
 /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
@@ -8,7 +8,12 @@
 package frc.robot;
 
 import frc.lib.controllers.BobXboxController;
+<<<<<<< HEAD
 import frc.robot.commands.combos.DrivetrainControllerCancel;
+=======
+import frc.robot.commands.DoNothing;
+import frc.robot.commands.RotateOI;
+>>>>>>> ef16ef29baa832e7c781adbef10ed289f6ec5f27
 import frc.robot.commands.combos.JackIntakeArmClimbDrivetrainClimb;
 import frc.robot.commands.combos.SubsystemControllerCancel;
 import frc.robot.commands.elevator.ElevatorMotionMagic;
@@ -18,14 +23,16 @@ import frc.robot.commands.hatchholder.HatchHolderToggleExtentention;
 import frc.robot.commands.intakeArm.IntakeArmMotionMagic;
 import frc.robot.commands.intakeArm.IntakeArmPreventCollsion;
 import frc.robot.commands.intakeArm.unused.IntakeArmPosition;
+import frc.robot.commands.poses.BallFirst;
+import frc.robot.commands.poses.BallSecond;
 import frc.robot.commands.poses.BallShip;
 import frc.robot.commands.poses.HatchFirst;
+import frc.robot.commands.poses.HatchSecond;
 import frc.robot.commands.poses.IntakePose;
 import frc.robot.commands.poses.ReadyPose;
 import frc.robot.commands.poses.StartingPose;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.IntakeArm;
-
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -63,10 +70,13 @@ public class OI {
   public BobXboxController drivetrainController;
   public BobXboxController subsystemController;
 
+  public boolean rotated = false;
+
   public OI() {
     drivetrainController = new BobXboxController(Constants.DRIVETRAIN_CONTROLLER_USB_PORT);
     // drivetrainController.xButton.whenPressed(new JackIntakeArmReadyPosition());
-    // drivetrainController.startButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
+    // drivetrainController.startButton.whenPressed(new
+    // JackIntakeArmClimbDrivetrainClimb());
 
     subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
     subsystemController.Dpad.Up.whenPressed(new HatchHolderToggleClaw());
@@ -82,11 +92,40 @@ public class OI {
     subsystemController.bButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
     // subsystemController.bButton.whenPressed(new IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
     subsystemController.xButton.whenPressed(new HatchFirst());
-    subsystemController.yButton.whenPressed(new BallShip());
+    subsystemController.yButton.whenPressed(new BallFirst());
+    // subsystemController.yButton.whenPressed(new ());
+    // subsystemController.startButton.whenPressed(new RotateOI());
 
-    // subsystemController.aButton.whenPressed(new ElevatorMotionMagic(Elevator.Position.HATCH_FIRST));
-    // subsystemController.bButton.whenPressed(new ElevatorMotionMagic(Elevator.Position.HATCH_SECOND));
+    // subsystemController.aButton.whenPressed(new StartingPose());
+    // subsystemController.aButton.whenPressed(new ReadyPose());
+    // subsystemController.bButton.whenPressed(new
+    // JackIntakeArmClimbDrivetrainClimb());
+    // subsystemController.bButton.whenPressed(new
+    // IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
+    // subsystemController.xButton.whenPressed(new HatchFirst());
+    // subsystemController.yButton.whenPressed(new HatchSecond();
 
+    // subsystemController.aButton.whenPressed(new
+    // ElevatorMotionMagic(Elevator.Position.HATCH_FIRST));
+    // subsystemController.bButton.whenPressed(new
+    // ElevatorMotionMagic(Elevator.Position.HATCH_SECOND));
 
   }
+/*
+  public void rotate() {
+    rotated = !rotated;
+    if (rotated) {
+      System.out.println("Rotated");
+      subsystemController.aButton.whenPressed(new IntakePose());
+      subsystemController.bButton.whenPressed(new BallFirst());
+      subsystemController.xButton.whenPressed(new BallSecond());
+      subsystemController.yButton.whenPressed(new BallShip());
+    } else {
+      subsystemController.aButton.whenPressed(new StartingPose());
+      subsystemController.bButton.whenPressed(new HatchFirst());
+      subsystemController.xButton.whenPressed(new HatchSecond());
+      subsystemController.yButton.whenPressed(new DoNothing());
+    }
+  }
+  */
 }
