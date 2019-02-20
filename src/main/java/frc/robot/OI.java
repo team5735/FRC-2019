@@ -100,12 +100,13 @@ public class OI {
   public void rotate() {
     rotated = !rotated;
     if (rotated) {
-      SmartDashboard.putBoolean(, value);
+      SmartDashboard.putBoolean("isInBallMode", true);
       subsystemController.aButton.whenPressed(new IntakePose());
       subsystemController.bButton.whenPressed(new BallFirst());
       subsystemController.xButton.whenPressed(new BallSecond());
       subsystemController.yButton.whenPressed(new BallThird());
     } else {
+      SmartDashboard.putBoolean("isInBallMode", false);
       subsystemController.aButton.whenPressed(new StartingPose());
       subsystemController.bButton.whenPressed(new HatchFirst());
       subsystemController.xButton.whenPressed(new HatchSecond());
