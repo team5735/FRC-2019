@@ -21,31 +21,28 @@ import frc.robot.commands.jack.JackJoystick;
  * Add your docs here.
  */
 public class Jack extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
 
   private TalonSRX jackMotor;
 
-  private double targetPosition = 0;
+  // Subsystem States
+  private boolean isHomed = false;
+  private double targetPosition = 0;    // Inches
+  private boolean forwardLimitSwitchLastPressed = false;
+  private boolean reverseLimitSwitchLastPressed = false;
 
   // Subsystem Constants
   private static final double THRESHOLD = 1;                  // Inches
-  private static final double HEIGHT_LIMIT = 15;              // Inches
+  private static final double HEIGHT_LIMIT = 24;              // Inches
   private static final double CRUSING_VEL = 50;               // Inches / sec
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
   // Encoder Conversion Constants
   private static final double ENCODER_TICKS_PER_REVOLUTION = 12;
   private static final double GEAR_RATIO = 1. / 100. * 18. / 30.;
-  private static final int SPROCKET_TOOTH_COUNT = 22;
   private static final double LENGTH_OF_LINK = 0.25;
+  private static final int SPROCKET_TOOTH_COUNT = 22;
 
   public static final double JACK_READY_POSITION = 2;
-
-  private boolean isHomed = false;
-
-  private boolean forwardLimitSwitchLastPressed = false;
-  private boolean reverseLimitSwitchLastPressed = false;
 
   // PID Values
   private static final double kP = 1;
@@ -62,7 +59,6 @@ public class Jack extends Subsystem {
     jackMotor.setInverted(false);
     jackMotor.setSensorPhase(true);
     jackMotor.overrideLimitSwitchesEnable(true);
-    resetSensorPosition();
 
     // Set motion magic parameters
     // jackMotor.configMotionCruiseVelocity(jackInchesToEncoderTicks(CRUSING_VEL));
@@ -98,6 +94,10 @@ public class Jack extends Subsystem {
     }
   }
 
+  public void forceSetTargetPosition(double targetPosition) {
+    this.targetPosition = targetPosition;
+  }
+
   public boolean isInPosition() {
     double positionError = Math.abs(encoderTicksToJackInches(getSensorPosition()) - this.targetPosition);
     return positionError < THRESHOLD;
@@ -120,10 +120,6 @@ public class Jack extends Subsystem {
 
   public void updatePercentOutput(double value) {
     jackMotor.set(ControlMode.PercentOutput, value);
-  }
-
-  public void resetSensorPosition() {
-    jackMotor.setSelectedSensorPosition(0, 0, 30);
   }
 
   public double getTargetPosition() {
@@ -151,10 +147,6 @@ public class Jack extends Subsystem {
     return jackMotor.getMotorOutputPercent();
   }
 
-  public boolean isUpperLimitSwitchPressed() {
-    return jackMotor.getSensorCollection().isFwdLimitSwitchClosed();
-  }
-
   public boolean isLowerLimitSwitchPressed() {
     if (jackMotor.getSensorCollection().isRevLimitSwitchClosed()) {
       if (!reverseLimitSwitchLastPressed) {
@@ -174,9 +166,13 @@ public class Jack extends Subsystem {
   public boolean isHomed() {
     return isHomed;
   }
-  
+
   public void resetHomed(){
     this.isHomed = false;
+  }
+
+  public boolean isUpperLimitSwitchPressed() {
+    return jackMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
   public String periodicOutput() {

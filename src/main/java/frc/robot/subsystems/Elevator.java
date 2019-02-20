@@ -44,26 +44,17 @@ public class Elevator extends Subsystem {
     }
   }
 
-  // // Subsystem Setpoints
-  // public final double BOTTOM_POSITION = 0,
-  //   FIRST_POSITION = 10,
-  //   SECOND_POSITION = 30,
-  //   THIRD_POSITION = 50,
-  //   MAX_POSITION = 70;
-
   // Subsystem Motors
   private TalonSRX elevatorMotor;
   private VictorSPX elevatorFollowerMotor;
 
-  private boolean forwardLimitSwitchLastPressed = false;
-  private boolean reverseLimitSwitchLastPressed = false;
-
   // Subsystem States
   private boolean isHomed = false;
   private double targetPosition = 0;    // Inches
+  private boolean forwardLimitSwitchLastPressed = false;
+  private boolean reverseLimitSwitchLastPressed = false;
 
   // Subsystem Constants
-  private static final double HOMING_SPEED = -0.2;            // Percent Output
   public static final double THRESHOLD = 1;                  // Inches
   private static final double HEIGHT_LIMIT = 75;              // Inches
   private static final double CRUSING_VEL = 5;               // Inches / sec
@@ -75,11 +66,6 @@ public class Elevator extends Subsystem {
   private static final int SPROCKET_TOOTH_COUNT = 16;
   private static final double LENGTH_OF_LINK = 0.25;
   private static final int NUMBER_OF_STAGES = 3;
-
-  // Conflict range
-  // public static final double CONFLICT_LOWER_BOUND = 1;
-  // public static final double CONFLICT_UPPER_BOUND = 20;
-  // public static final double SAFE_POSITION = 21;
 
   //PID Values
   private static final double kP = 5;

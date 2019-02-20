@@ -8,7 +8,9 @@
 package frc.robot;
 
 import frc.lib.controllers.BobXboxController;
+import frc.robot.commands.combos.DrivetrainControllerCancel;
 import frc.robot.commands.combos.JackIntakeArmClimbDrivetrainClimb;
+import frc.robot.commands.combos.SubsystemControllerCancel;
 import frc.robot.commands.elevator.ElevatorMotionMagic;
 import frc.robot.commands.hatchholder.HatchHolderToggleClaw;
 import frc.robot.commands.hatchholder.HatchHolderToggleCompressor;
@@ -70,6 +72,9 @@ public class OI {
     subsystemController.Dpad.Up.whenPressed(new HatchHolderToggleClaw());
     subsystemController.Dpad.Down.whenPressed(new HatchHolderToggleExtentention());
     subsystemController.Dpad.Left.whenPressed(new HatchHolderToggleCompressor());
+
+    subsystemController.selectButton.whenPressed(new SubsystemControllerCancel());
+    drivetrainController.selectButton.whenPressed(new DrivetrainControllerCancel());
 
     // subsystemController.aButton.whenPressed(new StartingPose());
     subsystemController.aButton.whenPressed(new ReadyPose());

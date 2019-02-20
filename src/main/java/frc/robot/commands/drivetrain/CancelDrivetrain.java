@@ -5,16 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intakeArm;
+package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class IntakeArmHoldPosition extends Command {
-  public IntakeArmHoldPosition() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.intakeArm);
+public class CancelDrivetrain extends Command {
+  public CancelDrivetrain() {
+    requires(Robot.drive);
   }
 
   // Called just before this Command runs the first time
@@ -25,15 +23,12 @@ public class IntakeArmHoldPosition extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // System.out.println(Robot.intakeArm.getSensorPosition());
-    // System.out.println(Robot.intakeArm.getCurrentDegrees());
-    // Robot.intakeArm.updatePosition();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

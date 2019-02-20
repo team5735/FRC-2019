@@ -15,9 +15,9 @@ import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.intakeArm.IntakeArmHoldPosition;
 import frc.robot.commands.intakeArm.IntakeArmJoystick;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 /**
  * When zeroing the straight up is zero;
@@ -42,9 +42,8 @@ public class IntakeArm extends Subsystem {
   private static final double kF = 1023. / 1050.;
   private static final double kA = 0; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
 
-  private static final double ARM_LENGTH = 15.6; // inches
+  private static final double ARM_LENGTH = 15; // inches
   private static final double HEIGHT_OFF_GROUND = 10; // inches
-  // private static final double OFFSET_TO_STRAIGHT_UP = 30; //degrees
   private static final double GEAR_RATIO = 84. / 24.;
 
   private static final double MAX_FEEDFORWARD = 0.008; // 0.2
@@ -53,7 +52,7 @@ public class IntakeArm extends Subsystem {
 
   public class Angle {
     public static final double MIN_ANGLE = -150, INSIDE = -125, VERY_INSIDE = -145, SAFE = -95, INTAKE = -55,
-        MAX_ANGLE = 0, READY = -110, OFFSET = 41;
+        MAX_ANGLE = 0, READY = -86, OFFSET = -123, OFFSET_WALKER = 41;
 
     private double value;
 
@@ -141,17 +140,15 @@ public class IntakeArm extends Subsystem {
 
   public void updatePosition() {
     isUpperLimitSwitchPressed();
-    System.out.println("{INTAKE} Target: " + degreesToInches(getTargetDegress()) + " Degrres: "+ getTargetDegress() + " ------- PO: " + getPercentOutput());
+    System.out.println("{INTAKE} Target: " + degreesToIntakeArmInches(getTargetDegress()) + " Degrees: "+ getTargetDegress() + " ------- PO: " + getPercentOutput());
     intakeArmMotor.set(ControlMode.Position, degreesToEncoderTicks(targetAngle));
   }
 
   public void updateMotionMagic() {
     isUpperLimitSwitchPressed();
-    // System.out.println(-MAX_FEEDFORWARD*Math.sin(getCurrentDegrees() -
-    // Angle.OFFSET));
+    // System.out.println(-MAX_FEEDFORWARD*Math.sin(getCurrentDegrees() - Angle.OFFSET));
     intakeArmMotor.set(ControlMode.MotionMagic, degreesToEncoderTicks(targetAngle), DemandType.ArbitraryFeedForward,
-        -MAX_FEEDFORWARD * Math.sin(getCurrentDegrees() - Angle.OFFSET)); // -MAX_FEEDFORWARD*Math.sin(targetAngle -
-                                                                          // Angle.OFFSET)
+        -MAX_FEEDFORWARD * Math.sin(getCurrentDegrees() - Angle.OFFSET));
   }
 
   public void updatePercentOutputOnArm(double value) {
@@ -218,33 +215,37 @@ public class IntakeArm extends Subsystem {
   }
 
   public double intakeArmInchesToDegrees(double inches) {
-    // return Math.acos((inches - HEIGHT_OFF_GROUND) / ARM_LENGTH) / 2. / Math.PI *
-    // 4096. + Angle.OFFSET / 360. * 4096.;
-    // return Math.abs(Math.asin((inches - HEIGHT_OFF_GROUND) / ARM_LENGTH)) / 2. /
-    // Math.PI * 4096. + 35. / 360. * 4096.;
-    double degrees = -Math.asin((inches - HEIGHT_OFF_GROUND) / ARM_LENGTH) / 2. / Math.PI * 360. + Angle.OFFSET;
-    // return degrees;
-    return degrees < -90 ? -180 - degrees : degrees;
+    return Angle.OFFSET + Math.toDegrees(Math.acos(((inches + 2) - HEIGHT_OFF_GROUND) / ARM_LENGTH));
   }
 
-  public double intakeArmDegreesToInches(double degrees) {
-    // return Math.cos((encoderTicks - Angle.OFFSET / 360. * 4096.) / 4096. * 2. *
-    // Math.PI) * ARM_LENGTH + HEIGHT_OFF_GROUND;
-    // return Math.sin((encoderTicks - 35. / 360. * 4096.) / 4096 * 2. * Math.PI) *
-    // ARM_LENGTH + HEIGHT_OFF_GROUND;
-    if ((degrees + Angle.OFFSET) < -90) {
-      degrees = -180 - (degrees + Angle.OFFSET);
-    }
-    return -(Math.sin((degrees + Angle.OFFSET) / 360 * 2. * Math.PI) * ARM_LENGTH) + HEIGHT_OFF_GROUND;
+  public double degreesToIntakeArmInches(double degrees) {
+      return Math.cos(Math.toRadians(degrees - Angle.OFFSET)) * ARM_LENGTH + HEIGHT_OFF_GROUND - 2;
   }
 
-  public double inchesToDegrees(double inches) {
-    return intakeArmInchesToDegrees(inches);
-  }
+  // public double intakeArmInchesToDegrees(double inches) {
+  //   // return Math.acos((inches - HEIGHT_OFF_GROUND) / ARM_LENGTH) / 2. / Math.PI *
+  //   // 4096. + Angle.OFFSET / 360. * 4096.;
+  //   // return Math.abs(Math.asin((inches - HEIGHT_OFF_GROUND) / ARM_LENGTH)) / 2. /
+  //   // Math.PI * 4096. + 35. / 360. * 4096.;
+  //   double degrees = -Math.asin((inches - HEIGHT_OFF_GROUND) / ARM_LENGTH) / 2. / Math.PI * 360. + Angle.OFFSET_WALKER; // Walker changed Angle.OFFSET to 41
+  //   // return degrees;
+  //   return degrees < -90 ? -180 - degrees : degrees;
+  // }
 
-  public double degreesToInches(double degrees) {
-    return intakeArmDegreesToInches(degrees);
-  }
+  // public double intakeArmDegreesToInches(double degrees) {
+  //   // return Math.cos((encoderTicks - Angle.OFFSET / 360. * 4096.) / 4096. * 2. *
+  //   // Math.PI) * ARM_LENGTH + HEIGHT_OFF_GROUND;
+  //   // return Math.sin((encoderTicks - 35. / 360. * 4096.) / 4096 * 2. * Math.PI) *
+  //   // ARM_LENGTH + HEIGHT_OFF_GROUND;
+  //   if ((degrees + Angle.OFFSET_WALKER) < -90) {
+  //     degrees = -180 - (degrees + Angle.OFFSET_WALKER);
+  //   }
+  //   return -(Math.sin((degrees + Angle.OFFSET_WALKER) / 360 * 2. * Math.PI) * ARM_LENGTH) + HEIGHT_OFF_GROUND;
+  // }
+
+  // public double degreesToInches(double degrees) {
+  //   return intakeArmDegreesToInches(degrees);
+  // }
 
   public double encoderTicksToDegrees(double encoderTicks) {
     return encoderTicks / 4096. * 360. * 24 / 84;

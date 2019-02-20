@@ -45,7 +45,7 @@ public class JackJoystick extends Command {
         deltaPosition = 0;
       }
 
-      Robot.jack.setTargetPosition(Robot.jack.getTargetPosition() + 0.05 * deltaPosition);
+      // Robot.jack.setTargetPosition(Robot.jack.getTargetPosition() + 0.05 * deltaPosition);
       Robot.jack.updatePosition();
 
       System.out.println("T:" + (Robot.jack.getTargetPosition() + "     ").substring(0, 6) + " C:"
@@ -55,10 +55,12 @@ public class JackJoystick extends Command {
       System.out.println(Robot.jack.isHomed());
       System.out.println("{JACK} Current Position: " + Robot.jack.getCurrentHeight()
           + " ------- Percent Output: " + Robot.jack.getMotorOutputPercent());
+
+      System.out.println("{JACK} Lower Limit: " + Robot.jack.isLowerLimitSwitchPressed() + " Upper Limit: " + Robot.jack.isUpperLimitSwitchPressed());
         
       Robot.jack.isLowerLimitSwitchPressed();
       Robot.jack.isUpperLimitSwitchPressed();
-      Robot.jack.updatePercentOutput(Robot.oi.subsystemController.rightStick.getYCubed());
+      Robot.jack.updatePercentOutput(-0.5*Robot.oi.drivetrainController.triggers.getRight());
     }
 
   }
