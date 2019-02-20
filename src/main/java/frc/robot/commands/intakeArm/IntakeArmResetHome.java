@@ -5,36 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator.unused;
+package frc.robot.commands.intakeArm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorHome extends Command {
-  public ElevatorHome() {
+public class IntakeArmResetHome extends Command {
+  public IntakeArmResetHome() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.elevator);
+    requires(Robot.intakeArm);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.intakeArm.resetHomed();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // Robot.elevator.home();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (Robot.elevator.isLowerLimitSwitchPressed()) {
-      return true;
-    }
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

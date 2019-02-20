@@ -15,7 +15,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
-import frc.robot.commands.elevator.ElevatorHoldPosition;
 import frc.robot.commands.elevator.ElevatorJoystick;
 
 public class Elevator extends Subsystem {

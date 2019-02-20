@@ -5,35 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intakeArm.unused;
+package frc.robot.commands.hatchholder;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class IntakeArmHoldPosition extends Command {
-  public IntakeArmHoldPosition() {
+public class HatchHolderExtenderOpen extends Command {
+  public HatchHolderExtenderOpen() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.intakeArm);
+    requires(Robot.hatchHolder);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.hatchHolder.extendExtentention();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // System.out.println(Robot.intakeArm.getSensorPosition());
-    // System.out.println(Robot.intakeArm.getCurrentDegrees());
-    // Robot.intakeArm.updatePosition();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

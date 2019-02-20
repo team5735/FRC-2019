@@ -7,27 +7,26 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.controllers.BobXboxController;
-<<<<<<< HEAD
-import frc.robot.commands.combos.DrivetrainControllerCancel;
-=======
 import frc.robot.commands.DoNothing;
 import frc.robot.commands.RotateOI;
->>>>>>> ef16ef29baa832e7c781adbef10ed289f6ec5f27
+import frc.robot.commands.combos.DrivetrainControllerCancel;
 import frc.robot.commands.combos.JackIntakeArmClimbDrivetrainClimb;
 import frc.robot.commands.combos.SubsystemControllerCancel;
-import frc.robot.commands.elevator.ElevatorMotionMagic;
-import frc.robot.commands.hatchholder.HatchHolderToggleClaw;
-import frc.robot.commands.hatchholder.HatchHolderToggleCompressor;
-import frc.robot.commands.hatchholder.HatchHolderToggleExtentention;
-import frc.robot.commands.intakeArm.IntakeArmMotionMagic;
-import frc.robot.commands.intakeArm.IntakeArmPreventCollsion;
-import frc.robot.commands.intakeArm.unused.IntakeArmPosition;
+import frc.robot.commands.elevator.ElevatorResetHome;
+import frc.robot.commands.hatchholder.HatchHolderClawClosed;
+import frc.robot.commands.hatchholder.HatchHolderClawOpen;
+import frc.robot.commands.hatchholder.HatchHolderExtenderClosed;
+import frc.robot.commands.hatchholder.HatchHolderExtenderOpen;
+import frc.robot.commands.intakeArm.IntakeArmResetHome;
 import frc.robot.commands.poses.BallFirst;
 import frc.robot.commands.poses.BallSecond;
 import frc.robot.commands.poses.BallShip;
+import frc.robot.commands.poses.BallThird;
 import frc.robot.commands.poses.HatchFirst;
 import frc.robot.commands.poses.HatchSecond;
+import frc.robot.commands.poses.HatchThird;
 import frc.robot.commands.poses.IntakePose;
 import frc.robot.commands.poses.ReadyPose;
 import frc.robot.commands.poses.StartingPose;
@@ -79,53 +78,39 @@ public class OI {
     // JackIntakeArmClimbDrivetrainClimb());
 
     subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
-    subsystemController.Dpad.Up.whenPressed(new HatchHolderToggleClaw());
-    subsystemController.Dpad.Down.whenPressed(new HatchHolderToggleExtentention());
-    subsystemController.Dpad.Left.whenPressed(new HatchHolderToggleCompressor());
+    subsystemController.Dpad.Up.whenPressed(new HatchHolderExtenderOpen());
+    subsystemController.Dpad.Down.whenPressed(new HatchHolderExtenderClosed());
+    subsystemController.Dpad.Left.whenPressed(new HatchHolderClawOpen());
+    subsystemController.Dpad.Right.whenPressed(new HatchHolderClawClosed());
 
     subsystemController.selectButton.whenPressed(new SubsystemControllerCancel());
     drivetrainController.selectButton.whenPressed(new DrivetrainControllerCancel());
 
-    // subsystemController.aButton.whenPressed(new StartingPose());
-    subsystemController.aButton.whenPressed(new ReadyPose());
-    // subsystemController.bButton.whenPressed(new IntakePose());
+    subsystemController.aButton.whenPressed(new StartingPose());
     subsystemController.bButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
-    // subsystemController.bButton.whenPressed(new IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
     subsystemController.xButton.whenPressed(new HatchFirst());
     subsystemController.yButton.whenPressed(new BallFirst());
-    // subsystemController.yButton.whenPressed(new ());
-    // subsystemController.startButton.whenPressed(new RotateOI());
 
-    // subsystemController.aButton.whenPressed(new StartingPose());
-    // subsystemController.aButton.whenPressed(new ReadyPose());
-    // subsystemController.bButton.whenPressed(new
-    // JackIntakeArmClimbDrivetrainClimb());
-    // subsystemController.bButton.whenPressed(new
-    // IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
-    // subsystemController.xButton.whenPressed(new HatchFirst());
-    // subsystemController.yButton.whenPressed(new HatchSecond();
+    subsystemController.leftStickButton.whenPressed(new IntakeArmResetHome());
+    subsystemController.rightStickButton.whenPressed(new ElevatorResetHome());
 
-    // subsystemController.aButton.whenPressed(new
-    // ElevatorMotionMagic(Elevator.Position.HATCH_FIRST));
-    // subsystemController.bButton.whenPressed(new
-    // ElevatorMotionMagic(Elevator.Position.HATCH_SECOND));
-
+    subsystemController.startButton.whenReleased(new RotateOI());
   }
-/*
+
   public void rotate() {
     rotated = !rotated;
     if (rotated) {
-      System.out.println("Rotated");
+      SmartDashboard.putBoolean(, value);
       subsystemController.aButton.whenPressed(new IntakePose());
       subsystemController.bButton.whenPressed(new BallFirst());
       subsystemController.xButton.whenPressed(new BallSecond());
-      subsystemController.yButton.whenPressed(new BallShip());
+      subsystemController.yButton.whenPressed(new BallThird());
     } else {
       subsystemController.aButton.whenPressed(new StartingPose());
       subsystemController.bButton.whenPressed(new HatchFirst());
       subsystemController.xButton.whenPressed(new HatchSecond());
-      subsystemController.yButton.whenPressed(new DoNothing());
+      subsystemController.yButton.whenPressed(new HatchThird());
     }
   }
-  */
+  
 }

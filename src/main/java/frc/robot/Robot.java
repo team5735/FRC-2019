@@ -54,11 +54,6 @@ public class Robot extends TimedRobot {
     // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    System.out.println(Robot.intakeArm.inchesToDegrees(0));
-    System.out.println(Robot.intakeArm.inchesToDegrees(5));
-    System.out.println(Robot.intakeArm.inchesToDegrees(10));
-    System.out.println(Robot.intakeArm.inchesToDegrees(15));
-    System.out.println(Robot.intakeArm.inchesToDegrees(20));
   }
 
   /**

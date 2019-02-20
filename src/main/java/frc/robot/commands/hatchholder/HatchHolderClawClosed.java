@@ -5,34 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.hatchholder;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ElevatorHoldPosition extends Command {
-  public ElevatorHoldPosition() {
+public class HatchHolderClawClosed extends Command {
+  public HatchHolderClawClosed() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.elevator);
+    requires(Robot.hatchHolder);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.hatchHolder.closeClaw();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("ELEVATOR: " + Robot.elevator.getCurrentHeight());
-    Robot.elevator.updateMotionMagic();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
