@@ -53,7 +53,8 @@ public class Robot extends TimedRobot {
     trajectoryGenerator.generateTrajectories();
     // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
+    // SmartDashboard.putData("Auto mode", m_chooser);
+    SmartDashboard.putBoolean("putInBallMode", false);
   }
 
   /**

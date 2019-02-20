@@ -94,18 +94,20 @@ public class OI {
     subsystemController.leftStickButton.whenPressed(new IntakeArmResetHome());
     subsystemController.rightStickButton.whenPressed(new ElevatorResetHome());
 
+
     subsystemController.startButton.whenReleased(new RotateOI());
   }
 
   public void rotate() {
     rotated = !rotated;
     if (rotated) {
-      SmartDashboard.putBoolean(, value);
+      SmartDashboard.putBoolean("putInBallMode", true);
       subsystemController.aButton.whenPressed(new IntakePose());
       subsystemController.bButton.whenPressed(new BallFirst());
       subsystemController.xButton.whenPressed(new BallSecond());
       subsystemController.yButton.whenPressed(new BallThird());
     } else {
+      SmartDashboard.putBoolean("putInBallMode", false);
       subsystemController.aButton.whenPressed(new StartingPose());
       subsystemController.bButton.whenPressed(new HatchFirst());
       subsystemController.xButton.whenPressed(new HatchSecond());
