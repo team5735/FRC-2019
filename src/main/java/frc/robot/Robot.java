@@ -54,7 +54,10 @@ public class Robot extends TimedRobot {
     // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     // SmartDashboard.putData("Auto mode", m_chooser);
-    SmartDashboard.putBoolean("putInBallMode", false);
+    SmartDashboard.putBoolean("putInBallMode", oi.rotated);
+    SmartDashboard.putBoolean("isElevatorHomed", elevator.isHomed());
+    SmartDashboard.putBoolean("isJackHomed", jack.isHomed());
+    SmartDashboard.putBoolean("isArmHomed", intakeArm.isHomed());
   }
 
   /**
@@ -144,7 +147,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-
+    SmartDashboard.putBoolean("isElevatorHomed", elevator.isHomed());
+    SmartDashboard.putBoolean("isJackHomed", jack.isHomed());
+    SmartDashboard.putBoolean("isArmHomed", intakeArm.isHomed());
     //Periodic testing outputs
     // System.out.println("Drive");
     // System.out.println(drive.periodicOutput());

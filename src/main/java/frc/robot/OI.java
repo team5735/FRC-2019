@@ -73,9 +73,8 @@ public class OI {
 
   public OI() {
     drivetrainController = new BobXboxController(Constants.DRIVETRAIN_CONTROLLER_USB_PORT);
-    // drivetrainController.xButton.whenPressed(new JackIntakeArmReadyPosition());
-    // drivetrainController.startButton.whenPressed(new
-    // JackIntakeArmClimbDrivetrainClimb());
+    drivetrainController.xButton.whenPressed(new ReadyPose());
+    drivetrainController.startButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
 
     subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
     subsystemController.Dpad.Up.whenPressed(new HatchHolderExtenderOpen());
@@ -86,10 +85,10 @@ public class OI {
     subsystemController.selectButton.whenPressed(new SubsystemControllerCancel());
     drivetrainController.selectButton.whenPressed(new DrivetrainControllerCancel());
 
-    subsystemController.aButton.whenPressed(new StartingPose());
-    subsystemController.bButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
-    subsystemController.xButton.whenPressed(new HatchFirst());
-    subsystemController.yButton.whenPressed(new BallFirst());
+    // subsystemController.aButton.whenPressed(new StartingPose());
+    // subsystemController.bButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
+    // subsystemController.xButton.whenPressed(new HatchFirst());
+    // subsystemController.yButton.whenPressed(new BallFirst());
 
     subsystemController.leftStickButton.whenPressed(new IntakeArmResetHome());
     subsystemController.rightStickButton.whenPressed(new ElevatorResetHome());

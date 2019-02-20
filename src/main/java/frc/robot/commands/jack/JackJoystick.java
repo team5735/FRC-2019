@@ -34,7 +34,7 @@ public class JackJoystick extends Command {
   protected void execute() {
     if (Robot.jack.isHomed()) {
       double input = 0;
-      // input = Robot.oi.subsystemController.rightStick.getYCubed() * 0.5;
+      input = (Robot.oi.drivetrainController.triggers.getRight() - Robot.oi.drivetrainController.triggers.getLeft()) * 0.5;
 
       double deltaPosition;
       if (input > 0.07) {
@@ -45,7 +45,7 @@ public class JackJoystick extends Command {
         deltaPosition = 0;
       }
 
-      // Robot.jack.setTargetPosition(Robot.jack.getTargetPosition() + 0.05 * deltaPosition);
+      Robot.jack.setTargetPosition(Robot.jack.getTargetPosition() + 0.05 * deltaPosition);
       Robot.jack.updatePosition();
 
       System.out.println("T:" + (Robot.jack.getTargetPosition() + "     ").substring(0, 6) + " C:"
