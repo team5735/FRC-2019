@@ -32,7 +32,7 @@ public class Jack extends Subsystem {
 
   // Subsystem Constants
   private static final double THRESHOLD = 1;                  // Inches
-  private static final double HEIGHT_LIMIT = 24;              // Inches
+  private static final double HEIGHT_LIMIT = 25;              // Inches
   private static final double CRUSING_VEL = 50;               // Inches / sec
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 

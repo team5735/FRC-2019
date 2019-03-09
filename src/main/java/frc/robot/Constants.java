@@ -49,7 +49,7 @@ public class Constants {
 
     public static final boolean DRIVETRAIN_DO_STUFF = true;
     public static final boolean ELEVATOR_DO_STUFF = true;
-    public static final boolean JACK_DO_STUFF = false;
+    public static final boolean JACK_DO_STUFF = true;
 
     // Motor IDs
     public static final int DRIVETRAIN_CONTROLLER_USB_PORT = 0;

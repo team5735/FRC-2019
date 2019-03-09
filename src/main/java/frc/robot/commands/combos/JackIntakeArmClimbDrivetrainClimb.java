@@ -36,6 +36,7 @@ public class JackIntakeArmClimbDrivetrainClimb extends Command {
     position = 0;
     jackadjustment = 0;
     intakearmadjustment = 0;
+    up = 0; // - hieghasdi o
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -60,9 +61,9 @@ public class JackIntakeArmClimbDrivetrainClimb extends Command {
       up -= velocity * 0.5;
     }
 
-    Robot.jack.setTargetPosition(Jack.JACK_READY_POSITION + position + jackadjustment - up);
-    Robot.intakeArm.setTargetAngle(Robot.intakeArm.intakeArmInchesToDegrees(Constants.HEIGHT_OF_BOX - position - intakearmadjustment + up));
-    System.out.println(Constants.HEIGHT_OF_BOX - position - intakearmadjustment + up);
+    Robot.jack.setTargetPosition(Jack.JACK_READY_POSITION + position + jackadjustment + up);
+    Robot.intakeArm.setTargetAngle(Robot.intakeArm.intakeArmInchesToDegrees(Constants.HEIGHT_OF_BOX - position - intakearmadjustment - up));
+    // System.out.println(Constants.HEIGHT_OF_BOX - position - intakearmadjustment + up);
     Robot.jack.updatePosition();
     Robot.intakeArm.updatePosition();
   }
