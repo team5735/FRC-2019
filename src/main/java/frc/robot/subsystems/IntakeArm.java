@@ -207,7 +207,11 @@ public class IntakeArm extends Subsystem {
   }
 
   public double intakeArmInchesToDegrees(double inches) {
-    return Angle.OFFSET + Math.toDegrees(Math.acos(((inches + 2) - HEIGHT_OFF_GROUND) / ARM_LENGTH));
+    double degrees = Angle.OFFSET + Math.toDegrees(Math.acos(((inches + 2) - HEIGHT_OFF_GROUND) / ARM_LENGTH));
+    if (Double.isNaN(degrees)) {
+      degrees = (inches < 0) ? 0 : Angle.SAFE;
+    }
+    return degrees;
   }
 
   public double degreesToIntakeArmInches(double degrees) {
