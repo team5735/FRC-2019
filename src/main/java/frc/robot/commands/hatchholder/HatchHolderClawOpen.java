@@ -8,6 +8,7 @@
 package frc.robot.commands.hatchholder;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class HatchHolderClawOpen extends Command {
@@ -20,12 +21,13 @@ public class HatchHolderClawOpen extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.hatchHolder.openClaw();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.hatchHolder.openClaw();
+    SmartDashboard.putBoolean("clawOpen", true);
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -8,6 +8,7 @@
 package frc.robot.commands.hatchholder;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class HatchHolderExtenderOpen extends Command {
@@ -21,6 +22,7 @@ public class HatchHolderExtenderOpen extends Command {
   @Override
   protected void initialize() {
     Robot.hatchHolder.extendExtentention();
+    SmartDashboard.putBoolean("extenderExtended", true);
   }
 
   // Called repeatedly when this Command is scheduled to run
