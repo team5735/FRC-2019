@@ -7,8 +7,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.controllers.BobXboxController;
+import frc.robot.commands.ButtonASwitcher;
+import frc.robot.commands.ButtonBSwitcher;
+import frc.robot.commands.ButtonXSwitcher;
+import frc.robot.commands.ButtonYSwitcher;
 import frc.robot.commands.DoNothing;
 import frc.robot.commands.RotateOI;
 import frc.robot.commands.combos.DrivetrainControllerCancel;
@@ -71,6 +76,15 @@ public class OI {
 
   public boolean rotated = false;
 
+  public Command AButton1 = new BallFirst();
+  public Command AButton2 = new HatchFirst();
+  public Command BButton1 = new BallSecond();
+  public Command BButton2 = new HatchSecond();
+  public Command XButton1 = new IntakePose();
+  public Command XButton2 = new StartingPose();
+  public Command YButton1 = new BallThird();
+  public Command YButton2 = new HatchThird();
+
   public OI() {
     drivetrainController = new BobXboxController(Constants.DRIVETRAIN_CONTROLLER_USB_PORT);
     drivetrainController.xButton.whenPressed(new ReadyPose());
@@ -85,8 +99,11 @@ public class OI {
     subsystemController.Dpad.Right.whenPressed(new HatchHolderClawClosed());
 
     subsystemController.selectButton.whenPressed(new SubsystemControllerCancel());
-
-    rotate();
+    
+    subsystemController.aButton.whenPressed(new ButtonASwitcher());
+    subsystemController.bButton.whenPressed(new ButtonBSwitcher());
+    subsystemController.xButton.whenPressed(new ButtonXSwitcher());
+    subsystemController.yButton.whenPressed(new ButtonYSwitcher());
 
     subsystemController.leftStickButton.whenPressed(new IntakeArmResetHome());
     subsystemController.rightStickButton.whenPressed(new ElevatorResetHome());
@@ -98,16 +115,8 @@ public class OI {
     rotated = !rotated;
     if (rotated) {
       SmartDashboard.putBoolean("putInBallMode", true);
-      subsystemController.aButton.whenPressed(new IntakePose());
-      subsystemController.bButton.whenPressed(new BallFirst());
-      subsystemController.xButton.whenPressed(new BallSecond());
-      subsystemController.yButton.whenPressed(new BallThird());
     } else {
       SmartDashboard.putBoolean("putInBallMode", false);
-      subsystemController.aButton.whenPressed(new StartingPose());
-      subsystemController.bButton.whenPressed(new HatchFirst());
-      subsystemController.xButton.whenPressed(new HatchSecond());
-      subsystemController.yButton.whenPressed(new HatchThird());
     }
   }
 
