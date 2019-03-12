@@ -15,7 +15,7 @@ public class ButtonASwitcher extends ConditionalCommand {
   public ButtonASwitcher() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    super(Robot.oi.YButton1, Robot.oi.YButton2);
+    super(Robot.oi.AButton1, Robot.oi.AButton2);
   }
 
   @Override

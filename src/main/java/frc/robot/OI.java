@@ -91,6 +91,7 @@ public class OI {
     drivetrainController.startButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
 
     drivetrainController.selectButton.whenPressed(new DrivetrainControllerCancel());
+    SmartDashboard.putBoolean("putInBallMode", rotated);
 
     subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
     subsystemController.Dpad.Up.whenPressed(new HatchHolderExtenderOpen());
@@ -99,7 +100,7 @@ public class OI {
     subsystemController.Dpad.Right.whenPressed(new HatchHolderClawClosed());
 
     subsystemController.selectButton.whenPressed(new SubsystemControllerCancel());
-    
+
     subsystemController.aButton.whenPressed(new ButtonASwitcher());
     subsystemController.bButton.whenPressed(new ButtonBSwitcher());
     subsystemController.xButton.whenPressed(new ButtonXSwitcher());
@@ -113,11 +114,7 @@ public class OI {
 
   public void rotate() {
     rotated = !rotated;
-    if (rotated) {
-      SmartDashboard.putBoolean("putInBallMode", true);
-    } else {
-      SmartDashboard.putBoolean("putInBallMode", false);
-    }
+    SmartDashboard.putBoolean("putInBallMode", rotated);
   }
 
 }
