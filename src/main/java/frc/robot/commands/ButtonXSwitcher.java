@@ -10,12 +10,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import frc.robot.Robot;
+import frc.robot.commands.poses.IntakePose;
+import frc.robot.commands.poses.StartingPose;
 
 public class ButtonXSwitcher extends ConditionalCommand {
   public ButtonXSwitcher() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    super(Robot.oi.XButton1, Robot.oi.XButton2);
+    super(new IntakePose(), new StartingPose());
+    // super(Robot.oi.XButton1, Robot.oi.XButton2);
   }
 
   @Override

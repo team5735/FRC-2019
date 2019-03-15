@@ -10,12 +10,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import frc.robot.Robot;
+import frc.robot.commands.poses.BallFirst;
+import frc.robot.commands.poses.HatchFirst;
 
 public class ButtonASwitcher extends ConditionalCommand {
   public ButtonASwitcher() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    super(Robot.oi.AButton1, Robot.oi.AButton2);
+    super(new BallFirst(), new HatchFirst());
+    // super(Robot.oi.AButton1, Robot.oi.AButton2);
   }
 
   @Override

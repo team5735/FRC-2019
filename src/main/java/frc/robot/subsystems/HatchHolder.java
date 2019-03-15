@@ -22,8 +22,8 @@ public class HatchHolder extends Subsystem {
   private Compressor compressor;
 
   public HatchHolder() {
-    clawSolenoid = new DoubleSolenoid(1, 1, 0); // PCM, forward id, reverse id
-    extentionSolenoid = new DoubleSolenoid(1, 2, 3);
+    clawSolenoid = new DoubleSolenoid(1, 2, 3); // PCM, forward id, reverse id
+    extentionSolenoid = new DoubleSolenoid(1, 0, 1);
     compressor = new Compressor(1);
     compressor.setClosedLoopControl(false);
   }

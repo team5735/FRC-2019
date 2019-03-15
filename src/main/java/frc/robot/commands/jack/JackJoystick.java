@@ -52,11 +52,11 @@ public class JackJoystick extends Command {
           + Robot.jack.getSensorPosition() + " PO: "
           + Robot.elevator.getMotorOutputPercent());
     } else {
-      System.out.println(Robot.jack.isHomed());
-      System.out.println("{JACK} Current Position: " + Robot.jack.getCurrentHeight()
-          + " ------- Percent Output: " + Robot.jack.getMotorOutputPercent());
+      // System.out.println(Robot.jack.isHomed());
+      // System.out.println("{JACK} Current Position: " + Robot.jack.getCurrentHeight()
+          // + " ------- Percent Output: " + Robot.jack.getMotorOutputPercent());
 
-      System.out.println("{JACK} Lower Limit: " + Robot.jack.isLowerLimitSwitchPressed() + " Upper Limit: " + Robot.jack.isUpperLimitSwitchPressed());
+      // System.out.println("{JACK} Lower Limit: " + Robot.jack.isLowerLimitSwitchPressed() + " Upper Limit: " + Robot.jack.isUpperLimitSwitchPressed());
         
       Robot.jack.isLowerLimitSwitchPressed();
       Robot.jack.isUpperLimitSwitchPressed();

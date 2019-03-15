@@ -61,7 +61,7 @@ public class JackIntakeArmClimbDrivetrainClimb extends Command {
       up -= velocity * 0.5;
     }
 
-    Robot.jack.setTargetPosition(Jack.JACK_READY_POSITION + position + jackadjustment + up);
+    Robot.jack.setTargetPosition(position + jackadjustment + up);
     Robot.intakeArm.setTargetAngle(Robot.intakeArm.intakeArmInchesToDegrees(Constants.HEIGHT_OF_BOX - position - intakearmadjustment - up) + 10);
     // System.out.println(Constants.HEIGHT_OF_BOX - position - intakearmadjustment + up);
     Robot.jack.updatePosition();

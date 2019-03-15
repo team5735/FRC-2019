@@ -8,13 +8,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.controllers.BobXboxController;
 import frc.robot.commands.ButtonASwitcher;
 import frc.robot.commands.ButtonBSwitcher;
 import frc.robot.commands.ButtonXSwitcher;
 import frc.robot.commands.ButtonYSwitcher;
-import frc.robot.commands.DoNothing;
 import frc.robot.commands.RotateOI;
 import frc.robot.commands.combos.DrivetrainControllerCancel;
 import frc.robot.commands.combos.JackIntakeArmClimbDrivetrainClimb;
@@ -24,6 +24,7 @@ import frc.robot.commands.hatchholder.HatchHolderClawClosed;
 import frc.robot.commands.hatchholder.HatchHolderClawOpen;
 import frc.robot.commands.hatchholder.HatchHolderExtenderClosed;
 import frc.robot.commands.hatchholder.HatchHolderExtenderOpen;
+import frc.robot.commands.hatchholder.HatchHolderToggleCompressor;
 import frc.robot.commands.intakeArm.IntakeArmResetHome;
 import frc.robot.commands.poses.BallFirst;
 import frc.robot.commands.poses.BallSecond;
@@ -66,7 +67,6 @@ public class OI {
   // Run the command while the button is being held down and interrupt it once
   // the button is released.
   // button.whileHeld(new ExampleCommand());
-
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
@@ -91,6 +91,9 @@ public class OI {
     drivetrainController.startButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
 
     drivetrainController.selectButton.whenPressed(new DrivetrainControllerCancel());
+
+    drivetrainController.Dpad.Up.whenPressed(new HatchHolderToggleCompressor());
+
     SmartDashboard.putBoolean("putInBallMode", rotated);
 
     subsystemController = new BobXboxController(Constants.SUBSYSTEM_CONTROLLER_USB_PORT);
