@@ -60,8 +60,8 @@ public class Elevator extends Subsystem {
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
   // Encoder Conversion Constants
-  private static final double ENCODER_TICKS_PER_REVOLUTION = 12;
-  private static final double GEAR_RATIO = 1 / 70.;
+  private static final double ENCODER_TICKS_PER_REVOLUTION = 4096;
+  private static final double GEAR_RATIO = 1 / 10.;
   private static final int SPROCKET_TOOTH_COUNT = 16;
   private static final double LENGTH_OF_LINK = 0.25;
   private static final int NUMBER_OF_STAGES = 3;
@@ -79,7 +79,7 @@ public class Elevator extends Subsystem {
     elevatorMotor.configFactoryDefault();
 
     // Configure main motor sensors
-    elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+    elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 20);
     elevatorMotor.setInverted(true);
     elevatorMotor.setSensorPhase(true);
     elevatorMotor.overrideLimitSwitchesEnable(true);

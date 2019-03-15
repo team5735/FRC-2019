@@ -37,7 +37,7 @@ public class Jack extends Subsystem {
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
   // Encoder Conversion Constants
-  private static final double ENCODER_TICKS_PER_REVOLUTION = 12;
+  private static final double ENCODER_TICKS_PER_REVOLUTION = 4096;
   private static final double GEAR_RATIO = 1. / 100. * 18. / 30.;
   private static final double LENGTH_OF_LINK = 0.25;
   private static final int SPROCKET_TOOTH_COUNT = 22;
@@ -55,7 +55,7 @@ public class Jack extends Subsystem {
     jackMotor = new TalonSRX(Constants.JACK_MOTOR_ID);
     jackMotor.configFactoryDefault();
 
-    jackMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
+    jackMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
     jackMotor.setInverted(false);
     jackMotor.setSensorPhase(true);
     jackMotor.overrideLimitSwitchesEnable(true);

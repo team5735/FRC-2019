@@ -26,7 +26,7 @@ public class IntakeArmJoystick extends Command {
   @Override
   protected void execute() {
     if(Robot.intakeArm.isHomed()) {
-      System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- PO: " + Robot.intakeArm.getPercentOutput() + "Current Height: " + Robot.intakeArm.degreesToIntakeArmInches(Robot.intakeArm.getCurrentDegrees()));
+      // System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Degrees: " + Robot.intakeArm.getCurrentDegrees() + " ------- PO: " + Robot.intakeArm.getPercentOutput() + "Current Height: " + Robot.intakeArm.degreesToIntakeArmInches(Robot.intakeArm.getCurrentDegrees()));
       // System.out.println("{INTAKE} Target: " + Robot.intakeArm.getTargetDegress() + "Current Height: " + Robot.intakeArm.degreesToInches(Robot.intakeArm.getCurrentDegrees()) + " ------- PO: " + Robot.intakeArm.getPercentOutput());
 
       Robot.intakeArm.setTargetAngle(Robot.intakeArm.getTargetDegress() - 2 * Robot.oi.subsystemController.leftStick.getYCubed());
