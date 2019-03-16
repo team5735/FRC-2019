@@ -32,7 +32,7 @@ public class JackJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.jack.isHomed()) {
+    if (Robot.jack.isHomed() || true) {
       double input = 0;
       input = (Robot.oi.drivetrainController.triggers.getRight() - Robot.oi.drivetrainController.triggers.getLeft()) * 0.5;
 
@@ -45,12 +45,13 @@ public class JackJoystick extends Command {
         deltaPosition = 0;
       }
 
-      Robot.jack.setTargetPosition(Robot.jack.getTargetPosition() + 0.05 * deltaPosition);
+      Robot.jack.setTargetPosition(Robot.jack.getTargetPosition() + 0.1 * deltaPosition);
       Robot.jack.updatePosition();
+      // Robot.jack.updatePercentOutput(0.5 * deltaPosition);
 
-      System.out.println("T:" + (Robot.jack.getTargetPosition() + "     ").substring(0, 6) + " C:"
-          + Robot.jack.getSensorPosition() + " PO: "
-          + Robot.elevator.getMotorOutputPercent());
+      // System.out.println("T:" + (Robot.jack.getTargetPosition() + "     ").substring(0, 6) + " C:"
+      //     + Robot.jack.getSensorPosition() + " PO: "
+      //     + Robot.elevator.getMotorOutputPercent());
     } else {
       // System.out.println(Robot.jack.isHomed());
       // System.out.println("{JACK} Current Position: " + Robot.jack.getCurrentHeight()
@@ -60,7 +61,7 @@ public class JackJoystick extends Command {
         
       Robot.jack.isLowerLimitSwitchPressed();
       Robot.jack.isUpperLimitSwitchPressed();
-      Robot.jack.updatePercentOutput(-0.5*Robot.oi.drivetrainController.triggers.getRight());
+      Robot.jack.updatePercentOutput(0.5*Robot.oi.drivetrainController.triggers.getRight());
     }
 
   }

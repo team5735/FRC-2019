@@ -27,9 +27,9 @@ public class Elevator extends Subsystem {
         HATCH_THIRD = 65,
         HATCH_HANDOFF = 5;
     
-    public static final double BALL_FIRST = 19,
-        BALL_SECOND = 44,
-        BALL_THIRD = 75,
+    public static final double BALL_FIRST = 18,
+        BALL_SECOND = 42,
+        BALL_THIRD = 71,
         BALL_CARGOSHIP = 30;
 
     private double value;
@@ -56,7 +56,7 @@ public class Elevator extends Subsystem {
   // Subsystem Constants
   public static final double THRESHOLD = 1;                  // Inches
   private static final double HEIGHT_LIMIT = 75;              // Inches
-  private static final double CRUSING_VEL = 5;               // Inches / sec
+  private static final double CRUSING_VEL = 7;               // Inches / sec
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
   // Encoder Conversion Constants
@@ -67,11 +67,11 @@ public class Elevator extends Subsystem {
   private static final int NUMBER_OF_STAGES = 3;
 
   //PID Values
-  private static final double kP = 5;
+  private final double kP = 0.3 * 1023 / elevatorInchesToEncoderTicks(1);
   private static final double kI = 0;
-  private static final double kD = 2;
-  private static final double kF = 0.337 * 1023 / 68.;
-  private static final double kA = 0.07; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
+  private final double kD = 0.6 * 1023 / elevatorInchesToEncoderTicks(1) * 10;
+  private static final double kF = 1023. / 12000.;
+  private static final double kA = 0; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
 
   public Elevator() {
     // Initialize main motor
@@ -79,14 +79,14 @@ public class Elevator extends Subsystem {
     elevatorMotor.configFactoryDefault();
 
     // Configure main motor sensors
-    elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 20);
+    elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     elevatorMotor.setInverted(true);
     elevatorMotor.setSensorPhase(true);
     elevatorMotor.overrideLimitSwitchesEnable(true);
 
     // Set motion magic parameters
     elevatorMotor.configMotionCruiseVelocity(elevatorInchesToEncoderTicks(CRUSING_VEL));
-    elevatorMotor.configMotionAcceleration((int)(elevatorInchesToEncoderTicks(CRUSING_VEL)/TIME_TO_REACH_CRUSING_VEL));
+    elevatorMotor.configMotionAcceleration((int)(elevatorInchesToEncoderTicks(CRUSING_VEL * 2)));
     
     // Set main motor PID values
     elevatorMotor.selectProfileSlot(0, 0);
@@ -134,6 +134,9 @@ public class Elevator extends Subsystem {
 
   public void updateMotionMagic() {
     isLowerLimitSwitchPressed();
+    // System.out.println("T:" + (getTargetPosition() + "     ").substring(0, 6) + " C:"
+    // + encoderTicksToElevatorInches(getSensorPosition()) + " PO: "
+    // + getMotorOutputPercent());
     elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition));
     // elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition), DemandType.ArbitraryFeedForward, kA);
   }
@@ -217,5 +220,9 @@ public class Elevator extends Subsystem {
 
   public double getMotorOutputPercent() {
     return elevatorMotor.getMotorOutputPercent();
+  }
+
+  public double getErrorInElevatorInches() {
+    return encoderTicksToElevatorInches(elevatorMotor.getClosedLoopError());
   }
 }

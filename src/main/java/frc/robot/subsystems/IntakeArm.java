@@ -50,7 +50,7 @@ public class IntakeArm extends Subsystem {
   public static final int THRESHOLD = 2;
 
   public class Angle {
-    public static final double MIN_ANGLE = -150, INSIDE = -125, VERY_INSIDE = -145, SAFE = -95, INTAKE = -35,
+    public static final double MIN_ANGLE = -150, INSIDE = -130, VERY_INSIDE = -80, SAFE = -95, INTAKE = -60,
         MAX_ANGLE = 0, READY = -86, OFFSET = -123, OFFSET_WALKER = 41;
 
     private double value;

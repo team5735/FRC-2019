@@ -159,6 +159,10 @@ public class Robot extends TimedRobot {
     // System.out.println(intakeArm.periodicOutput());
     // System.out.println("jack");
     // System.out.println(jack.periodicOutput());
+      // System.out.println("encoder ticks: " + elevator.getSensorPosition() + "     " + elevator.getSensorVelocity());
+      // System.out.println("target" + elevator.getTargetPosition());
+      // System.out.println("actual" + elevator.getCurrentHeight());
+      // System.out.print("lower limit switch pressed: " + elevator.isLowerLimitSwitchPressed() + "     is upper limit switch pressed: " + elevator.isUpperLimitSwitchPressed());
   }
 
   /**

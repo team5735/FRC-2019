@@ -21,6 +21,6 @@ public class BallSecond extends CommandGroup {
   public BallSecond() {
     addSequential(new IntakeArmPreventCollsion());
     addSequential(new ElevatorMotionMagic(Elevator.Position.BALL_SECOND));
-    // addSequential(new IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
+    addSequential(new IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
   }
 }

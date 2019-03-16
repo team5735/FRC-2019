@@ -32,20 +32,21 @@ public class Jack extends Subsystem {
 
   // Subsystem Constants
   private static final double THRESHOLD = 1;                  // Inches
-  private static final double HEIGHT_LIMIT = 20;              // Inches
-  private static final double CRUSING_VEL = 50;               // Inches / sec
+  private static final double HEIGHT_LIMIT = 19;              // Inches
+  private static final double CRUSING_VEL = 2;               // Inches / sec
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
   // Encoder Conversion Constants
-  private static final double ENCODER_TICKS_PER_REVOLUTION = 4096;
-  private static final double GEAR_RATIO = 1. / 100. * 18. / 30.;
+  private static final double ENCODER_TICKS_PER_REVOLUTION = 4096.;
+  private static final double GEAR_RATIO = 1. / 100. * 22. / 16.;
+  private static final double GEAR_RATIO_V2 = 22. / 16.;
   private static final double LENGTH_OF_LINK = 0.25;
   private static final int SPROCKET_TOOTH_COUNT = 22;
 
   public static final double JACK_READY_POSITION = 0;
 
   // PID Values
-  private static final double kP = 1;
+  private static final double kP = 0.6;
   private static final double kI = 0;
   private static final double kD = 0;
   private static final double kF = 0;
@@ -55,14 +56,14 @@ public class Jack extends Subsystem {
     jackMotor = new TalonSRX(Constants.JACK_MOTOR_ID);
     jackMotor.configFactoryDefault();
 
-    jackMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
-    jackMotor.setInverted(false);
+    jackMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    jackMotor.setInverted(true);
     jackMotor.setSensorPhase(true);
-    jackMotor.overrideLimitSwitchesEnable(true);
+    jackMotor.overrideLimitSwitchesEnable(false);
 
     // Set motion magic parameters
-    // jackMotor.configMotionCruiseVelocity(jackInchesToEncoderTicks(CRUSING_VEL));
-    // jackMotor.configMotionAcceleration((int)(jackInchesToEncoderTicks(CRUSING_VEL) / TIME_TO_REACH_CRUSING_VEL));
+    jackMotor.configMotionCruiseVelocity(jackInchesToEncoderTicks(CRUSING_VEL) / 10);
+    jackMotor.configMotionAcceleration((int)(jackInchesToEncoderTicks(CRUSING_VEL) / TIME_TO_REACH_CRUSING_VEL));
 
     // Set main motor PID values
     jackMotor.selectProfileSlot(0, 0);
@@ -104,21 +105,22 @@ public class Jack extends Subsystem {
   }
 
   private static int jackInchesToEncoderTicks(double jackInches) {
-    return (int)((jackInches * ENCODER_TICKS_PER_REVOLUTION) / GEAR_RATIO / SPROCKET_TOOTH_COUNT / LENGTH_OF_LINK);
+    return (int)((jackInches * ENCODER_TICKS_PER_REVOLUTION)  * GEAR_RATIO / SPROCKET_TOOTH_COUNT / LENGTH_OF_LINK);
   }
 
   private static double encoderTicksToJackInches(double encoderTicks) {
-    return (encoderTicks / ENCODER_TICKS_PER_REVOLUTION) * GEAR_RATIO * SPROCKET_TOOTH_COUNT * LENGTH_OF_LINK;
+    return (encoderTicks / ENCODER_TICKS_PER_REVOLUTION) / GEAR_RATIO_V2 * SPROCKET_TOOTH_COUNT * LENGTH_OF_LINK;
   }
 
   public void updatePosition() {
     System.out.println("{JACK} Target: " + getTargetPosition() + "Current Height: "+ getCurrentHeight() + " ------- PO: " + getMotorOutputPercent());
-    jackMotor.set(ControlMode.Position, jackInchesToEncoderTicks(targetPosition),
+    jackMotor.set(ControlMode.Position, -jackInchesToEncoderTicks(targetPosition),
         DemandType.ArbitraryFeedForward, kA);
     // jackMotor.set(ControlMode.Position, jackInchesToEncoderTicks(targetPosition));
   }
 
   public void updatePercentOutput(double value) {
+    System.out.println("{JACK} Target: " + getTargetPosition() + "Current Height: "+ getCurrentHeight() + " ------- PO: " + getMotorOutputPercent());
     jackMotor.set(ControlMode.PercentOutput, value);
   }
 
@@ -135,8 +137,7 @@ public class Jack extends Subsystem {
   }
 
   public int getSensorPosition() {
-    return jackMotor.getSensorCollection().getQuadraturePosition();
-    // return jackMotor.getSelectedSensorPosition();
+    return jackMotor.getSelectedSensorPosition();
   }
 
   public double getSensorVelocity() {
@@ -155,6 +156,7 @@ public class Jack extends Subsystem {
       }
 
       isHomed = true;
+      targetPosition = 0;
       jackMotor.setSelectedSensorPosition((int)jackInchesToEncoderTicks(0), 0, 30);
       return true;
     } else {

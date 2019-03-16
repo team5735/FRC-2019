@@ -21,6 +21,6 @@ public class BallShip extends CommandGroup {
   public BallShip() {
     addSequential(new IntakeArmPreventCollsion());
     addSequential(new ElevatorMotionMagic(Elevator.Position.BALL_CARGOSHIP));
-    // addSequential(new IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
+    addSequential(new IntakeArmMotionMagic(IntakeArm.Angle.INSIDE));
   }
 }
