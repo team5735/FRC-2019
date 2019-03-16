@@ -136,7 +136,7 @@ public class IntakeArm extends Subsystem {
 
   public void updatePosition() {
     isUpperLimitSwitchPressed();
-    System.out.println("{INTAKE} Target: " + degreesToIntakeArmInches(getTargetDegress()) + " Degrees: "+ getTargetDegress() + " ------- PO: " + getPercentOutput());
+    // System.out.println("{INTAKE} Target: " + degreesToIntakeArmInches(getTargetDegress()) + " Degrees: "+ getTargetDegress() + " ------- PO: " + getPercentOutput());
     intakeArmMotor.set(ControlMode.Position, degreesToEncoderTicks(targetAngle));
   }
 

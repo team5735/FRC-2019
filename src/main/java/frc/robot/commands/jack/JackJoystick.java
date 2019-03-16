@@ -32,7 +32,7 @@ public class JackJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.jack.isHomed() || true) {
+    if (Robot.jack.isHomed()) {
       double input = 0;
       input = (Robot.oi.drivetrainController.triggers.getRight() - Robot.oi.drivetrainController.triggers.getLeft()) * 0.5;
 
@@ -61,7 +61,7 @@ public class JackJoystick extends Command {
         
       Robot.jack.isLowerLimitSwitchPressed();
       Robot.jack.isUpperLimitSwitchPressed();
-      Robot.jack.updatePercentOutput(0.5*Robot.oi.drivetrainController.triggers.getRight());
+      Robot.jack.updatePercentOutput(-0.5*Robot.oi.drivetrainController.triggers.getRight());
     }
 
   }
