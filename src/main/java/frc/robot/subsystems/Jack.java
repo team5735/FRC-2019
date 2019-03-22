@@ -79,9 +79,7 @@ public class Jack extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    if (Constants.JACK_DO_STUFF) {
-      setDefaultCommand(new JackJoystick());
-    }
+    setDefaultCommand(new JackJoystick());
   }
 
     /**
@@ -115,14 +113,10 @@ public class Jack extends Subsystem {
   }
 
   public void updatePosition() {
-    // System.out.println("{JACK} Target: " + jackInchesToEncoderTicks(targetPosition) + "Current Height: "+ getCurrentHeight() + "  PO: " + positionErrorTicks() + " ------- PO: " + getMotorOutputPercent());
-    // jackMotor.set(ControlMode.Position, jackInchesToEncoderTicks(targetPosition),
-        // DemandType.ArbitraryFeedForward, kA);
     jackMotor.set(ControlMode.Position, jackInchesToEncoderTicks(targetPosition));
   }
 
   public void updatePercentOutput(double value) {
-    // System.out.println("{JACK} Target: " + getTargetPosition() + "Current Height: "+ getCurrentHeight() + " ------- PO: " + getMotorOutputPercent());
     jackMotor.set(ControlMode.PercentOutput, value);
   }
 

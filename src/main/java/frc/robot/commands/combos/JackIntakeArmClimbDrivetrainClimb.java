@@ -46,14 +46,11 @@ public class JackIntakeArmClimbDrivetrainClimb extends Command {
     jackadjustment += Robot.oi.drivetrainController.triggers.getRight() * 0.1;
 
     if (Robot.oi.drivetrainController.aButton.get()) {
-      // System.out.println("a");
       if (up < 0) {
         up += velocity;
       } else if (position < (Constants.HEIGHT_OF_BOX + Math.abs(intakearmadjustment - jackadjustment))) {
-        // System.out.println("changing");
         position += velocity;
       } else {
-        // Robot.oi.drivetrainController.setRumble(RumbleType.kLeftRumble, 1);
         // Robot.oi.drivetrainController.setRumble(RumbleType.kRightRumble, 1);
       }
     } else if (Robot.oi.drivetrainController.bButton.get()) {

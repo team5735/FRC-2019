@@ -234,9 +234,7 @@ public class Drive extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    if (Constants.DRIVETRAIN_DO_STUFF) {
-      setDefaultCommand(new DrivetrainJoystick());
-    }
+    setDefaultCommand(new DrivetrainJoystick());
   }
 
   public void drive(double left, double right) {

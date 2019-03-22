@@ -35,7 +35,7 @@ public class IntakeArm extends Subsystem {
   private boolean reverseLimitSwitchLastPressed = false;
 
   // PID Values
-  private static final double kP = 7;
+  private static final double kP = 8;
   private static final double kI = 0;
   private static final double kD = 10;
   private static final double kF = 1023. / 500.;
@@ -100,11 +100,7 @@ public class IntakeArm extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // if(isHomed) {
     setDefaultCommand(new IntakeArmJoystick());
-    // } else {
-    // setDefaultCommand(new IntakeArmManual());
-    // }
   }
 
   public void setTargetAngle(double targetAngle) {
@@ -136,13 +132,11 @@ public class IntakeArm extends Subsystem {
 
   public void updatePosition() {
     isUpperLimitSwitchPressed();
-    // System.out.println("{INTAKE} Target: " + degreesToIntakeArmInches(getTargetDegress()) + " Degrees: "+ getTargetDegress() + " ------- PO: " + getPercentOutput());
     intakeArmMotor.set(ControlMode.Position, degreesToEncoderTicks(targetAngle));
   }
 
   public void updateMotionMagic() {
     isUpperLimitSwitchPressed();
-    // System.out.println(-MAX_FEEDFORWARD*Math.sin(getCurrentDegrees() - Angle.OFFSET));
     intakeArmMotor.set(ControlMode.MotionMagic, degreesToEncoderTicks(targetAngle), DemandType.ArbitraryFeedForward,
         -MAX_FEEDFORWARD * Math.sin(getCurrentDegrees() - Angle.OFFSET));
   }

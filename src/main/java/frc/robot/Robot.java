@@ -150,19 +150,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("isElevatorHomed", elevator.isHomed());
     SmartDashboard.putBoolean("isJackHomed", jack.isHomed());
     SmartDashboard.putBoolean("isArmHomed", intakeArm.isHomed());
-    //Periodic testing outputs
-    // System.out.println("Drive");
-    // System.out.println(drive.periodicOutput());
-    // System.out.println("Elevator");
-    // System.out.println(elevator.periodicOutput());
-    // System.out.println("Intake Arm");
-    // System.out.println(intakeArm.periodicOutput());
-    // System.out.println("jack");
-    // System.out.println(jack.periodicOutput());
-      // System.out.println("encoder ticks: " + elevator.getSensorPosition() + "     " + elevator.getSensorVelocity());
-      // System.out.println("target" + elevator.getTargetPosition());
-      // System.out.println("actual" + elevator.getCurrentHeight());
-      // System.out.print("lower limit switch pressed: " + elevator.isLowerLimitSwitchPressed() + "     is upper limit switch pressed: " + elevator.isUpperLimitSwitchPressed());
   }
 
   /**

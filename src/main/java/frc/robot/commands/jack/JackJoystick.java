@@ -47,13 +47,11 @@ public class JackJoystick extends Command {
 
       Robot.jack.setTargetPosition(Robot.jack.getTargetPosition() + 0.1 * deltaPosition);
       Robot.jack.updatePosition();
-      // Robot.jack.updatePercentOutput(0.5 * deltaPosition);
 
       // System.out.println("T:" + (Robot.jack.getTargetPosition() + "     ").substring(0, 6) + " C:"
           // + Robot.jack.getCurrentHeight() + " PO: "
           // + Robot.elevator.getMotorOutputPercent());
     } else {
-      // System.out.println(Robot.jack.isHomed());
       // System.out.println("{JACK} Current Position: " + Robot.jack.getCurrentHeight()
           // + " ------- Percent Output: " + Robot.jack.getMotorOutputPercent());
 
@@ -62,11 +60,9 @@ public class JackJoystick extends Command {
       Robot.jack.isLowerLimitSwitchPressed();
       Robot.jack.isUpperLimitSwitchPressed();
       // double input = (Robot.oi.drivetrainController.triggers.getRight() - Robot.oi.drivetrainController.triggers.getLeft()) * 0.5;
-      Robot.jack.updatePercentOutput(-0.1);
+      Robot.jack.updatePercentOutput(-0.01);
       // Robot.jack.updatePercentOutput(-0.5*Robot.oi.drivetrainController.triggers.getRight());
     }
-    // System.out.println(Robot.jack.isLowerLimitSwitchPressed());
-    // System.out.println(Robot.jack.isUpperLimitSwitchPressed());
   }
 
   // Make this return true when this Command no longer needs to run execute()

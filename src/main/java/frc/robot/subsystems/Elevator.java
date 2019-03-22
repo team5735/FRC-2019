@@ -108,11 +108,7 @@ public class Elevator extends Subsystem {
    * This command will run whenever there is no other command using the subsystem
    */
   public void initDefaultCommand() {
-    if (Constants.ELEVATOR_DO_STUFF) {
-      setDefaultCommand(new ElevatorJoystick());
-      // setDefaultCommand(new ElevatorManuel());
-      // setDefaultCommand(new ElevatorHoldPosition());
-    }
+    setDefaultCommand(new ElevatorJoystick());
   }
 
   /**
@@ -134,11 +130,7 @@ public class Elevator extends Subsystem {
 
   public void updateMotionMagic() {
     isLowerLimitSwitchPressed();
-    // System.out.println("T:" + (getTargetPosition() + "     ").substring(0, 6) + " C:"
-    // + encoderTicksToElevatorInches(getSensorPosition()) + " PO: "
-    // + getMotorOutputPercent());
     elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition));
-    // elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition), DemandType.ArbitraryFeedForward, kA);
   }
 
   public void resetHomed(){
@@ -148,7 +140,6 @@ public class Elevator extends Subsystem {
   public void updatePercentOutput(double value) {
     isLowerLimitSwitchPressed();
     isUpperLimitSwitchPressed();
-    // System.out.println("Lower: " + isLowerLimitSwitchPressed() + " Upper: " + isUpperLimitSwitchPressed());
     elevatorMotor.set(ControlMode.PercentOutput, value);
   }
 
