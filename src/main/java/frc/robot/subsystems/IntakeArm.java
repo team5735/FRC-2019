@@ -35,10 +35,10 @@ public class IntakeArm extends Subsystem {
   private boolean reverseLimitSwitchLastPressed = false;
 
   // PID Values
-  private static final double kP = 4;
+  private static final double kP = 7;
   private static final double kI = 0;
   private static final double kD = 10;
-  private static final double kF = 1023. / 1050.;
+  private static final double kF = 1023. / 500.;
   private static final double kA = 0; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
 
   private static final double ARM_LENGTH = 15; // inches
@@ -73,13 +73,13 @@ public class IntakeArm extends Subsystem {
     intakeArmMotor.configFactoryDefault();
 
     intakeArmMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
-    intakeArmMotor.setInverted(true);
-    intakeArmMotor.setSensorPhase(true);
+    intakeArmMotor.setInverted(false);
+    intakeArmMotor.setSensorPhase(false);
     intakeArmMotor.overrideLimitSwitchesEnable(true);
 
     // Set motion magic parameters
-    intakeArmMotor.configMotionCruiseVelocity(200);
-    intakeArmMotor.configMotionAcceleration(200);
+    intakeArmMotor.configMotionCruiseVelocity(1000);
+    intakeArmMotor.configMotionAcceleration(1000);
 
     // Set main motor PID values
     intakeArmMotor.selectProfileSlot(0, 0);

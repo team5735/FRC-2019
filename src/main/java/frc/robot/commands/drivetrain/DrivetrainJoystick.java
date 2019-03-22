@@ -26,20 +26,23 @@ public class DrivetrainJoystick extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // System.out.println("foo");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // System.out.println("foo");
+    double power = 0.7;
+    if (Robot.oi.drivetrainController.getRawButton(7)) {
+      power = 0.99;
+    }
+
     if (Robot.oi.drivetrainController.leftBumper.get()) {
       Robot.drive.cheesyDrive(-Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05) * 0.5,
-          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * 0.5,
+          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * power,
       Robot.oi.drivetrainController.rightBumper.get()); // left trigger
     } else {
       Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05) * 0.5,
-          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * 0.5,
+          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * power,
       Robot.oi.drivetrainController.rightBumper.get()); // left trigger
     }
   }

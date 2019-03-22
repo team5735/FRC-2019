@@ -32,7 +32,7 @@ public class Jack extends Subsystem {
 
   // Subsystem Constants
   private static final double THRESHOLD = 1;                  // Inches
-  private static final double HEIGHT_LIMIT = 19;              // Inches
+  private static final double HEIGHT_LIMIT = 20;              // Inches
   private static final double CRUSING_VEL = 2;               // Inches / sec
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
@@ -45,9 +45,9 @@ public class Jack extends Subsystem {
   public static final double JACK_READY_POSITION = 0;
 
   // PID Values
-  private static final double kP = 1;
+  private static final double kP = 0.01;
   private static final double kI = 0;
-  private static final double kD = 0;
+  private static final double kD = 0.01 * 100;
   private static final double kF = 0;
   private static final double kA = 0; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
 
@@ -59,6 +59,9 @@ public class Jack extends Subsystem {
     jackMotor.setInverted(false);
     jackMotor.setSensorPhase(true);
     jackMotor.overrideLimitSwitchesEnable(true);
+
+    jackMotor.configContinuousCurrentLimit(39);
+    jackMotor.enableCurrentLimit(true);
 
     // Set motion magic parameters
     jackMotor.configMotionCruiseVelocity(jackInchesToEncoderTicks(CRUSING_VEL) / 10);
@@ -112,10 +115,10 @@ public class Jack extends Subsystem {
   }
 
   public void updatePosition() {
-    // System.out.println("{JACK} Target: " + targetPosition + "Current Height: "+ getCurrentHeight() + "  PO: " + positionErrorTicks() + " ------- PO: " + getMotorOutputPercent());
+    // System.out.println("{JACK} Target: " + jackInchesToEncoderTicks(targetPosition) + "Current Height: "+ getCurrentHeight() + "  PO: " + positionErrorTicks() + " ------- PO: " + getMotorOutputPercent());
     // jackMotor.set(ControlMode.Position, jackInchesToEncoderTicks(targetPosition),
         // DemandType.ArbitraryFeedForward, kA);
-    jackMotor.set(ControlMode.MotionMagic, jackInchesToEncoderTicks(targetPosition));
+    jackMotor.set(ControlMode.Position, jackInchesToEncoderTicks(targetPosition));
   }
 
   public void updatePercentOutput(double value) {

@@ -43,10 +43,16 @@ public class ElevatorJoystick extends Command {
       // System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " C:"
       //     + Robot.elevator.encoderTicksToElevatorInches(Robot.elevator.getSensorPosition()) + " PO: "
       //     + Robot.elevator.getMotorOutputPercent());
+      // System.out.println("Lower " + Robot.elevator.isLowerLimitSwitchPressed());
+      // System.out.println("Upper " + Robot.elevator.isUpperLimitSwitchPressed());
+
     } else {
       // System.out.println(Robot.elevator.isHomed());
+      // System.out.println("Lower " + Robot.elevator.isLowerLimitSwitchPressed());
+      // System.out.println("Upper " + Robot.elevator.isUpperLimitSwitchPressed());
+
       // System.out.println("{ELEVATOR} Current Position: " + Robot.elevator.getCurrentHeight()
-      //     + " ------- Percent Output: " + Robot.elevator.getMotorOutputPercent());
+          // + " ------- Percent Output: " + Robot.elevator.getMotorOutputPercent());
 
       Robot.elevator.updatePercentOutput(0.5*Robot.oi.subsystemController.rightStick.getYCubed());
     }
