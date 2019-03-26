@@ -25,7 +25,7 @@ public class BallIntakeRun extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.spinnyMotor.updatePercentOutputOnSpinner(0.4 * (Robot.oi.subsystemController.triggers.getRight() - Robot.oi.subsystemController.triggers.getLeft()));
+    Robot.spinnyMotor.updatePercentOutputOnSpinner(0.7 * (Robot.oi.subsystemController.triggers.getRight() - Robot.oi.subsystemController.triggers.getLeft()));
   }
 
   // Make this return true when this Command no longer needs to run execute()

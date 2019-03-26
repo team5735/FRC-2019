@@ -58,6 +58,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("isElevatorHomed", elevator.isHomed());
     SmartDashboard.putBoolean("isJackHomed", jack.isHomed());
     SmartDashboard.putBoolean("isArmHomed", intakeArm.isHomed());
+    SmartDashboard.putBoolean("Compressor", hatchHolder.getCompressorStatus());
   }
 
   /**
@@ -70,6 +71,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putBoolean("isElevatorHomed", elevator.isHomed());
+    SmartDashboard.putBoolean("isJackHomed", jack.isHomed());
+    SmartDashboard.putBoolean("isArmHomed", intakeArm.isHomed());
+    SmartDashboard.putBoolean("Compressor", hatchHolder.getCompressorStatus());
+
   }
 
   /**
@@ -147,9 +153,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    SmartDashboard.putBoolean("isElevatorHomed", elevator.isHomed());
-    SmartDashboard.putBoolean("isJackHomed", jack.isHomed());
-    SmartDashboard.putBoolean("isArmHomed", intakeArm.isHomed());
   }
 
   /**

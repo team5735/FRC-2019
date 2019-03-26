@@ -58,11 +58,15 @@ public class JackIntakeArmClimbDrivetrainClimb extends Command {
       up -= velocity * 0.5;
     }
 
-    Robot.jack.setTargetPosition(position + jackadjustment + up);
-    Robot.intakeArm.setTargetAngle(Robot.intakeArm.intakeArmInchesToDegrees(Constants.HEIGHT_OF_BOX - position - intakearmadjustment - up) + 10);
+    Robot.jack.setTargetPosition(position + jackadjustment + up + Robot.jack.JACK_READY_POSITION);
+    Robot.intakeArm.setTargetAngle(Robot.intakeArm.intakeArmInchesToDegrees(Constants.HEIGHT_OF_BOX - position - intakearmadjustment - up));
     // System.out.println(Constants.HEIGHT_OF_BOX - position - intakearmadjustment + up);
     Robot.jack.updatePosition();
-    Robot.intakeArm.updatePosition();
+    Robot.intakeArm.updateMotionMagic();
+
+    Robot.drive.curvatureDrive(Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05) * 0.2,
+          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * (0.5),
+      false);
   }
 
   // Make this return true when this Command no longer needs to run execute()

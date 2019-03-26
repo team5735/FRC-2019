@@ -27,10 +27,10 @@ public class Elevator extends Subsystem {
         HATCH_THIRD = 65,
         HATCH_HANDOFF = 5;
     
-    public static final double BALL_FIRST = 18,
-        BALL_SECOND = 42,
-        BALL_THIRD = 71,
-        BALL_CARGOSHIP = 30;
+    public static final double BALL_FIRST = 20, //18
+        BALL_SECOND = 44, //42
+        BALL_THIRD = 73, //71
+        BALL_CARGOSHIP = 30; //30
 
     private double value;
 
@@ -56,7 +56,7 @@ public class Elevator extends Subsystem {
   // Subsystem Constants
   public static final double THRESHOLD = 1;                  // Inches
   private static final double HEIGHT_LIMIT = 75;              // Inches
-  private static final double CRUSING_VEL = 7;               // Inches / sec
+  private static final double CRUSING_VEL = 3.5;//7               // Inches / sec
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
   // Encoder Conversion Constants
@@ -130,6 +130,7 @@ public class Elevator extends Subsystem {
 
   public void updateMotionMagic() {
     isLowerLimitSwitchPressed();
+    // System.out.println("Target:" + targetPosition + " Current: " + getCurrentHeight());
     elevatorMotor.set(ControlMode.MotionMagic, elevatorInchesToEncoderTicks(targetPosition));
   }
 
@@ -188,6 +189,9 @@ public class Elevator extends Subsystem {
     return isHomed;
   }
 
+  public void setHomed(boolean homeValue){
+    isHomed = homeValue;
+  }
   public double getTargetPosition() {
     return targetPosition;
   }

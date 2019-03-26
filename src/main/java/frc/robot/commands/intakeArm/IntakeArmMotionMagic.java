@@ -28,14 +28,18 @@ public class IntakeArmMotionMagic extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.intakeArm.updateMotionMagic();
+    if(Robot.intakeArm.isHomed()) {
+      Robot.intakeArm.updateMotionMagic();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if(!Robot.intakeArm.isHomed()) {
+      return true;
+    }
     return Robot.intakeArm.isInPosition();
-    // return true;
   }
 
   // Called once after isFinished returns true

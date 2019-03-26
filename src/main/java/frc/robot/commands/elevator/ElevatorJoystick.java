@@ -23,7 +23,9 @@ public class ElevatorJoystick extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  protected void execute() {  
+    // System.out.println("Lower " + Robot.elevator.isLowerLimitSwitchPressed() + "Upper " + Robot.elevator.isUpperLimitSwitchPressed());
+    // System.out.println("Homed:" + Robot.elevator.isHomed());
     if (Robot.elevator.isHomed()) {
       double input = Robot.oi.subsystemController.rightStick.getYCubed();
 
@@ -47,7 +49,9 @@ public class ElevatorJoystick extends Command {
     } else {
       // System.out.println("Lower " + Robot.elevator.isLowerLimitSwitchPressed());
       // System.out.println("Upper " + Robot.elevator.isUpperLimitSwitchPressed());
-      Robot.elevator.updatePercentOutput(0.5*Robot.oi.subsystemController.rightStick.getYCubed());
+      // System.out.println("T:" + (Robot.elevator.getCurrentHeight() + "     ").substring(0, 6));
+
+      Robot.elevator.updatePercentOutput(0.6*Robot.oi.subsystemController.rightStick.getYCubed());
     }
 
   }

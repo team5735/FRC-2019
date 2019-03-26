@@ -87,8 +87,8 @@ public class OI {
 
   public OI() {
     drivetrainController = new BobXboxController(Constants.DRIVETRAIN_CONTROLLER_USB_PORT);
-    // drivetrainController.xButton.whenPressed(new ReadyPose());
-    // drivetrainController.startButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
+    drivetrainController.xButton.whenPressed(new ReadyPose());
+    drivetrainController.startButton.whenPressed(new JackIntakeArmClimbDrivetrainClimb());
 
     drivetrainController.selectButton.whenPressed(new DrivetrainControllerCancel());
 

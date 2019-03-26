@@ -30,12 +30,17 @@ public class ElevatorMotionMagic extends Command {
   @Override
   protected void execute() {
     // System.out.println("T:" + (Robot.elevator.getTargetPosition() + "     ").substring(0, 6) + " V: " + Robot.elevator.getMotorOutputVoltage());
-    Robot.elevator.updateMotionMagic();
+    if(Robot.elevator.isHomed()) {
+      Robot.elevator.updateMotionMagic();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if(!Robot.elevator.isHomed()) {
+      return true;
+    }
     return Robot.elevator.isInPosition();
   }
 

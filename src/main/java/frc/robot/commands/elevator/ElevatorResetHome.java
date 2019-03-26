@@ -20,6 +20,16 @@ public class ElevatorResetHome extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    // USE IF LIMIT SWTICH IS BROKEN
+    // if (Robot.elevator.isHomed()){
+    //   Robot.elevator.resetHomed();
+    // }else {
+    //   Robot.elevator.setTargetPosition(0);
+    //   Robot.elevator.setSensorValue(0);
+    //   Robot.elevator.setHomed(true);
+    // }
+
+    // IF LIMITS WORK :D
     Robot.elevator.resetHomed();
   }
 

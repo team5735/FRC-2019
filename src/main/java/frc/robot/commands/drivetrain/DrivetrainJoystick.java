@@ -31,20 +31,36 @@ public class DrivetrainJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double power = 0.7;
-    if (Robot.oi.drivetrainController.getRawButton(7)) {
+    double power = 0.6;
+    double quickturnSpeed = 0;
+    if (Robot.oi.drivetrainController.getRawButton(9)) {
       power = 0.99;
     }
 
+    if (Robot.oi.drivetrainController.rightBumper.get()) {
+      quickturnSpeed = -0.35;
+    }
+
+
     if (Robot.oi.drivetrainController.leftBumper.get()) {
-      Robot.drive.cheesyDrive(-Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05) * 0.5,
-          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * power,
+      // Robot.drive.cheesyDrive(-Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05) * 0.5,
+      //     -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * power,
+      // Robot.oi.drivetrainController.rightBumper.get()); // left trigger
+
+      Robot.drive.curvatureDrive(-Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05) * power,
+          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * (0.7 + quickturnSpeed),
       Robot.oi.drivetrainController.rightBumper.get()); // left trigger
     } else {
-      Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05) * 0.5,
-          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * power,
-      Robot.oi.drivetrainController.rightBumper.get()); // left trigger
+      // Robot.drive.cheesyDrive(Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05) * 0.5,
+      //     -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * power,
+      // Robot.oi.drivetrainController.rightBumper.get()); // left trigger
+
+      Robot.drive.curvatureDrive(Robot.oi.drivetrainController.rightStick.getYCubedWithDeadband(0.05) * power,
+          -Robot.oi.drivetrainController.leftStick.getXCubedWithDeadband(0.05) * (0.7 + quickturnSpeed),
+      Robot.oi.drivetrainController.rightBumper.get());
     }
+
+    // Robot.drive.printStatus();
   }
 
   // Make this return true when this Command no longer needs to run execute()

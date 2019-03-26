@@ -32,7 +32,7 @@ public class Jack extends Subsystem {
 
   // Subsystem Constants
   private static final double THRESHOLD = 1;                  // Inches
-  private static final double HEIGHT_LIMIT = 20;              // Inches
+  private static final double HEIGHT_LIMIT = 19.5;              // Inches
   private static final double CRUSING_VEL = 2;               // Inches / sec
   private static final double TIME_TO_REACH_CRUSING_VEL = 2;  // Sec
 
@@ -42,7 +42,7 @@ public class Jack extends Subsystem {
   private static final double LENGTH_OF_LINK = 0.25;
   private static final int SPROCKET_TOOTH_COUNT = 22;
 
-  public static final double JACK_READY_POSITION = 0;
+  public static final double JACK_READY_POSITION = 0.5;
 
   // PID Values
   private static final double kP = 0.01;
@@ -174,7 +174,18 @@ public class Jack extends Subsystem {
   }
 
   public boolean isUpperLimitSwitchPressed() {
-    return jackMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    if (jackMotor.getSensorCollection().isFwdLimitSwitchClosed()) {
+      if (!forwardLimitSwitchLastPressed) {
+        targetPosition = 0;
+        forwardLimitSwitchLastPressed = true;
+      }
+
+      isHomed = true;
+      targetPosition = HEIGHT_LIMIT;
+      jackMotor.setSelectedSensorPosition((int)jackInchesToEncoderTicks(HEIGHT_LIMIT), 0, 30);
+      return true;
+    }
+    return false;
   }
 
   public String periodicOutput() {

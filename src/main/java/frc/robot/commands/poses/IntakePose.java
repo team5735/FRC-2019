@@ -19,8 +19,8 @@ public class IntakePose extends CommandGroup {
    * Add your docs here.
    */
   public IntakePose() {
+    addSequential(new IntakeArmMotionMagic(IntakeArm.Angle.INTAKE));
     addSequential(new IntakeArmPreventCollsion());
     addSequential(new ElevatorMotionMagic(Elevator.Position.ZERO));
-    addSequential(new IntakeArmMotionMagic(IntakeArm.Angle.INTAKE));
   }
 }

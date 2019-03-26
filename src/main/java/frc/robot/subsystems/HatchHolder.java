@@ -66,6 +66,10 @@ public class HatchHolder extends Subsystem {
     }
   }
 
+  public boolean getCompressorStatus() {
+    return compressor.enabled();
+  }
+
   public void startCompressing() {
     compressor.start();
   }

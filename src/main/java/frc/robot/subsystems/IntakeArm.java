@@ -35,9 +35,9 @@ public class IntakeArm extends Subsystem {
   private boolean reverseLimitSwitchLastPressed = false;
 
   // PID Values
-  private static final double kP = 8;
+  private static final double kP = 6;
   private static final double kI = 0;
-  private static final double kD = 10;
+  private static final double kD = 80;
   private static final double kF = 1023. / 500.;
   private static final double kA = 0; // Arbitrary feed forward (talon directly adds this % out to counteract gravity)
 
@@ -47,11 +47,11 @@ public class IntakeArm extends Subsystem {
 
   private static final double MAX_FEEDFORWARD = 0.008; // 0.2
 
-  public static final int THRESHOLD = 2;
+  public static final int THRESHOLD = 8;
 
   public class Angle {
-    public static final double MIN_ANGLE = -150, INSIDE = -130, VERY_INSIDE = -80, SAFE = -95, INTAKE = -60,
-        MAX_ANGLE = 0, READY = -86, OFFSET = -123, OFFSET_WALKER = 41;
+    public static final double MIN_ANGLE = -140, INSIDE = -130, VERY_INSIDE = -80, SAFE = -95, INTAKE = -65,
+        MAX_ANGLE = 5, READY = -86, OFFSET = -123, OFFSET_WALKER = 41, NEW_ZERO = -135;
 
     private double value;
 
@@ -78,8 +78,8 @@ public class IntakeArm extends Subsystem {
     intakeArmMotor.overrideLimitSwitchesEnable(true);
 
     // Set motion magic parameters
-    intakeArmMotor.configMotionCruiseVelocity(1000);
-    intakeArmMotor.configMotionAcceleration(1000);
+    intakeArmMotor.configMotionCruiseVelocity(2500); // Was 3000 before 6:00
+    intakeArmMotor.configMotionAcceleration((int)(2500/2.));
 
     // Set main motor PID values
     intakeArmMotor.selectProfileSlot(0, 0);
@@ -132,17 +132,26 @@ public class IntakeArm extends Subsystem {
 
   public void updatePosition() {
     isUpperLimitSwitchPressed();
+    isLowerLimitSwitchPressed();
+    System.out.println("Agnel :" + getCurrentDegrees());
+    System.out.println("Target:" + getTargetDegress());
+    
     intakeArmMotor.set(ControlMode.Position, degreesToEncoderTicks(targetAngle));
   }
 
   public void updateMotionMagic() {
     isUpperLimitSwitchPressed();
+    isLowerLimitSwitchPressed();
+    System.out.println("Motion:" + getCurrentDegrees());
+    System.out.println("Target:" + getTargetDegress());
+    // intakeArmMotor.set(ControlMode.MotionMagic, degreesToEncoderTicks(targetAngle));
     intakeArmMotor.set(ControlMode.MotionMagic, degreesToEncoderTicks(targetAngle), DemandType.ArbitraryFeedForward,
         -MAX_FEEDFORWARD * Math.sin(getCurrentDegrees() - Angle.OFFSET));
   }
 
   public void updatePercentOutputOnArm(double value) {
     isUpperLimitSwitchPressed();
+    isLowerLimitSwitchPressed();
     intakeArmMotor.set(ControlMode.PercentOutput, value * 0.3);
   }
 
@@ -158,24 +167,45 @@ public class IntakeArm extends Subsystem {
   // }
   // }
 
-  public boolean isUpperLimitSwitchPressed() {
-    if (intakeArmMotor.getSensorCollection().isFwdLimitSwitchClosed()) {
-      if (!forwardLimitSwitchLastPressed) {
-        targetAngle = Angle.MAX_ANGLE;
-        forwardLimitSwitchLastPressed = true;
+  // ***************************************OLD
+  // public boolean isUpperLimitSwitchPressed() {
+  //   if (intakeArmMotor.getSensorCollection().isFwdLimitSwitchClosed()) {
+  //     if (!forwardLimitSwitchLastPressed) {
+  //       targetAngle = Angle.MAX_ANGLE;
+  //       forwardLimitSwitchLastPressed = true;
+  //     }
+  //     isHomed = true;
+  //     intakeArmMotor.setSelectedSensorPosition((int) degreesToEncoderTicks(Angle.MAX_ANGLE), 0, 30);
+
+  //     return true;
+  //   } else {
+  //     forwardLimitSwitchLastPressed = false;
+  //     return false;
+  //   }
+  // }
+
+  // public boolean isLowerLimitSwitchPressed() {
+  //   return intakeArmMotor.getSensorCollection().isRevLimitSwitchClosed();
+  // }
+
+  public boolean isLowerLimitSwitchPressed() {
+    if (intakeArmFollower.getSensorCollection().isRevLimitSwitchClosed()) {
+      if (!reverseLimitSwitchLastPressed) {
+        targetAngle = Angle.NEW_ZERO;
+        reverseLimitSwitchLastPressed = true;
       }
       isHomed = true;
-      intakeArmMotor.setSelectedSensorPosition((int) degreesToEncoderTicks(Angle.MAX_ANGLE), 0, 30);
+      intakeArmMotor.setSelectedSensorPosition((int) degreesToEncoderTicks(Angle.NEW_ZERO), 0, 30);
 
       return true;
     } else {
-      forwardLimitSwitchLastPressed = false;
+      reverseLimitSwitchLastPressed = false;
       return false;
     }
   }
 
-  public boolean isLowerLimitSwitchPressed() {
-    return intakeArmMotor.getSensorCollection().isRevLimitSwitchClosed();
+  public boolean isUpperLimitSwitchPressed() {
+    return intakeArmMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
   public double getPercentOutput() {

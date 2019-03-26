@@ -59,9 +59,9 @@ public class JackJoystick extends Command {
         
       Robot.jack.isLowerLimitSwitchPressed();
       Robot.jack.isUpperLimitSwitchPressed();
-      // double input = (Robot.oi.drivetrainController.triggers.getRight() - Robot.oi.drivetrainController.triggers.getLeft()) * 0.5;
-      Robot.jack.updatePercentOutput(-0.01);
-      // Robot.jack.updatePercentOutput(-0.5*Robot.oi.drivetrainController.triggers.getRight());
+      double input = (Robot.oi.drivetrainController.triggers.getRight() - Robot.oi.drivetrainController.triggers.getLeft()) * 0.5;
+      // Robot.jack.updatePercentOutput(-0.2);
+      Robot.jack.updatePercentOutput(-0.7*Robot.oi.drivetrainController.triggers.getRight());
     }
   }
 
