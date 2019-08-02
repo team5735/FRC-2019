@@ -57,56 +57,53 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class Drive extends Subsystem {
   private static final double DRIVE_ENCODER_PPR = 42.; // 4096.
 
-  /**
-   * One of the Drive train motors is a VictorSPX
-   * 
-   * private TalonSRX leftMaster, rightMaster, leftFollower, rightFollower;
-   * 
-   * private TalonSRX leftMaster, rightMaster, rightFollower;
-   * private VictorSPX leftFollower;
-   * 
-   *     
-    leftMaster = new TalonSRX(Constants.DRIVETRAIN_LEFT_MASTER_MOTOR_ID);
-    leftMaster.configFactoryDefault();
-    leftMaster.setSensorPhase(true);
-    leftMaster.selectProfileSlot(0, 0);
-    leftMaster.config_kP(0, LEFT_kP);
-    leftMaster.config_kI(0, LEFT_kI);
-    leftMaster.config_kD(0, LEFT_kD);
-    leftMaster.config_kF(0, LEFT_kF);
-    leftMaster.configNeutralDeadband(0.04, 0);
+    //  One of the Drive train motors is a VictorSPX
+    // private TalonSRX leftMaster, rightMaster, leftFollower, rightFollower;
+  private TalonSRX leftMaster, rightMaster;
+  private VictorSPX leftFollower, rightFollower;
 
-    // leftFollower = new TalonSRX(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID);
+   
+    // leftMaster = new TalonSRX(Constants.DRIVETRAIN_LEFT_MASTER_MOTOR_ID);
+    // leftMaster.configFactoryDefault();
+    // leftMaster.setSensorPhase(true);
+    // leftMaster.selectProfileSlot(0, 0);
+    // leftMaster.config_kP(0, LEFT_kP);
+    // leftMaster.config_kI(0, LEFT_kI);
+    // leftMaster.config_kD(0, LEFT_kD);
+    // leftMaster.config_kF(0, LEFT_kF);
+    // leftMaster.configNeutralDeadband(0.04, 0);
 
-    leftFollower = new VictorSPX(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID);
-    leftFollower.setInverted(false);
-    leftFollower.configFactoryDefault();
-    leftFollower.follow(leftMaster);
-    leftFollower.configNeutralDeadband(0.04, 0);
+    // // leftFollower = new TalonSRX(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID);
 
-    rightMaster = new TalonSRX(Constants.DRIVETRAIN_RIGHT_MASTER_MOTOR_ID);
-    rightMaster.configFactoryDefault();
-    rightMaster.setInverted(true);
-    rightMaster.setSensorPhase(true);
-    rightMaster.selectProfileSlot(0, 0);
-    rightMaster.config_kP(0, RIGHT_kP);
-    rightMaster.config_kI(0, RIGHT_kI);
-    rightMaster.config_kD(0, RIGHT_kD);
-    rightMaster.config_kF(0, RIGHT_kF);
-    rightMaster.configNeutralDeadband(0.04, 0);
+    // leftFollower = new VictorSPX(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID);
+    // leftFollower.setInverted(false);
+    // leftFollower.configFactoryDefault();
+    // leftFollower.follow(leftMaster);
+    // leftFollower.configNeutralDeadband(0.04, 0);
 
-    rightFollower = new TalonSRX(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID);
-    rightFollower.configFactoryDefault();
-    rightFollower.setInverted(true);
-    rightFollower.follow(rightMaster);
-    rightFollower.configNeutralDeadband(0.04, 0);
+    // rightMaster = new TalonSRX(Constants.DRIVETRAIN_RIGHT_MASTER_MOTOR_ID);
+    // rightMaster.configFactoryDefault();
+    // rightMaster.setInverted(true);
+    // rightMaster.setSensorPhase(true);
+    // rightMaster.selectProfileSlot(0, 0);
+    // rightMaster.config_kP(0, RIGHT_kP);
+    // rightMaster.config_kI(0, RIGHT_kI);
+    // rightMaster.config_kD(0, RIGHT_kD);
+    // rightMaster.config_kF(0, RIGHT_kF);
+    // rightMaster.configNeutralDeadband(0.04, 0);
 
+    // rightFollower = new TalonSRX(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID);
+    // rightFollower.configFactoryDefault();
+    // rightFollower.setInverted(true);
+    // rightFollower.follow(rightMaster);
+    // rightFollower.configNeutralDeadband(0.04, 0);
+
+  /*
     pigeon = new PigeonIMU(rightFollower); // Motor pigeon is attachd to
-   * 
    */
 
-  private CANSparkMax leftMaster, rightMaster, leftFollower, rightFollower;
-  private CANEncoder leftMasterEncoder, rightMasterEncoder;
+  // private CANSparkMax leftMaster, rightMaster, leftFollower, rightFollower;
+  // private CANEncoder leftMasterEncoder, rightMasterEncoder;
 
   private final CheesyDriveHelper cheesyDriveHelper = new CheesyDriveHelper();
   private PigeonIMU pigeon;
@@ -153,27 +150,27 @@ public class Drive extends Subsystem {
   public static final double LEFT_kP = 0.005, LEFT_kI = 0.001, LEFT_kD = 10;
 
   public Drive() {
-    leftMaster = new CANSparkMax(Constants.DRIVETRAIN_LEFT_MASTER_MOTOR_ID, MotorType.kBrushless);
-    leftMaster.restoreFactoryDefaults();
-    leftMasterEncoder = leftMaster.getEncoder();
-    leftMaster.setInverted(false);
+    // leftMaster = new CANSparkMax(Constants.DRIVETRAIN_LEFT_MASTER_MOTOR_ID, MotorType.kBrushless);
+    // leftMaster.restoreFactoryDefaults();
+    // leftMasterEncoder = leftMaster.getEncoder();
+    // leftMaster.setInverted(false);
 
-    leftFollower = new CANSparkMax(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID, MotorType.kBrushless);
-    leftFollower.restoreFactoryDefaults();
-    leftFollower.follow(leftMaster);
-    leftMaster.setInverted(false);
+    // leftFollower = new CANSparkMax(Constants.DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID, MotorType.kBrushless);
+    // leftFollower.restoreFactoryDefaults();
+    // leftFollower.follow(leftMaster);
+    // leftMaster.setInverted(false);
 
-    rightMaster = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_MASTER_MOTOR_ID, MotorType.kBrushless);
-    rightMaster.restoreFactoryDefaults();
-    rightMasterEncoder = rightMaster.getEncoder();
-    rightMaster.setInverted(false);
+    // rightMaster = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_MASTER_MOTOR_ID, MotorType.kBrushless);
+    // rightMaster.restoreFactoryDefaults();
+    // rightMasterEncoder = rightMaster.getEncoder();
+    // rightMaster.setInverted(false);
 
-    rightFollower = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID, MotorType.kBrushless);
-    rightFollower.restoreFactoryDefaults();
-    rightFollower.follow(rightMaster);
-    rightFollower.setInverted(false);
+    // rightFollower = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID, MotorType.kBrushless);
+    // rightFollower.restoreFactoryDefaults();
+    // rightFollower.follow(rightMaster);
+    // rightFollower.setInverted(false);
 
-    /**
+    
     leftMaster = new TalonSRX(Constants.DRIVETRAIN_LEFT_MASTER_MOTOR_ID);
     leftMaster.configFactoryDefault();
     leftMaster.setSensorPhase(true);
@@ -203,14 +200,14 @@ public class Drive extends Subsystem {
     rightMaster.config_kF(0, RIGHT_kF);
     rightMaster.configNeutralDeadband(0.04, 0);
 
-    rightFollower = new TalonSRX(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID);
+    rightFollower = new VictorSPX(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID);
     rightFollower.configFactoryDefault();
     rightFollower.setInverted(true);
     rightFollower.follow(rightMaster);
     rightFollower.configNeutralDeadband(0.04, 0);
 
-    pigeon = new PigeonIMU(rightFollower); // Motor pigeon is attachd to
-     */
+    // pigeon = new PigeonIMU(rightFollower); // Motor pigeon is attachd to
+    
 
 
     final DCMotorTransmission transmission = new DCMotorTransmission(1.0 / Constants.kDriveKv,
@@ -239,9 +236,9 @@ public class Drive extends Subsystem {
 
   public void drive(double left, double right) {
     // System.out.println(left + " " + right);
-    leftMaster.set(-left);
+    leftMaster.set(ControlMode.PercentOutput, -left);
     // leftFollower.set(left);
-    rightMaster.set(right);
+    rightMaster.set(ControlMode.PercentOutput, right);
     // rightFollower.set(right);
   }
 
@@ -299,8 +296,8 @@ public class Drive extends Subsystem {
 
   public void printStatus(){
     System.out.println(
-      "L: " + leftMaster.getAppliedOutput() + 
-      " R: " + rightMaster.getAppliedOutput()
+      "L: " + leftMaster.getOutputCurrent() + 
+      " R: " + rightMaster.getOutputCurrent()
     );
   }
 
@@ -381,8 +378,8 @@ public class Drive extends Subsystem {
     rightMotorOutput = -rightMotorOutput;
 
     // System.out.println("Curvature L:" + leftMotorOutput * 1 + " R: " + rightMotorOutput * 1 * m_rightSideInvertMultiplier);
-    leftMaster.set(leftMotorOutput * 1); 
-    rightMaster.set(rightMotorOutput * 1 * m_rightSideInvertMultiplier);
+    leftMaster.set(ControlMode.PercentOutput, leftMotorOutput * 1); 
+    rightMaster.set(ControlMode.PercentOutput, rightMotorOutput * 1 * m_rightSideInvertMultiplier);
   }
 
 
@@ -400,8 +397,8 @@ public class Drive extends Subsystem {
   // }
 
   public synchronized void resetEncoders() {
-    leftMasterEncoder.setPosition(0);
-    rightMasterEncoder.setPosition(0);
+    // leftMasterEncoder.setPosition(0);
+    // rightMasterEncoder.setPosition(0);
   }
 
   public void zeroSensors() {
@@ -441,52 +438,52 @@ public class Drive extends Subsystem {
     return rad_s / (Math.PI * 2.0) * 4096.0 / 10.0;
   }
 
-  public double getLeftEncoderRotations() {
-    return leftMasterEncoder.getPosition() / DRIVE_ENCODER_PPR;
-    // return leftMaster.getSelectedSensorPosition(0) / DRIVE_ENCODER_PPR;
-  }
+  // public double getLeftEncoderRotations() {
+  //   return leftMasterEncoder.getPosition() / DRIVE_ENCODER_PPR;
+  //   // return leftMaster.getSelectedSensorPosition(0) / DRIVE_ENCODER_PPR;
+  // }
 
-  public double getRightEncoderRotations() {
-    return rightMasterEncoder.getPosition() / DRIVE_ENCODER_PPR;
-    // return rightMaster.getSelectedSensorPosition(0) / DRIVE_ENCODER_PPR;
-  }
+  // public double getRightEncoderRotations() {
+  //   return rightMasterEncoder.getPosition() / DRIVE_ENCODER_PPR;
+  //   // return rightMaster.getSelectedSensorPosition(0) / DRIVE_ENCODER_PPR;
+  // }
 
-  public double getLeftEncoderDistance() {
-    return rotationsToInches(getLeftEncoderRotations());
-  }
+  // public double getLeftEncoderDistance() {
+  //   return rotationsToInches(getLeftEncoderRotations());
+  // }
 
-  public double getRightEncoderDistance() {
-    return rotationsToInches(getRightEncoderRotations());
-  }
+  // public double getRightEncoderDistance() {
+  //   return rotationsToInches(getRightEncoderRotations());
+  // }
 
-  public double getLeftVelocityNativeUnits() {
-    return leftMasterEncoder.getVelocity();
-    // return leftMaster.getSelectedSensorVelocity(); // sensor units per 100ms
-  }
+  // public double getLeftVelocityNativeUnits() {
+  //   return leftMasterEncoder.getVelocity();
+  //   // return leftMaster.getSelectedSensorVelocity(); // sensor units per 100ms
+  // }
 
-  public double getRightVelocityNativeUnits() {
-    return leftMasterEncoder.getVelocity();
-    // return rightMaster.getSelectedSensorVelocity(); // sensor units per 100ms
-  }
+  // public double getRightVelocityNativeUnits() {
+  //   return leftMasterEncoder.getVelocity();
+  //   // return rightMaster.getSelectedSensorVelocity(); // sensor units per 100ms
+  // }
 
   // DOESN'T WORK!!!! DO NOT USE MOTION PROFILING WILL BREAK ROBOT
 
 // TODO FIX
-  public double getLeftLinearVelocity() {
-    return rotationsToInches(getLeftVelocityNativeUnits() * 10.0 / DRIVE_ENCODER_PPR);
-  }
+  // public double getLeftLinearVelocity() {
+  //   return rotationsToInches(getLeftVelocityNativeUnits() * 10.0 / DRIVE_ENCODER_PPR);
+  // }
 
-  public double getRightLinearVelocity() {
-    return rotationsToInches(getRightVelocityNativeUnits() * 10.0 / DRIVE_ENCODER_PPR);
-  }
+  // public double getRightLinearVelocity() {
+  //   return rotationsToInches(getRightVelocityNativeUnits() * 10.0 / DRIVE_ENCODER_PPR);
+  // }
 
-  public double getLinearVelocity() {
-    return (getLeftLinearVelocity() + getRightLinearVelocity()) / 2.0;
-  }
+  // public double getLinearVelocity() {
+  //   return (getLeftLinearVelocity() + getRightLinearVelocity()) / 2.0;
+  // }
 
-  public double getAngularVelocity() {
-    return (getRightLinearVelocity() - getLeftLinearVelocity()) / Constants.kDriveWheelTrackWidthInches;
-  }
+  // public double getAngularVelocity() {
+  //   return (getRightLinearVelocity() - getLeftLinearVelocity()) / Constants.kDriveWheelTrackWidthInches;
+  // }
 
   public void overrideTrajectory(boolean value) {
     overrideTrajectory = value;
