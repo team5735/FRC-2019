@@ -63,9 +63,9 @@ public class Constants {
     public static final int INTAKE_ARM_MOTOR_FOLLOWER_ID = 11;
     public static final int INTAKE_ARM_SPINNER_MOTOR_ID = 12;
 
-    public static final int DRIVETRAIN_RIGHT_MASTER_MOTOR_ID = 2;
-    public static final int DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID = 3;
-    public static final int DRIVETRAIN_LEFT_MASTER_MOTOR_ID = 4;
+    public static final int DRIVETRAIN_RIGHT_MASTER_MOTOR_ID = 4;
+    public static final int DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID = 9;
+    public static final int DRIVETRAIN_LEFT_MASTER_MOTOR_ID = 2;
     public static final int DRIVETRAIN_LEFT_FOLLOWER_MOTOR_ID = 5; //victor
 
     public static final int INTAKE_ARM_WHEEL_MOTOR_ID = 12;

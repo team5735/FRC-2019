@@ -191,7 +191,8 @@ public class Drive extends Subsystem {
 
     rightMaster = new TalonSRX(Constants.DRIVETRAIN_RIGHT_MASTER_MOTOR_ID);
     rightMaster.configFactoryDefault();
-    rightMaster.setInverted(true);
+    // rightMaster.setInverted(true);
+    rightMaster.setInverted(false);
     rightMaster.setSensorPhase(true);
     rightMaster.selectProfileSlot(0, 0);
     rightMaster.config_kP(0, RIGHT_kP);
@@ -202,7 +203,8 @@ public class Drive extends Subsystem {
 
     rightFollower = new VictorSPX(Constants.DRIVETRAIN_RIGHT_FOLLOWER_MOTOR_ID);
     rightFollower.configFactoryDefault();
-    rightFollower.setInverted(true);
+    // rightFollower.setInverted(true);
+    rightFollower.setInverted(false);
     rightFollower.follow(rightMaster);
     rightFollower.configNeutralDeadband(0.04, 0);
 
