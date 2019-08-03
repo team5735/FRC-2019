@@ -31,14 +31,15 @@ public class DrivetrainJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double power = 0.6;
+    double power = 0.25;
     double quickturnSpeed = 0;
     if (Robot.oi.drivetrainController.getRawButton(9)) {
-      power = 0.99;
+      // power = 0.99;
+      power = 0.6;
     }
 
     if (Robot.oi.drivetrainController.rightBumper.get()) {
-      quickturnSpeed = -0.35;
+      quickturnSpeed = -0.1;
     }
 
 

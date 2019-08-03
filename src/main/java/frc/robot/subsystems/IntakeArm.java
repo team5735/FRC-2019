@@ -142,8 +142,8 @@ public class IntakeArm extends Subsystem {
   public void updateMotionMagic() {
     isUpperLimitSwitchPressed();
     isLowerLimitSwitchPressed();
-    System.out.println("Motion:" + getCurrentDegrees());
-    System.out.println("Target:" + getTargetDegress());
+    // System.out.println("Motion:" + getCurrentDegrees());
+    // System.out.println("Target:" + getTargetDegress());
     // intakeArmMotor.set(ControlMode.MotionMagic, degreesToEncoderTicks(targetAngle));
     intakeArmMotor.set(ControlMode.MotionMagic, degreesToEncoderTicks(targetAngle), DemandType.ArbitraryFeedForward,
         -MAX_FEEDFORWARD * Math.sin(getCurrentDegrees() - Angle.OFFSET));
